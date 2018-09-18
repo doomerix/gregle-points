@@ -1,2 +1,2 @@
-# gregle-points
-Gregle-Points. Made by some students to be a robust score-system. 
+# mvt-points
+Mvt-Points. Made by some students to be a robust score-system. 
