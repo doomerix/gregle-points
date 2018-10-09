@@ -6,13 +6,29 @@
 
         <!--Bootstrap CSS-->
         <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/custom.css">
 
         <title>Gregle Points</title>
     </head>
 
-    <body>
-        <h1>Alola, min'na!</h1>
-        <p>Welkom bij Gregle Points!</p>
+    <body class="text-center">
+        <header class="headerMargin">
+            <h1 class="paragraphMarginSmall">{{full name}}</h1>
+            <p class="paragraphMarginSmall">{{student ID}}</p>
+            <p class="paragraphMarginSmall">{{class}}</p>
+        </header>
+
+        <div class="divPointbar">
+            <p class="pointAmount paragraphMarginSmall">{{#}}</p>
+            <p class="paragraphMarginSmall pointPunten">punten</p>
+        </div>
+
+        <footer>
+            <nav class="nav justify-content-center footerBar">
+                <a class="nav-link footerIcon"><img src="img/person.svg"></a>
+                <a class="nav-link footerIcon"><img src="img/cog.svg"></a>
+            </nav>
+        </footer>
 
         <!--Required Scripts-->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
