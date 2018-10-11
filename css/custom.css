@@ -32,10 +32,10 @@
 
 .paragraphMarginSmall{
     margin-bottom:3px;
-    margin-top:3px;
 }
 
 .pointAmount{
+    margin-top:5%;
     font-size:9em;
 }
 
@@ -73,3 +73,5 @@
 html,body {
     height:100%;
 }
+
+947 * 56
