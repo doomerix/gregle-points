@@ -1,11 +1,16 @@
-body{
+.basicBody{
     background-color:#e6e6e6;
+}
+
+.loginBody{
+    background-color: #008f91;
+    color:white;
 }
 
 .headerMargin{
     position: absolute;
-    top: 10%;
-    left: 50%;
+    top:10%;
+    left:50%;
     width:100%;
     transform: translate(-50%, -30%);
 }
@@ -41,4 +46,10 @@ body{
 
 .footerIcon{
     width:4.7rem;
+}
+
+.logoLogin{
+    margin-top:50px;
+    margin-bottom:20px;
+    max-width:250px;
 }
