@@ -1,7 +1,7 @@
 <?php
 
 /* Include config file */
-require_once 'connection.php';
+require_once './db/connection.php';
 //$_SESSION['user'] = 'random string';
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
@@ -11,9 +11,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 
     $sql = "SELECT * FROM user WHERE user_id = ?";
 
-    $stmt = $link->prepare($sql);
+    $stmt = $connection->prepare($sql);
     $stmt->bind_param("s", $user_id);
 
+    //has the $sql query been propery executed or not?
+    if ($stmt->execute() == false)
+    {
+        //Query failed
+        print 'Query mislukt';
+        exit;
+    }
+    
     $result = $stmt->get_result();
 
     //given user_id can't be found, 0 records are returned/found
@@ -25,33 +33,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 
     $user = $result->fetch_assoc();
 
-    //when the query succeded and a racord has been found we will compare the password with the passwordhash from the database
-    if (password_verify($password, $user['PasswordHash']))
+    //when the query has succeded and a record has been found we will compare the password with the passwordhash from the database
+    if (password_verify($password, $user['passwordhash']))
     {
         print 'aanmelden gelukt <br />';
 
-        $_SESSION['user'] = $user['user_id'];
-//        $_SESSION['isadmin'] = $user['IsAdmin']; //hoe ga ik dit maken zodat ik kan controleren wat voor rol de aangemelde gebruiker heeft?
+        $_SESSION['user_id'] = $user['user_id'];
+        $_SESSION['roll_id'] = $user['roll_id'];
         /* Redirect to Index page */
-//        header('Location: '); //wat wordt de naam van de indexpagina en is er 1 index of zijn er 2 of 3 verschillende (voor elke rol een andere?)
+        header('Location: index.html');
     }
     else
     {
         print 'Aanmelden mislukt!';
     }
     $result->free();
-    $link->close();
+    $connection->close();
 }
 else
 {
     print 'Aanmelden mislukt!';
 }
-$result->free();
-$link->close();
 
 //if a logged-in user should nevertheless return to this login page, he/she will be sent back to the index page
-if (isset($_SESSION['user']))
+if (isset($_SESSION['user_id']))
 {
-//    header('Location: '); //wat wordt de naam van de indexpagina en is er 1 index of zijn er 2 of 3 verschillende (voor elke rol een andere?)
+    header('Location: index.html');
 }
 ?>
