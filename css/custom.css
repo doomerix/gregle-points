@@ -24,6 +24,11 @@
     margin-top:6px;
 }
 
+.loginFooterBar > p > a
+{
+    color:#008f91;
+}
+
 /* MAIN PAGES */
 
 .basicBody{
@@ -73,5 +78,3 @@
 html,body {
     height:100%;
 }
-
-947 * 56
