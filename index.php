@@ -1,3 +1,16 @@
+<?php include_once "db/connection.php"; 
+
+$user_id = $_SESSION['$user_id'];
+$statement = $connection->prepare("SELECT firstname, surname_prefix, surname, points, class FROM student LEFT JOIN class ON (class_id = class.id) WHERE studentnumber = ? ;");
+$statement->bind_param("s", $user_id);
+
+$statement->execute();
+
+
+$result = $statement->get_result();
+$student = $result->fetch_assoc();
+
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -13,13 +26,15 @@
 
 <body class="text-center">
 <header class="headerMargin">
-    <h1 class="paragraphMarginSmall">{{full name}}</h1>
-    <p class="paragraphMarginSmall">{{student ID}}</p>
-    <p class="paragraphMarginSmall">{{class}}</p>
+    <h1 class="paragraphMarginSmall"><?php echo $student["firstname"] . " " . $student["surname_prefix"] . " " . $student["surname"];?></h1>
+    <p class="paragraphMarginSmall"><?php echo $user_id;?></p>
+    <p class="paragraphMarginSmall"><?php echo $student["class"];?></p>
+    <button class="">+</button>
+    <button class="">-</button>
 </header>
 
 <div class="divPointbar">
-    <p class="pointAmount paragraphMarginSmall">{{#}}</p>
+    <p class="pointAmount paragraphMarginSmall"><?php echo $student["points"]; ?></p>
     <p class="paragraphMarginSmall pointPunten">punten</p>
 </div>
 
