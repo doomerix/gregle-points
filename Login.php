@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     $user_id = $_POST['user_id'];
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM user WHERE user_id = ?";
+    $sql = "SELECT * FROM user WHERE user_id = ?;";
 
     $stmt = $connection->prepare($sql);
     $stmt->bind_param("s", $user_id);
