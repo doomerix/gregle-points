@@ -39,6 +39,10 @@
     margin-bottom:3px;
 }
 
+.paragraphMarginTop{
+    margin-top:10%;
+}
+
 .pointAmount{
     margin-top:5%;
     font-size:9em;
@@ -54,11 +58,16 @@
     width:100%;
     bottom:0px;
     left:0px;
-    position: absolute;
+    position: fixed;
 }
 
 .footerIcon{
     width:4.5rem;
+}
+
+/* POINTS PAGE */
+.pointsDiv{
+    margin-top:5px;
 }
 
 /* GLOBAL */
@@ -77,4 +86,8 @@
 
 html,body {
     height:100%;
+}
+
+.btn-info {
+    background-color:#008f91 !important;
 }
