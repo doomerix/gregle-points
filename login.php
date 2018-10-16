@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     //  when the query has succeded and a record has been found we will compare the password with the passwordhash from the database
     if (password_verify($password, $user['passwordhash']))
     {
-        print 'aanmelden gelukt <br />';
+        print 'Aanmelden gelukt <br />';
 
         $_SESSION['user_id'] = $user['user_id'];
         $_SESSION['role_id'] = $user['role_id'];
