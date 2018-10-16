@@ -15,21 +15,38 @@
         <div class="bodyWrap">
             <div class="container">
                 <div>
-                    <h1 class="paragraphMarginSmall">{{full name}}</h1>
-                    <p class="paragraphMarginSmall">{{student ID}}</p>
-                    <p class="paragraphMarginSmall">{{class}}</p>
-                </div>
-                
-                <div>
-                    <p class="pointAmount paragraphMarginSmall">{{#}}</p>
-                    <p class="paragraphMarginSmall pointPunten">punten</p>
+                    <p class="paragraphMarginSmall">Wachtwoord wijzigen</p>
+                    <form>
+                        <div class="form-group">
+                            <input type="name" class="form-control" id="changePassPrim" placeholder="Wachtwoord">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="changePassSecond" placeholder="Herhaal wachtwoord">
+                        </div>
+
+                        <!-- Unequal password warning -->
+                        <div class="alert alert-danger" role="alert">
+                            De wachtwoorden komen niet overeen.
+                        </div>
+
+                        <!-- Success warning -->
+                        <div class="alert alert-success" role="alert">
+                            Wachtwoord met success gewijzigd.
+                        </div>
+                    
+                        <button type="submit" class="btn btn-light">Wijzigen</button>
+                    </form>
+
+                    <div>
+                        <button type="button" class="btn btn-light">Accounts</button>
+                    </div>
                 </div>
             </div>
 
             <footer class="footerBar boxShadowFooter justify-content-center">
                 <nav class="nav justify-content-center">
                     <a class="nav-link footerIcon"><img src="img/person.svg"></a>
-                    <a class="nav-link footerIcon"><img src="img/person.svg"></a>
+                    <a class="nav-link footerIcon"><img src="img/achievement.svg"></a>
                     <a class="nav-link footerIcon"><img src="img/cog.svg"></a>
                 </nav>
             </footer>
