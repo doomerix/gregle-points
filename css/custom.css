@@ -1,0 +1,44 @@
+body{
+    background-color:#e6e6e6;
+}
+
+.headerMargin{
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    width:100%;
+    transform: translate(-50%, -30%);
+}
+
+.paragraphMarginSmall{
+    margin-bottom:3px;
+    margin-top:3px;
+}
+
+.divPointbar{
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.pointAmount{
+    font-size:9em;
+}
+
+.pointPunten{
+    position: relative;
+    top:-40px;
+}
+
+.footerBar{
+    background-color:#008f91;
+    bottom: 0;
+    width:100%;
+    height:3.5rem;
+    position: fixed;
+}
+
+.footerIcon{
+    width:4.7rem;
+}
