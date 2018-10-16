@@ -1,0 +1,17 @@
+### Project ###
+connection.php
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+### PhpStorm ###
+.idea/*
+
+### VisualStudioCode ###
+.vscode/*
+nbproject/
