@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
         $_SESSION['user_id'] = $user['user_id'];
         $_SESSION['role_id'] = $user['role_id'];
         /* Redirect to Index page */
-        header('Location: index.html');
+        header('Location: index.php');
     }
     else
     {
@@ -58,5 +58,5 @@ else
 //  if a logged-in user should nevertheless return to this login page, he/she will be sent back to the index page
 if (isset($_SESSION['user_id']))
 {
-    header('Location: index.html');
+    header('Location: index.php');
 }
