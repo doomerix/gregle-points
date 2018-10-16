@@ -3,7 +3,7 @@ connection.php
 tests/
 
 ### NetBeans ###
-nbproject/private/
+nbproject/
 build/
 nbbuild/
 dist/
@@ -15,4 +15,3 @@ nbdist/
 
 ### VisualStudioCode ###
 .vscode/*
-nbproject/
