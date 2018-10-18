@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <!--Bootstrap CSS-->
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/custom.css">
+        <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/custom.css">
 
         <title>MVT-Points</title>
     </head>
@@ -15,39 +15,39 @@
         <div class="bodyWrap">
             <div class="container">
                 <div>
-                    <p class="paragraphMarginSmall">Wachtwoord wijzigen</p>
+                    <h2 class="paragraphMarginSmall">Student Toevoegen</h2>
                     <form>
                         <div class="form-group">
-                            <input type="passwordPrim" class="form-control" id="changePassPrim" placeholder="Wachtwoord">
+                            <input type="firstName" class="form-control" id="firstName" placeholder="Voornaam">
                         </div>
                         <div class="form-group">
-                            <input type="passwordSecond" class="form-control" id="changePassSecond" placeholder="Herhaal wachtwoord">
+                            <input type="prefixName" class="form-control" id="prefixName" placeholder="Tussenvoegsel">
+                        </div>
+                        <div class="form-group">
+                            <input type="surname" class="form-control" id="surname" placeholder="Achternaam">
+                        </div>
+                        <div class="form-group">
+                            <input type="studentID" class="form-control" id="studentID" placeholder="ID">
+                        </div>
+                        <div class="form-group">
+                            <input type="studentClass" class="form-control" id="studentClass" placeholder="Klas">
                         </div>
 
-                        <!-- Unequal password warning -->
+                        <!-- Missing forms warning -->
                         <div class="alert alert-danger" role="alert">
-                            De wachtwoorden komen niet overeen.
-                        </div>
-
-                        <!-- Success warning -->
-                        <div class="alert alert-success" role="alert">
-                            Wachtwoord met success gewijzigd.
+                            Niet alle velden zijn ingevuld.
                         </div>
                     
-                        <button type="submit" class="btn btn-light">Wijzigen</button>
+                        <button type="submit" class="btn btn-light">Student Toevoegen</button>
                     </form>
-
-                    <div class="paragraphMarginTop">
-                        <button type="button" class="btn btn-info">Accounts</button>
-                    </div>
                 </div>
             </div>
 
             <footer class="footerBar boxShadowFooter justify-content-center">
                 <nav class="nav justify-content-center">
-                    <a class="nav-link footerIcon"><img src="img/person.svg"></a>
-                    <a class="nav-link footerIcon"><img src="img/achievement.svg"></a>
-                    <a class="nav-link footerIcon"><img src="img/cog.svg"></a>
+                    <a class="nav-link footerIcon"><img src="../img/person.svg"></a>
+                    <a class="nav-link footerIcon"><img src="../img/achievement.svg"></a>
+                    <a class="nav-link footerIcon"><img src="../img/cog.svg"></a>
                 </nav>
             </footer>
         </div>
