@@ -18,48 +18,48 @@
 
                 <div class="row justify-content-center">
                     <button type="button col-1" class="btn btn-outline-danger">-</button>
-                    <span class="col-9">{{surname, name}}<br>{{id}}</span>
-                    <button type="button col-1" class="btn btn-outline-success">+</button>
+                    <span class="col-9"><b>{{surname, name prefix}}</b><br><i>{{id}}</i><br>{{p}} punten</span>
+                    <button type="button col-1" class="btn btn-outline-success" data-toggle="modal" data-target="#pointWarning">+</button>
                 </div>
                 <div class="row justify-content-center pointsDiv">
                     <button type="button col-1" class="btn btn-outline-danger">-</button>
-                    <span class="col-9">{{surname, name}}<br>{{id}}</span>
-                    <button type="button col-1" class="btn btn-outline-success">+</button>
+                    <span class="col-9"><b>{{surname, name prefix}}</b><br><i>{{id}}</i><br>{{p}} punten</span>
+                    <button type="button col-1" class="btn btn-outline-success" data-toggle="modal" data-target="#pointWarning">+</button>
                 </div>
                 <div class="row justify-content-center pointsDiv">
                     <button type="button col-1" class="btn btn-outline-danger">-</button>
-                    <span class="col-9">{{surname, name}}<br>{{id}}</span>
-                    <button type="button col-1" class="btn btn-outline-success">+</button>
+                    <span class="col-9"><b>{{surname, name prefix}}</b><br><i>{{id}}</i><br>{{p}} punten</span>
+                    <button type="button col-1" class="btn btn-outline-success" data-toggle="modal" data-target="#pointWarning">+</button>
                 </div>
                 <div class="row justify-content-center pointsDiv">
                     <button type="button col-1" class="btn btn-outline-danger">-</button>
-                    <span class="col-9">{{surname, name}}<br>{{id}}</span>
-                    <button type="button col-1" class="btn btn-outline-success">+</button>
+                    <span class="col-9"><b>{{surname, name prefix}}</b><br><i>{{id}}</i><br>{{p}} punten</span>
+                    <button type="button col-1" class="btn btn-outline-success" data-toggle="modal" data-target="#pointWarning">+</button>
                 </div>
                 <div class="row justify-content-center pointsDiv">
                     <button type="button col-1" class="btn btn-outline-danger">-</button>
-                    <span class="col-9">{{surname, name}}<br>{{id}}</span>
-                    <button type="button col-1" class="btn btn-outline-success">+</button>
+                    <span class="col-9"><b>{{surname, name prefix}}</b><br><i>{{id}}</i><br>{{p}} punten</span>
+                    <button type="button col-1" class="btn btn-outline-success" data-toggle="modal" data-target="#pointWarning">+</button>
                 </div>
                 <div class="row justify-content-center pointsDiv">
                     <button type="button col-1" class="btn btn-outline-danger">-</button>
-                    <span class="col-9">{{surname, name}}<br>{{id}}</span>
-                    <button type="button col-1" class="btn btn-outline-success">+</button>
+                    <span class="col-9"><b>{{surname, name prefix}}</b><br><i>{{id}}</i><br>{{p}} punten</span>
+                    <button type="button col-1" class="btn btn-outline-success" data-toggle="modal" data-target="#pointWarning">+</button>
                 </div>
                 <div class="row justify-content-center pointsDiv">
                     <button type="button col-1" class="btn btn-outline-danger">-</button>
-                    <span class="col-9">{{surname, name}}<br>{{id}}</span>
-                    <button type="button col-1" class="btn btn-outline-success">+</button>
+                    <span class="col-9"><b>{{surname, name prefix}}</b><br><i>{{id}}</i><br>{{p}} punten</span>
+                    <button type="button col-1" class="btn btn-outline-success" data-toggle="modal" data-target="#pointWarning">+</button>
                 </div>
                 <div class="row justify-content-center pointsDiv">
                     <button type="button col-1" class="btn btn-outline-danger">-</button>
-                    <span class="col-9">{{surname, name}}<br>{{id}}</span>
-                    <button type="button col-1" class="btn btn-outline-success">+</button>
+                    <span class="col-9"><b>{{surname, name prefix}}</b><br><i>{{id}}</i><br>{{p}} punten</span>
+                    <button type="button col-1" class="btn btn-outline-success" data-toggle="modal" data-target="#pointWarning">+</button>
                 </div>
                 <div class="row justify-content-center pointsDiv">
                     <button type="button col-1" class="btn btn-outline-danger">-</button>
-                    <span class="col-9">{{surname, name}}<br>{{id}}</span>
-                    <button type="button col-1" class="btn btn-outline-success">+</button>
+                    <span class="col-9"><b>{{surname, name prefix}}</b><br><i>{{id}}</i><br>{{p}} punten</span>
+                    <button type="button col-1" class="btn btn-outline-success" data-toggle="modal" data-target="#pointWarning">+</button>
                 </div>
 
             <footer class="footerBar boxShadowFooter justify-content-center">
@@ -71,6 +71,26 @@
             </footer>
         </div>
         
+        <!--Modals-->
+        <div class="modal fade" id="pointWarning" tabindex="-1" role="dialog" aria-labelledby="pointWarning" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="pointWarning">Punt toewijzen?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                        <div class="modal-body">
+                            Punt toewijzen aan {{full name}}?
+                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Annuleren</button>
+                        <button type="button" class="btn btn-success">Toewijzen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!--Required Scripts-->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
