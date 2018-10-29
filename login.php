@@ -2,6 +2,8 @@
 
 /* Include config file */
 require_once './db/connection.php';
+require_once 'security.php';
+
 //$_SESSION['user'] = 'random string';
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
@@ -9,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     $user_id = $_POST['user_id'];
     $password = $_POST['password'];
 
-    $sql = "SELECT user_id, passwordhash, roll_id FROM user WHERE user_id = ?;";
+    $sql = "SELECT * FROM user WHERE user_id = ?;";
 
     $stmt = $connection->prepare($sql);
     $stmt->bind_param("s", $user_id);
@@ -40,6 +42,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 
         $_SESSION['user_id'] = $user['user_id'];
         $_SESSION['roll_id'] = $user['roll_id'];
+        
+        $_SESSION['IPaddress'] = $_SERVER['REMOTE_ADDR'];
+	$_SESSION['userAgent'] = $_SERVER['HTTP_USER_AGENT'];
+        
         /* Redirect to Index page */
         header('Location: index.html');
     }
