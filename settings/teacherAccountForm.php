@@ -1,4 +1,9 @@
-<?php require_once "../db/connection.php"; require_once "../app/interfaces/CRUD.php"; require_once "../app/classes/Teacher.php";
+<?php session_start(); require_once "../db/connection.php"; require_once "../app/interfaces/CRUD.php"; require_once "../app/classes/Teacher.php";
+
+if (!isset($_SESSION["user_id"])) {
+    header('Location: ../login.php');
+    exit;
+}
 
 $createdAccount = isset($_POST["firstName"], $_POST["prefixName"], $_POST["surname"], $_POST["teacherID"]);
 if ($createdAccount) {

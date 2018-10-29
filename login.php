@@ -1,4 +1,11 @@
-<?php session_start(); require_once '../db/connection.php'; ?>
+<?php session_start(); require_once 'db/connection.php';
+
+if (isset($_SESSION["user_id"])) {
+    header('Location: index.php');
+    exit;
+}
+
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -55,7 +62,7 @@
                         $_SESSION['user_id'] = $user['user_id'];
                         $_SESSION['role_id'] = $user['role_id'];
                         /* Redirect to Index page */
-                        header('Location: ../index.php');
+                        header('Location: index.php');
                     }
                     else
                     {
