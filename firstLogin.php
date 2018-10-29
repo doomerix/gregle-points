@@ -15,7 +15,7 @@
         <div class="bodyWrap">
             <div class="container">
                 <div>
-                    <p class="paragraphMarginSmall">Wachtwoord wijzigen</p>
+                    <p class="paragraphMarginSmall"><b>Voor de accountveiligheid is het nodig om uw wachtwoord te veranderen bij de eerste login.</b></p>
                     <form>
                         <div class="form-group">
                             <input type="passwordPrim" class="form-control" id="changePassPrim" placeholder="Nieuw wachtwoord">
@@ -28,31 +28,12 @@
                         <div class="alert alert-danger" role="alert">
                             De wachtwoorden komen niet overeen.
                         </div>
-
-                        <!-- Success warning -->
-                        <div class="alert alert-success" role="alert">
-                            Wachtwoord met success gewijzigd.
-                        </div>
                     
                         <button type="submit" class="btn btn-light">Wijzigen</button>
                     </form>
-
-                    <div class="paragraphMarginTop">
-                        <button type="button" class="btn btn-info">Accounts</button>
-                    </div>
                 </div>
             </div>
-
-            <footer class="footerBar boxShadowFooter justify-content-center">
-                <nav class="nav justify-content-center">
-                    <a class="nav-link footerIcon"><img src="img/person.svg"></a>
-                    <a class="nav-link footerIcon"><img src="img/achievement.svg"></a>
-                    <a class="nav-link footerIcon"><img src="img/cog.svg"></a>
-                </nav>
-            </footer>
         </div>
-        
-
         <!--Required Scripts-->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
