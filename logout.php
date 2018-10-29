@@ -7,4 +7,3 @@ session_unset();
 
 /*destroy session*/
 session_destroy();
-//hoi

@@ -1,6 +1,6 @@
-<?php include_once "db/connection.php"; 
+<?php session_start(); require_once "db/connection.php";
 
-$user_id = $_SESSION['$user_id'];
+$user_id = $_SESSION['user_id'];
 $statement = $connection->prepare("SELECT firstname, surname_prefix, surname, points, class FROM student LEFT JOIN class ON (class_id = class.id) WHERE studentnumber = ? ;");
 $statement->bind_param("s", $user_id);
 $statement->execute();
