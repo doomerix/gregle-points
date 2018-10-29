@@ -2,6 +2,8 @@
 
 /* Include config file */
 require_once './db/connection.php';
+require_once 'security.php';
+
 //$_SESSION['user'] = 'random string';
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
@@ -40,6 +42,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 
         $_SESSION['user_id'] = $user['user_id'];
         $_SESSION['roll_id'] = $user['roll_id'];
+        
+        $_SESSION['IPaddress'] = $_SERVER['REMOTE_ADDR'];
+	$_SESSION['userAgent'] = $_SERVER['HTTP_USER_AGENT'];
+        
         /* Redirect to Index page */
         header('Location: index.html');
     }
