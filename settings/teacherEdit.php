@@ -16,26 +16,29 @@
             <h2 class="paragraphMarginSmall">{{full name}} wijzigen</h2>
             <form method="post">
                 <div class="form-group">
-                    <input type="firstName" class="form-control" name="firstName" placeholder="Voornaam" required>
+                    <input formmethod="post" name="firstName" class="form-control" id="firstName" placeholder="Voornaam" required>
                 </div>
                 <div class="form-group">
-                    <input formmethod="post" type="prefixName" class="form-control" name="prefixName" placeholder="Tussenvoegsel">
+                    <input formmethod="post" name="prefixName" class="form-control" id="prefixName" placeholder="Tussenvoegsel">
                 </div>
                 <div class="form-group">
-                    <input formmethod="post" type="surname" class="form-control" name="surname" placeholder="Achternaam" required>
+                    <input formmethod="post"  name="surname" class="form-control" id="surname" placeholder="Achternaam" required>
                 </div>
                 <div class="form-group">
-                    <input formmethod="post" type="studentID" class="form-control" name="studentID" placeholder="ID" required>
+                    <input formmethod="post" name="teacherID" class="form-control" id="teacherID" placeholder="ID" required>
                 </div>
                 <div class="form-group">
-                    <label for="Selecteer klassen">Selecteer Klas</label>
-                    <select class="form-control" name="studentClass" required>
-
+                    <label for="Selecteer klassen">Selecteer Klassen</label>
+                    <select name="teacherClasses[]" class="form-control" id="teacherClasses" multiple required>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-light">Student wijzigen</button>
+                <div class="form-check">
+                    <input formmethod="post" name="adminCheck" class="form-check-input" type="checkbox" value="admin" id="adminCheck">
+                    <label class="form-check-label" for="adminCheck">Administrator</label>
+                </div>
+                <button type="submit" class="btn btn-light">Docent wijzigen</button>
             </form>
-            <button type="submit" class="btn btn-danger">Student verwijderen</button>
+            <button type="submit" class="btn btn-danger">Docent verwijderen</button>
         </div>
     </div>
 
