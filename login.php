@@ -91,8 +91,7 @@ if (isset($_SESSION["user_id"])) {
     </div>
 
     <footer class="loginFooterBar boxShadowFooter justify-content-center">
-        <p>Design by <a class="footerLink" href="https://www.coburnfuse.com/">Stan Kaandorp</a> <br>
-            &copy; Team Gregle, 2018-2019</p>
+            <p>&copy; Team Gregle, 2018-2019</p>
     </footer>
 </div>
 

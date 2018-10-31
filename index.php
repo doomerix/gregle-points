@@ -67,7 +67,7 @@ if (isset($_GET["fls"])) {
     $student = $result->fetch_assoc();
     ?>
     <header class="headerMargin">
-        <h1 class="paragraphMarginSmall"><?php echo $student["firstname"] . " " . $student["surname_prefix"] . " " . $student["surname"]; ?></h1>
+        <h2 class="paragraphMarginSmall"><?php echo $student["firstname"] . " " . $student["surname_prefix"] . " " . $student["surname"]; ?></h2>
         <p class="paragraphMarginSmall"><?php echo $user_id; ?></p>
         <p class="paragraphMarginSmall"><?php echo $student["class"]; ?></p>
     </header>
@@ -87,10 +87,20 @@ if (isset($_GET["fls"])) {
     $docent = $result->fetch_assoc();
     ?>
     <header class="headerMargin">
-        <h1 class="paragraphMarginSmall"><?php echo $docent["firstname"] . " " . $docent["surname_prefix"] . " " . $docent["surname"]; ?></h1>
+        <h2 class="paragraphMarginSmall"><?php echo $docent["firstname"] . " " . $docent["surname_prefix"] . " " . $docent["surname"]; ?></h2>
         <p class="paragraphMarginSmall"><?php echo $user_id; ?></p>
     </header>
     <!-- PUT THE CODE DOWN HERE STAN! -->
+
+    <div class="container pointsDivMain">
+        <h5>Klassen</h5>
+        <div class="row justify-content-center">
+            <button type="button" class="btn btn-info btn-block col-11"><span>{{class}}<br>1/1 punten beschikbaar</span></button>
+        </div>
+        <div class="row justify-content-center pointsDiv">
+            <button type="button" class="btn btn-secondary btn-block col-11"><span>{{class}}<br>0/1 punten beschikbaar</span></button>
+        </div>
+    </div>
 <?php } ?>
 
 <footer>
