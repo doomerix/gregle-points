@@ -14,25 +14,26 @@
     <body class="text-center basicBody">
         <div class="bodyWrap">
             <div class="container">
-                <h1>Klassen</h1>
+                <div>
+                    <p class="paragraphMarginSmall"><b>Voor de accountveiligheid is het nodig om uw wachtwoord te veranderen bij de eerste login.</b></p>
+                    <form>
+                        <div class="form-group">
+                            <input type="passwordPrim" class="form-control" id="changePassPrim" placeholder="Nieuw wachtwoord">
+                        </div>
+                        <div class="form-group">
+                            <input type="passwordSecond" class="form-control" id="changePassSecond" placeholder="Herhaal wachtwoord">
+                        </div>
 
-                <div class="row justify-content-center">
-                    <button type="button" class="btn btn-info btn-block col-11"><span>{{class}}<br>1/1 punten beschikbaar</span></button>
-                </div>
-                <div class="row justify-content-center pointsDiv">
-                    <button type="button" class="btn btn-info btn-block col-11"><span>{{class}}<br>0/1 punten beschikbaar</span></button>
+                        <!-- Unequal password warning -->
+                        <div class="alert alert-danger" role="alert">
+                            De wachtwoorden komen niet overeen.
+                        </div>
+                    
+                        <button type="submit" class="btn btn-light">Wijzigen</button>
+                    </form>
                 </div>
             </div>
-            <footer class="footerBar boxShadowFooter justify-content-center">
-                <nav class="nav justify-content-center">
-                    <a class="nav-link footerIcon"><img src="../img/person.svg"></a>
-                    <a class="nav-link footerIcon"><img src="../img/achievement.svg"></a>
-                    <a class="nav-link footerIcon"><img src="../img/cog.svg"></a>
-                </nav>
-            </footer>
         </div>
-        
-
         <!--Required Scripts-->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

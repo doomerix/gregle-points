@@ -1,4 +1,5 @@
-<?php session_start(); require_once 'db/connection.php';
+<?php session_start();
+require_once 'db/connection.php';
 
 if (isset($_SESSION["user_id"])) {
     header('Location: index.php');
