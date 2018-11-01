@@ -18,7 +18,7 @@ require_once "../app/classes/Teacher.php";
     <title>Gregle Points</title>
 </head>
 
-<body class="text-center <?php echo !isset($_SESSION["user_id"]) ? "loginBody":"basicBody";?>">
+<body class="text-center <?php echo !isset($_SESSION["user_id"]) ? "loginBody" : "basicBody"; ?>">
 <?php
 $role = null;
 
@@ -131,5 +131,34 @@ if (!isset($_SESSION["user_id"])) {
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
-<script src="../js/passrequierments.js" type="text/javascript"></script>
+<script src="../js/passrequirements.js" type="text/javascript"></script>
+<script>
+    $('#passwd1').PassRequirements({
+        rules: {
+        minlength: {
+            text: "be at least minLength characters long",
+            minLength: 8,
+        },
+        containSpecialChars: {
+            text: "Your input should contain at least minLength special character",
+            minLength: 1,
+            regex: new RegExp('([^!,%,&,@,#,$,^,*,?,_,~])', 'g')
+        },
+        containLowercase: {
+            text: "Your input should contain at least minLength lower case character",
+            minLength: 1,
+            regex: new RegExp('[^a-z]', 'g')
+        },
+        containUppercase: {
+            text: "Your input should contain at least minLength upper case character",
+            minLength: 1,
+            regex: new RegExp('[^A-Z]', 'g')
+        },
+        containNumbers: {
+            text: "Your input should contain at least minLength number",
+            minLength: 1,
+            regex: new RegExp('[^0-9]', 'g')
+        }
+    }});
+</script>
 </body>
