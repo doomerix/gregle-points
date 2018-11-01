@@ -37,19 +37,19 @@ if (typeof jQuery === 'undefined')
                             },
                         containLowercase: 
                             {
-                                text: "Uw invoer dient minimaal minLength kleine letter",
+                                text: "Uw invoer dient minimaal minLength kleine letter te bevaten",
                                  minLength: 1,
                                  regex: new RegExp('[^a-z]', 'g')
                             },
                         containUppercase: 
                             {
-                                text: "Uw invoer dient minimaal minLength hoofdletter",
+                                text: "Uw invoer dient minimaal minLength hoofdletter te bevaten",
                                 minLength: 1,
                                 regex: new RegExp('[^A-Z]', 'g')
                             },
                         containNumbers: 
                             {
-                                text: "Uw invoer dient minimaal minLength getal",
+                                text: "Uw invoer dient minimaal minLength getal te bevaten",
                                 minLength: 1,
                                 regex: new RegExp('[^0-9]', 'g')
                             }

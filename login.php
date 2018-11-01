@@ -30,8 +30,7 @@ if (isset($_SESSION["user_id"])) {
                 if (isset($_POST["user_id"]) && isset($_POST["password"])) {
                     $user_id = $_POST['user_id'];
                     $password = $_POST['password'];
-                    echo $_POST["user_id"] . "<br>";
-                    echo $_POST["password"] . "<br>";
+                    
                     $sql = "SELECT user_id, passwordhash, role_id FROM user WHERE user_id = ?;";
 
                     $stmt = $connection->prepare($sql);
