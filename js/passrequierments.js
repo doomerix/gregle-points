@@ -11,7 +11,6 @@ if (typeof jQuery === 'undefined')
         {
 //                  defaults: true
         };
-
     if (
             !options || //if no options are passed                                  /*
             options.defaults == true || //if default option is passed with defaults set to true      * Extend options with default ones
