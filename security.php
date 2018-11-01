@@ -1,8 +1,10 @@
 <?php
 
 //Avoid session forcing
-//session_start();
-//ini_set('session.use_strict_mode', 1);
+ini_set('session.use_strict_mode', 1);
+
+session_start();
+
 function preventHijacking()
 {
     if (!isset($_SESSION['IPaddress']) || !isset($_SESSION['userAgent']))
