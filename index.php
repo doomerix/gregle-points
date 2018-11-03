@@ -1,4 +1,4 @@
-<?php session_start();
+<?php
 require_once "db/connection.php";
 require_once "app/classes/Role.php";
 require_once "app/interfaces/CRUD.php";
