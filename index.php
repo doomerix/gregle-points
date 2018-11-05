@@ -76,9 +76,9 @@ if (isset($_GET["fls"])) {
         <p class="pointAmount paragraphMarginSmall"><?php echo $student["points"]; ?></p>
         <p class="paragraphMarginSmall pointPunten">punten</p>
     </div>
-<?php } ?>
-<?php if ($role->isTeacher() || $role->isAdmin()) { ?>
-    <?php
+<?php
+}
+if ($role->isTeacher() || $role->isAdmin()) {
     //  load data for teachers/admins
     $statement = $connection->prepare("SELECT firstname, surname_prefix, surname FROM docent WHERE docentnumber = ? ;");
     $statement->bind_param("s", $user_id);
@@ -90,18 +90,53 @@ if (isset($_GET["fls"])) {
         <h2 class="paragraphMarginSmall"><?php echo $docent["firstname"] . " " . $docent["surname_prefix"] . " " . $docent["surname"]; ?></h2>
         <p class="paragraphMarginSmall"><?php echo $user_id; ?></p>
     </header>
-    <!-- PUT THE CODE DOWN HERE STAN! -->
-
+    
+    <?php 
+    if (!isset($_POST["class"])){?>
     <div class="container pointsDivMain">
         <h5>Klassen</h5>
-        <div class="row justify-content-center">
-            <button type="button" class="btn btn-info btn-block col-11"><span>{{class}}<br>1/1 punten beschikbaar</span></button>
-        </div>
-        <div class="row justify-content-center pointsDiv">
-            <button type="button" class="btn btn-secondary btn-block col-11"><span>{{class}}<br>0/1 punten beschikbaar</span></button>
-        </div>
+        <?php 
+        $selectFromDocentClasses = $connection->prepare("SELECT class, point_timestamp FROM docent_classes LEFT JOIN class ON (class_id =  class.id) WHERE docentnumber = ? ;");
+        $selectFromDocentClasses->bind_param("s", $user_id);
+        $selectFromDocentClasses->execute();
+        $docentResult = $selectFromDocentClasses->get_result();
+        ?><form method="post"> <?php
+        while($row = $docentResult->fetch_assoc()){
+            if(!is_null($row["point_timestamp"])){
+                $timestamp = strtotime($row["point_timestamp"]);
+                if($timestamp < strtotime("-1 week")){
+                    ?>
+                    <div class="row justify-content-center pointsDiv">
+                        <input type=hidden name="class" value="<?php echo $row["class"]; ?>">
+                        <button type="submit" class="btn btn-secondary btn-block col-11"><span> <?php echo $row["class"]; ?><br>0/1 punten beschikbaar</span></button>
+                    </div>
+                    <?php
+                }else{
+                    ?>
+                    <div class="row justify-content-center">
+                        <input type=hidden name="class" value="<?php echo $row["class"]; ?>">
+                        <button type="submit" class="btn btn-info btn-block col-11"><span> <?php echo $row["class"]; ?><br>1/1 punten beschikbaar</span></button>
+                    </div>
+                    <?php
+                }
+            }else{
+                ?>
+                <div class="row justify-content-center">
+                    <input type=hidden name="class" value="<?php echo $row["class"]; ?>">
+                    <button type="submit" class="btn btn-info btn-block col-11"><span> <?php echo $row["class"]; ?><br>1/1 punten beschikbaar</span></button>
+                </div>
+                <?php
+            }
+        }
+        ?>
+        </form>
     </div>
-<?php } ?>
+<?php
+    } else {
+        include "points.php";
+    }
+}
+?>
 
 <footer>
     <nav class="nav justify-content-center footerBar">
@@ -124,4 +159,7 @@ if (isset($_GET["fls"])) {
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
+<script>
+    
+</script>
 </body>
