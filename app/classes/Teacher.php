@@ -96,9 +96,29 @@ class Teacher implements CRUD
 
     public function update(mysqli $sql)
     {
+        $deleteFromDocentClasses = $sql->prepare("DELETE FROM docent_classes WHERE docentnumber = ?");
+        $deleteFromDocentClasses->bind_param("s",$this->teacherId);
+        $deleteFromDocentClasses->execute();
+
+        foreach ($this->classes as $class) {
+            $insertIntoTeacherClasses = $sql->prepare("INSERT INTO docent_classes (docentnumber, class_id) VALUES (?, (SELECT id FROM class WHERE class = ?)) ;");
+            $insertIntoTeacherClasses->bind_param("ss", $this->teacherId,$class);
+            $insertIntoTeacherClasses->execute();
+        }
+
+        $updateUser = $sql->prepare("UPDATE user SET role_id = (SELECT id FROM role WHERE role = ".($this->isAdmin ? "'administrator'" : "'docent'").") WHERE user_id = ? ;");
+        $updateUser->bind_param("s", $this->teacherId);
+        $updateUser->execute();
+
+        $updateDocents = $sql->prepare("UPDATE docent SET firstname = ?, surname_prefix = ?, surname = ? WHERE docentnumber = ? ;");
+        $updateDocents->bind_param("ssss", $this->firstName, $this->prefix, $this->surName, $this->teacherId);
+        return $updateDocents->execute() == true;
     }
 
     public function delete(mysqli $sql)
     {
+        $deleteFromDocents = $sql->prepare("DELETE FROM user WHERE user_id = ? ;");
+        $deleteFromDocents->bind_param("s", $this->teacherId);
+        return $deleteFromDocents->execute();
     }
 }

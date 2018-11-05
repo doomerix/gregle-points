@@ -85,7 +85,8 @@ if (!isset($_SESSION["user_id"])) {
                     include "commands/addTeacher.php";
                     break;
                 case "accounts":
-                    //  include account overview page
+                    //  include all accounts overview page
+                    include "commands/accounts.php";
                     break;
                 case "logout":
                     //  include logout function page

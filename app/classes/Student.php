@@ -86,9 +86,15 @@ class Student implements CRUD
 
     public function update(mysqli $sql)
     {
+        $updateStudents = $sql->prepare("UPDATE student SET firstname = ?, surname_prefix = ?, surname = ? WHERE studentnumber = ? ;");
+        $updateStudents->bind_param("ssss", $this->firstName, $this->prefix, $this->surName, $this->studentId);
+        return $updateStudents->execute() == true;
     }
 
     public function delete(mysqli $sql)
     {
+        $deleteFromStudents = $sql->prepare("DELETE FROM student WHERE studentnumber = ? ;");
+        $deleteFromStudents->bind_param("s", $this->studentId);
+        return $deleteFromStudents->execute();
     }
 }
