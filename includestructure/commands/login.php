@@ -57,8 +57,8 @@
                 }
                 ?>
                 <div class="form-group">
-                    <label for="loginID">Studentnummer</label>
-                    <input formmethod="post" name="user_id" class="form-control" id="loginID" placeholder="Student ID" required>
+                    <label for="loginID">Login ID</label>
+                    <input formmethod="post" name="user_id" class="form-control" id="loginID" placeholder="Login ID" required>
                 </div>
                 <div class="form-group">
                     <label for="loginPass">Wachtwoord</label>

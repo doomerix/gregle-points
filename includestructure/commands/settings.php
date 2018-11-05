@@ -103,7 +103,7 @@
             <?php if (!$role->isStudent()) { ?>
                 <!-- Open account overview page button -->
                 <div class="paragraphMarginTop">
-                    <a href="?command=accountOptions"><button type="button" class="btn btn-info">Accounts</button></a>
+                    <a href="?command=accountCommands"><button type="button" class="btn btn-info">Accounts</button></a>
                 </div>
             <?php } ?>
 
