@@ -72,9 +72,9 @@ if (!isset($_SESSION["user_id"])) {
                     //  include main settings page code
                     include "commands/settings.php";
                     break;
-                case "accountOptions":
+                case "accountCommands":
                     //  include account options
-                    include "commands/accountOptions.php";
+                    include "commands/accountCommands.php";
                     break;
                 case "addStudent":
                     //  include student account form page
@@ -110,10 +110,6 @@ if (!isset($_SESSION["user_id"])) {
     <footer>
         <nav class="nav justify-content-center footerBar">
             <a href="?command=main" class="nav-link footerIcon"><img src="img/person.svg"></a>
-            <!-- Only display this icon if the user is not a student -->
-            <?php if (!is_null($role) && !$role->isStudent()) { ?>
-                <a href="?command=main" class="nav-link footerIcon"><img src="img/achievement.svg"></a>
-            <?php } ?>
             <a href="?command=settings" class="nav-link footerIcon"><img src="img/cog.svg"></a>
         </nav>
     </footer>
