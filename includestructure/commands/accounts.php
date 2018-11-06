@@ -82,109 +82,88 @@ if (isset($_POST["deleteTeacher"])) {
     }
 }
 
-//  display edit student form
-if (isset($_POST["editStudent"])) {
-    $studentId = $_POST["editStudent"];
-    $statement = $connection->prepare("SELECT firstname, surname_prefix, surname FROM student WHERE studentnumber = ? ;");
-    $statement->bind_param("s", $studentId);
+//  display form
+if (isset($_POST["editStudent"]) || isset($_POST["editTeacher"])) {
+    $isStudent = isset($_POST["editStudent"]) ? true : false;
+    $id = $isStudent ? $_POST["editStudent"] : $_POST["editTeacher"];
+
+    $statement = $connection->prepare("SELECT firstname, surname_prefix, surname FROM " . ($isStudent ? "student" : "docent") . " WHERE " . ($isStudent ? "student" : "docent")."number = ? ;");
+    $statement->bind_param("s", $id);
     $statement->execute();
     $result = $statement->get_result();
-    $student = $result->fetch_assoc();
+    $user = $result->fetch_assoc();
+
     ?>
     <div class="bodyWrap">
         <div class="container">
             <div>
-                <h2 class="paragraphMarginSmall"><?php echo $student["firstname"] . " " . $student["surname_prefix"] . " " . $student["surname"]; ?>
+                <h2 class="paragraphMarginSmall"><?php echo $user["firstname"] . " " . $user["surname_prefix"] . " " . $user["surname"]; ?>
                     wijzigen</h2>
                 <form method="post">
                     <div class="form-group">
                         <input formmethod="post" class="form-control" name="firstName" placeholder="Voornaam"
-                               value="<?php echo $student["firstname"]; ?>" required>
+                               value="<?php echo $user["firstname"]; ?>" required>
                     </div>
                     <div class="form-group">
                         <input formmethod="post" class="form-control" name="prefixName" placeholder="Tussenvoegsel"
-                               value="<?php echo $student["surname_prefix"]; ?>">
+                               value="<?php echo $user["surname_prefix"]; ?>">
                     </div>
                     <div class="form-group">
                         <input formmethod="post" class="form-control" name="surname" placeholder="Achternaam"
-                               value="<?php echo $student["surname"]; ?>" required>
+                               value="<?php echo $user["surname"]; ?>" required>
                     </div>
-                    <div class="form-group">
-                        <label for="Selecteer klassen">Selecteer Klas</label>
-                        <select class="form-control" name="studentClass" required>
-                            <?php
-                            $classes = $connection->query("SELECT class FROM class ;");
-                            while ($row = $classes->fetch_assoc()) {
-                                ?>
-                                <option><?php echo $row["class"]; ?></option>
+                    <?php
+                    if ($isStudent) {
+                        ?>
+                        <div class="form-group">
+                            <label for="Selecteer klassen">Selecteer Klas</label>
+                            <select class="form-control" name="studentClass" required>
                                 <?php
-                            }
-                            $classes->close();
-                            ?>
-                        </select>
-                    </div>
-                    <input hidden name="studentID" value="<?php echo $studentId; ?>">
+                                $classes = $connection->query("SELECT class FROM class ;");
+                                while ($row = $classes->fetch_assoc()) {
+                                    ?>
+                                    <option><?php echo $row["class"]; ?></option>
+                                    <?php
+                                }
+                                $classes->close();
+                                ?>
+                            </select>
+                        </div>
+                        <?php
+                    } else {
+                        ?>
+                        <div class="form-group">
+                            <label for="Selecteer klassen">Selecteer Klassen</label>
+                            <select name="teacherClasses[]" class="form-control" id="teacherClasses" multiple required>
+                                <?php
+                                $classes = $connection->query("SELECT class FROM class ;");
+                                while ($row = $classes->fetch_assoc()) {
+                                    ?>
+                                    <option><?php echo $row["class"]; ?></option>
+                                    <?php
+                                }
+                                $classes->close();
+                                ?>
+                            </select>
+                        </div>
+                        <div class="form-check">
+                            <input formmethod="post" name="adminCheck" class="form-check-input" type="checkbox" value="admin"
+                                   id="adminCheck">
+                            <label class="form-check-label" for="adminCheck">Administrator</label>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                    <input hidden name="<?php echo $isStudent ? "student" : "teacher"; ?>ID" value="<?php echo $id; ?>">
                     <button type="submit" class="btn btn-light">Wijziging voltooien</button>
                 </form>
                 <form method="post">
-                    <input type="hidden" name="deleteStudent" value="<?php echo $studentId; ?>">
-                    <button type="submit" class="btn btn-danger">Verwijder student</button>
+                    <input type="hidden" name="delete<?php echo $isStudent ? "Student" : "Teacher"; ?>"
+                           value="<?php echo $id; ?>">
+                    <button type="submit" class="btn btn-danger">
+                        Verwijder <?php echo $isStudent ? "student" : "docent"; ?></button>
                 </form>
             </div>
-        </div>
-    </div>
-    <?php
-} else if (isset($_POST["editTeacher"])) {
-    $teacherId = $_POST["editTeacher"];
-    $statement = $connection->prepare("SELECT firstname, surname_prefix, surname FROM docent WHERE docentnumber = ? ;");
-    $statement->bind_param("s", $teacherId);
-    $statement->execute();
-    $result = $statement->get_result();
-    $teacher = $result->fetch_assoc();
-    ?>
-    <div class="bodyWrap">
-        <div class="container">
-            <h2 class="paragraphMarginSmall"><?php echo $teacher["firstname"] . " " . $teacher["surname_prefix"] . " " . $teacher["surname"]; ?>
-                wijzigen</h2>
-            <form method="post">
-                <div class="form-group">
-                    <input formmethod="post" class="form-control" name="firstName" placeholder="Voornaam"
-                           value="<?php echo $teacher["firstname"]; ?>" required>
-                </div>
-                <div class="form-group">
-                    <input formmethod="post" class="form-control" name="prefixName" placeholder="Tussenvoegsel"
-                           value="<?php echo $teacher["surname_prefix"]; ?>">
-                </div>
-                <div class="form-group">
-                    <input formmethod="post" class="form-control" name="surname" placeholder="Achternaam"
-                           value="<?php echo $teacher["surname"]; ?>" required>
-                </div>
-                <div class="form-group">
-                    <label for="Selecteer klassen">Selecteer Klassen</label>
-                    <select name="teacherClasses[]" class="form-control" id="teacherClasses" multiple required>
-                        <?php
-                        $classes = $connection->query("SELECT class FROM class ;");
-                        while ($row = $classes->fetch_assoc()) {
-                            ?>
-                            <option><?php echo $row["class"]; ?></option>
-                            <?php
-                        }
-                        $classes->close();
-                        ?>
-                    </select>
-                </div>
-                <div class="form-check">
-                    <input formmethod="post" name="adminCheck" class="form-check-input" type="checkbox" value="admin"
-                           id="adminCheck">
-                    <label class="form-check-label" for="adminCheck">Administrator</label>
-                </div>
-                <input hidden name="teacherID" value="<?php echo $teacherId; ?>">
-                <button type="submit" class="btn btn-light">Wijziging voltooien</button>
-            </form>
-            <form method="post">
-                <input type="hidden" name="deleteTeacher" value="<?php echo $teacherId; ?>">
-                <button type="submit" class="btn btn-danger">Verwijder docent</button>
-            </form>
         </div>
     </div>
     <?php
@@ -201,7 +180,10 @@ if (isset($_POST["editStudent"])) {
                     <form method="post">
                         <input type="hidden" name="<?php echo $isStudent ? "editStudent" : "editTeacher" ?>"
                                value="<?php echo $row["userid"] ?>">
-                        <button type="submit" class="btn btn-outline-success" <?php echo (!$isStudent && !$role->isAdmin() ? "disabled" : ""); ?>>Wijzigen</button>
+                        <button type="submit"
+                                class="btn btn-outline-success" <?php echo(!$isStudent && !$role->isAdmin() ? "disabled" : ""); ?>>
+                            Wijzigen
+                        </button>
                     </form>
                 </div>
                 <?php
