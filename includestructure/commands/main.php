@@ -33,15 +33,51 @@
     </header>
     <!-- PUT THE CODE DOWN HERE STAN! -->
 
+    <?php
+    if (!isset($_GET["points_class"])){?>
     <div class="container pointsDivMain">
         <h5>Klassen</h5>
-        <div class="row justify-content-center">
-            <button type="button" class="btn btn-info btn-block col-11"><span>{{class}}<br>1/1 punten beschikbaar</span>
-            </button>
-        </div>
-        <div class="row justify-content-center pointsDiv">
-            <button type="button" class="btn btn-secondary btn-block col-11">
-                <span>{{class}}<br>0/1 punten beschikbaar</span></button>
-        </div>
+        <?php 
+        $selectFromDocentClasses = $connection->prepare("SELECT class, point_timestamp FROM docent_classes LEFT JOIN class ON (class_id =  class.id) WHERE docentnumber = ? ;");
+        $selectFromDocentClasses->bind_param("s", $user_id);
+        $selectFromDocentClasses->execute();
+        $docentResult = $selectFromDocentClasses->get_result();
+        while($row = $docentResult->fetch_assoc()){
+            if(!is_null($row["point_timestamp"])){
+                $timestamp = strtotime($row["point_timestamp"]);
+                if($timestamp > strtotime("-1 week")){
+                    ?>
+                    <form method="get">
+                        <div class="row justify-content-center pointsDiv">
+                            <input type=hidden name="points_class" value="<?php echo $row["class"]; ?>">
+                            <button type="submit" class="btn btn-secondary btn-block col-11"><span> <?php echo $row["class"]; ?><br>0/1 punten beschikbaar</span></button>
+                        </div>
+                    </form>
+                    <?php
+                }else{
+                    ?>
+                    <form method="get">
+                        <div class="row justify-content-center">
+                            <input type=hidden name="points_class" value="<?php echo $row["class"]; ?>">
+                            <button type="submit" class="btn btn-info btn-block col-11"><span> <?php echo $row["class"]; ?><br>1/1 punten beschikbaar</span></button>
+                        </div>
+                    </form>
+                    <?php
+                }
+            }else{
+                ?>
+                <form method="get">
+                    <div class="row justify-content-center">
+                        <input type=hidden name="points_class" value="<?php echo $row["class"]; ?>">
+                        <button type="submit" class="btn btn-info btn-block col-11"><span> <?php echo $row["class"]; ?><br>1/1 punten beschikbaar</span></button>
+                    </div>
+                </form>
+                <?php
+            }
+        }
+    } else {
+        include "points.php";
+    }
+    ?>
     </div>
 <?php } ?>

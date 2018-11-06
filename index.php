@@ -104,7 +104,7 @@ if ($role->isTeacher() || $role->isAdmin()) {
         while($row = $docentResult->fetch_assoc()){
             if(!is_null($row["point_timestamp"])){
                 $timestamp = strtotime($row["point_timestamp"]);
-                if($timestamp < strtotime("-1 week")){
+                if($timestamp > strtotime("-1 week")){
                     ?>
                     <div class="row justify-content-center pointsDiv">
                         <input type=hidden name="class" value="<?php echo $row["class"]; ?>">
