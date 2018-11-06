@@ -48,7 +48,7 @@ $response = new Student($_POST["firstName"], $_POST["prefixName"], $_POST["surna
                     <input formmethod="post" class="form-control" name="surname" placeholder="Achternaam" required>
                 </div>
                 <div class="form-group">
-                    <input formmethod="post" class="form-control" name="studentID" placeholder="ID" required>
+                    <input formmethod="post" class="form-control" name="studentID" placeholder="Stamnummer" required>
                 </div>
                 <div class="form-group">
                     <label for="Selecteer klassen">Selecteer Klas</label>

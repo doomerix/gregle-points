@@ -55,7 +55,7 @@ $response = new Teacher($_POST["firstName"], $_POST["prefixName"], $_POST["surna
                     <input formmethod="post"  name="surname" class="form-control" id="surname" placeholder="Achternaam" required>
                 </div>
                 <div class="form-group">
-                    <input formmethod="post" name="teacherID" class="form-control" id="teacherID" placeholder="ID" required>
+                    <input formmethod="post" name="teacherID" class="form-control" id="teacherID" placeholder="Stamnummer" required>
                 </div>
                 <div class="form-group">
                     <label for="Selecteer klassen">Selecteer Klassen</label>
