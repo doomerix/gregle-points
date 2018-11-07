@@ -45,16 +45,50 @@
             header("Location: index.php?points_class=".$className);
         }
         
+        if(isset($_POST["removepoint"])) {
+            $studentnumber = $_POST["removepoint"];
+            $updatePoints = $connection->prepare("UPDATE student SET points = points - 1 WHERE studentnumber = ? AND points > 0;");
+            $updatePoints->bind_param("s", $studentnumber);
+            $updatePoints->execute();
+            
+            header("Location: index.php?points_class=".$className);
+        }
+        
         while($row = $dataStudentResult->fetch_assoc()) {
             ?> 
             <div class="row justify-content-center pointsDiv">
                 <?php
                 if($role->isAdmin()){
-                    ?><button class="btn btn-outline-danger">-</button><?php
+                    ?>
+                    <button class="btn btn-outline-danger" data-toggle="modal" data-target="#<?php echo "modalremove".$row["studentnumber"];?>">-</button>
+                    <div class="modal fade" id="<?php echo "modalremove".$row["studentnumber"];?>" tabindex="-1" role="dialog" aria-labelledby="<?php echo "modalremove".$row["studentnumber"];?>" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="<?php echo "modalremove".$row["studentnumber"];?>">Punt verwijderen?</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                    <div class="modal-body">
+                                        Punt verwijderen van <?php echo $row["surname"]." ".$row["firstname"]." ".$row["surname_prefix"]?>?
+                                    </div>
+                                <div class="modal-footer">
+                                    <form method="post">
+                                        <input type=hidden name="points_class" value="<?php echo $_GET["points_class"]; ?>">
+                                        <input type=hidden name="removepoint" value="<?php echo $row["studentnumber"]; ?>">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Annuleren</button>
+                                        <button type="submit" class="btn btn-success">Verwijderen</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
                 }
                 ?>
-                    <span class="col-9"><b><?php echo $row["surname"]." ".$row["firstname"]." ".$row["surname_prefix"]?></b><br><i><?php echo $row["studentnumber"]?></i><br><?php echo $row["points"]." ".($row["points"] == 1 ? "punt":"punten");?></span>
-                    <button class="btn btn-outline-success" data-toggle="modal" data-target="#<?php echo "modal".$row["studentnumber"];?>" <?php echo ($canAddPoint ? "":"disabled");?>>+</button>
+                <span class="col-9"><b><?php echo $row["surname"]." ".$row["firstname"]." ".$row["surname_prefix"]?></b><br><i><?php echo $row["studentnumber"]?></i><br><?php echo $row["points"]." ".($row["points"] == 1 ? "punt":"punten");?></span>
+                <button class="btn btn-outline-success" data-toggle="modal" data-target="#<?php echo "modal".$row["studentnumber"];?>" <?php echo ($canAddPoint ? "":"disabled");?>>+</button>
             </div>
             <!--Modals-->
             <div class="modal fade" id="<?php echo "modal".$row["studentnumber"];?>" tabindex="-1" role="dialog" aria-labelledby="<?php echo "modal".$row["studentnumber"];?>" aria-hidden="true">

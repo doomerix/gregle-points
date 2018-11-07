@@ -31,7 +31,6 @@
         <h2 class="paragraphMarginSmall"><?php echo $docent["firstname"] . " " . $docent["surname_prefix"] . " " . $docent["surname"]; ?></h2>
         <p class="paragraphMarginSmall"><?php echo $user_id; ?></p>
     </header>
-    <!-- PUT THE CODE DOWN HERE STAN! -->
 
     <?php
     if (!isset($_GET["points_class"])){?>
