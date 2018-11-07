@@ -5,7 +5,29 @@
         
         $docentnumber = $_SESSION["user_id"];
         $className = $_GET["points_class"];
-        
+
+        //  we will use this query to check if there are any rows returned. this should happen if the account of the user
+        //  has the class assigned to them.
+        $canViewClassData = $connection->prepare("SELECT docentnumber FROM docent_classes LEFT JOIN class ON (class_id = class.id) WHERE class = ? AND docentnumber = ? ;");
+        $canViewClassData->bind_param("ss",$className, $docentnumber);
+        $canViewClassData->execute();
+        $canViewClassData->store_result();
+        $canViewClassData->fetch();
+
+        $hasClassAssigned = $canViewClassData->num_rows > 0;
+
+        //  boolean variable, if the user is admin or has the class assigned to them it should return true
+        $canViewClass = $role->isAdmin() || $hasClassAssigned;
+        $canViewClassData->free_result();
+
+        //  if the user does not actually have access to view this class.. send them back to the main page
+        if (!$canViewClass) {
+            header("Location: ../app/");
+            exit;
+        }
+
+        //  everything is all fine and well! Code will run
+
         $selectIdFromClass = $connection->prepare("SELECT id FROM class WHERE class = ? ;");
         $selectIdFromClass->bind_param("s", $className);
         $selectIdFromClass->execute();
@@ -24,9 +46,14 @@
         $selectFromDocentClasses->bind_result($rawTimestamp);
         $selectFromDocentClasses->fetch();
         $selectFromDocentClasses->free_result();
+
+        //  get the timestamp
         $timestamp = strtotime($rawTimestamp);
+
+        //  get if the user can add a point
         $canAddPoint = is_null($timestamp) || $timestamp < strtotime("-1 week");
-       
+
+        //  if a point can be added and the POST has been set, run the code
         if($canAddPoint && isset($_POST["givepoint"])) {
             $studentnumber = $_POST["givepoint"];
             $updatePoints = $connection->prepare("UPDATE student SET points = points + 1 WHERE studentnumber = ?;");
@@ -38,8 +65,9 @@
             $updatePointTime->execute();
             header("Location: ../app/?points_class=".$className);
         }
-        
-        if(isset($_POST["removepoint"])) {
+
+        //  if a point is being removed and the user is an admin, run the code
+        if($role->isAdmin() && isset($_POST["removepoint"])) {
             $studentnumber = $_POST["removepoint"];
             $updatePoints = $connection->prepare("UPDATE student SET points = points - 1 WHERE studentnumber = ? AND points > 0;");
             $updatePoints->bind_param("s", $studentnumber);
@@ -65,7 +93,7 @@
                                     </button>
                                 </div>
                                     <div class="modal-body">
-                                        Punt verwijderen van <?php echo $row["surname"]." ".$row["firstname"]." ".$row["surname_prefix"]?>?
+                                        Punt verwijderen van <?php echo $row["firstname"]." ".$row["surname_prefix"]." ".$row["surname"]?>?
                                     </div>
                                 <div class="modal-footer">
                                     <form method="post">
@@ -95,7 +123,7 @@
                             </button>
                         </div>
                             <div class="modal-body">
-                                Punt toewijzen aan <?php echo $row["surname"]." ".$row["firstname"]." ".$row["surname_prefix"]?>?
+                                Punt toewijzen aan <?php echo $row["firstname"]." ".$row["surname_prefix"]." ".$row["surname"]?>?
                             </div>
                         <div class="modal-footer">
                             <form method="post">

@@ -1,4 +1,4 @@
-<?php
+<?php enforceAdminOnly($role);
 //  the user is a student, handle changes
 if (isset($_POST["studentClass"])) {
     //  handle student update

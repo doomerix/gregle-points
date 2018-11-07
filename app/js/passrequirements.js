@@ -7,12 +7,12 @@ if (typeof jQuery === 'undefined') {
     $.fn.PassRequirements = function (options) {
         var defaults = {};
 
-        if(
+        if (
             !options ||                     //if no options are passed                                  /*
             options.defaults == true ||     //if default option is passed with defaults set to true      * Extend options with default ones
             options.defaults == undefined   //if options are passed but defaults is not passed           */
-        ){
-            if(!options){                   //if no options are passed,
+        ) {
+            if (!options) {                   //if no options are passed,
                 options = {};               //create an options object
             }
             defaults.rules = $.extend({
@@ -41,7 +41,7 @@ if (typeof jQuery === 'undefined') {
                     regex: new RegExp('[^0-9]', 'g')
                 }
             }, options.rules);
-        }else{
+        } else {
             defaults = options;     //if options are passed with defaults === false
         }
 
@@ -49,7 +49,7 @@ if (typeof jQuery === 'undefined') {
 
         return this.each(function () {
 
-            if(!defaults.defaults && !defaults.rules){
+            if (!defaults.defaults && !defaults.rules) {
                 console.error('You must pass in your rules if defaults is set to false. Skipping this input with id:[' + this.id + '] with class:[' + this.classList + ']');
                 return false;
             }
@@ -61,9 +61,9 @@ if (typeof jQuery === 'undefined') {
                 var this_ = $(this);
                 Object.getOwnPropertyNames(defaults.rules).forEach(function (val, idx, array) {
                     if (this_.val().replace(defaults.rules[val].regex, "").length > defaults.rules[val].minLength - 1) {
-                        this_.next('.popover').find('#' + val).css('text-decoration','line-through');
+                        this_.next('.popover').find('#' + val).css('text-decoration', 'line-through');
                     } else {
-                        this_.next('.popover').find('#' + val).css('text-decoration','none');
+                        this_.next('.popover').find('#' + val).css('text-decoration', 'none');
                     }
 
                 })
@@ -72,7 +72,7 @@ if (typeof jQuery === 'undefined') {
             Object.getOwnPropertyNames(defaults.rules).forEach(function (val, idx, array) {
                 requirementList += (("<li id='" + val + "'>" + defaults.rules[val].text).replace("minLength", defaults.rules[val].minLength));
             })
-            try{
+            try {
                 $(this).popover({
                     title: 'Password Requirements',
                     trigger: options.trigger ? options.trigger : 'focus',
@@ -81,7 +81,7 @@ if (typeof jQuery === 'undefined') {
                     content: 'Your password should:<ul>' + requirementList + '</ul>'
                     //                        '<p>The confirm field is actived only if all criteria are met</p>'
                 });
-            }catch(e){
+            } catch (e) {
                 throw new Error('PassRequirements requires Bootstraps Popover plugin');
             }
             $(this).focus(function () {

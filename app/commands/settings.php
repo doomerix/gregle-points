@@ -100,10 +100,10 @@
             </form>
 
             <!-- if the account is an admin or a docent (or just simply, not a student), display this button -->
-            <?php if (!$role->isStudent()) { ?>
-                <!-- Open account overview page button -->
+            <?php if ($role->isAdmin()) { ?>
+                <!-- Open administrator page button -->
                 <div class="paragraphMarginTop">
-                    <a href="?command=accountCommands"><button type="button" class="btn btn-info">Accounts</button></a>
+                    <a href="?command=adminCommands"><button type="button" class="btn btn-info">Beheer</button></a>
                 </div>
             <?php } ?>
 

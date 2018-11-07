@@ -1,4 +1,4 @@
-<?php
+<?php enforceAdminOnly($role);
 $createdAccount = isset($_POST["firstName"], $_POST["prefixName"], $_POST["surname"], $_POST["teacherID"]);
 if ($createdAccount) {
 $response = new Teacher($_POST["firstName"], $_POST["prefixName"], $_POST["surname"], $_POST["teacherID"], $_POST["teacherClasses"], isset($_POST["adminCheck"]));

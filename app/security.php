@@ -27,7 +27,7 @@ function SessionIsValid()
     //prevent hijacking by IP en browser check
     if (preventHijacking() == false)
         return false;
-    
+
     return true;
 }
 

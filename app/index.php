@@ -71,9 +71,9 @@ if (!isset($_SESSION["user_id"])) {
                     //  include main settings page code
                     include "commands/settings.php";
                     break;
-                case "accountCommands":
+                case "adminCommands":
                     //  include account options
-                    include "commands/accountCommands.php";
+                    include "commands/adminCommands.php";
                     break;
                 case "addStudent":
                     //  include student account form page
@@ -83,9 +83,17 @@ if (!isset($_SESSION["user_id"])) {
                     //  include teacher account form page
                     include "commands/addTeacher.php";
                     break;
+                case "addClass":
+                    //  include class form page
+                    include "commands/addClass.php";
+                    break;
                 case "accounts":
                     //  include all accounts overview page
                     include "commands/accounts.php";
+                    break;
+                case "classes":
+                    //  include all classes overview page
+                    include "commands/classes.php";
                     break;
                 case "logout":
                     //  include logout function page
@@ -115,6 +123,13 @@ if (!isset($_SESSION["user_id"])) {
     </footer>
     <?php
 }
+
+function enforceAdminOnly(Role $role) {
+    if (!$role->isAdmin()) {
+        header("Location: ../app/");
+    }
+}
+
 ?>
 
 <!--Required Scripts-->
