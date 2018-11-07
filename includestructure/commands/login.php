@@ -48,7 +48,7 @@
                     {
                         ?>
                         <div class="alert alert-danger" role="alert">
-                            De combinatie van studentnummer en wachtwoord is onjuist.
+                            De combinatie van stamnummer en wachtwoord is onjuist.
                         </div>
                         <?php
                     }
