@@ -6,5 +6,5 @@ session_unset();
 session_destroy();
 
 //  send user back to index page (which will display the login page)
-header("Location: index.php");
+header("Location: ../app/");
 exit;

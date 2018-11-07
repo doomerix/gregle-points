@@ -1,9 +1,3 @@
-<?php 
-//if (!isset($_POST["class"])) {
-//    header("Location: index.php");
-//    exit;
-//}
-?>    
 <div class="bodyWrap">
     <div class="container">
         <h1><?php echo $_GET["points_class"]; ?></h1>
@@ -42,7 +36,7 @@
             $updatePointTime = $connection->prepare("INSERT INTO docent_classes (docentnumber, class_id) VALUES(?, ?) ON DUPLICATE KEY UPDATE point_timestamp = NOW();");
             $updatePointTime->bind_param("si", $docentnumber, $classId);
             $updatePointTime->execute();
-            header("Location: index.php?points_class=".$className);
+            header("Location: ../app/?points_class=".$className);
         }
         
         if(isset($_POST["removepoint"])) {
@@ -51,7 +45,7 @@
             $updatePoints->bind_param("s", $studentnumber);
             $updatePoints->execute();
             
-            header("Location: index.php?points_class=".$className);
+            header("Location: ../app/?points_class=".$className);
         }
         
         while($row = $dataStudentResult->fetch_assoc()) {

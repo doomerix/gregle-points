@@ -1,11 +1,10 @@
 <?php
-require_once '../security.php';
-require_once "../db/connection.php";
-require_once "../app/interfaces/CRUD.php";
-require_once "../app/classes/Role.php";
-require_once "../app/classes/Student.php";
-require_once "../app/classes/Teacher.php";
-
+require_once 'security.php';
+require_once "db/connection.php";
+require_once "interfaces/CRUD.php";
+require_once "classes/Role.php";
+require_once "classes/Student.php";
+require_once "classes/Teacher.php";
 ?>
 <head>
     <meta charset="utf-8">
@@ -110,8 +109,8 @@ if (!isset($_SESSION["user_id"])) {
     ?>
     <footer>
         <nav class="nav justify-content-center footerBar">
-            <a href="?command=main" class="nav-link footerIcon"><img src="img/person.svg"></a>
-            <a href="?command=settings" class="nav-link footerIcon"><img src="img/cog.svg"></a>
+            <a href="?command=main" class="nav-link footerIcon"><img src="../img/person.svg"></a>
+            <a href="?command=settings" class="nav-link footerIcon"><img src="../img/cog.svg"></a>
         </nav>
     </footer>
     <?php
@@ -128,7 +127,7 @@ if (!isset($_SESSION["user_id"])) {
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
-<script src="../js/passrequirements.js" type="text/javascript"></script>
+<script src="js/passrequirements.js" type="text/javascript"></script>
 <script>
     $('#passwd1').PassRequirements({
         rules: {

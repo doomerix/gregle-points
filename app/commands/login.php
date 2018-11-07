@@ -42,7 +42,7 @@
                         $_SESSION['userAgent'] = $_SERVER['HTTP_USER_AGENT'];
 
                         /* Redirect to Index page */
-                        header('Location: index.php');
+                        header('Location: ../app/');
                     }
                     else
                     {
