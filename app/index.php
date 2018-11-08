@@ -83,15 +83,11 @@ if (!isset($_SESSION["user_id"])) {
                     //  include teacher account form page
                     include "commands/addTeacher.php";
                     break;
-                case "addClass":
-                    //  include class form page
-                    include "commands/addClass.php";
-                    break;
-                case "accounts":
+                case "manageAccounts":
                     //  include all accounts overview page
                     include "commands/accounts.php";
                     break;
-                case "classes":
+                case "manageClasses":
                     //  include all classes overview page
                     include "commands/classes.php";
                     break;
@@ -125,11 +121,11 @@ if (!isset($_SESSION["user_id"])) {
 }
 
 function enforceAdminOnly(Role $role) {
-    if (!$role->isAdmin()) {
+    if (is_null($role) || !$role->isAdmin()) {
         header("Location: ../app/");
+        exit;
     }
 }
-
 ?>
 
 <!--Required Scripts-->

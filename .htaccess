@@ -1,1 +1,10 @@
 Options -Indexes
+
+#RedirectMatch 404 ^.*/app/commands/.*$
+#RedirectMatch 404 ^.*/app/classes/.*$
+#RedirectMatch 404 ^.*/app/db/.*$
+#RedirectMatch 404 ^.*/app/interfaces/.*$
+#RedirectMatch 404 ^.*/app/js/.*$
+
+#   why 5 lines of htaccess if you can have one?!
+RedirectMatch 404 ^.*/app/*.*$

@@ -3,12 +3,12 @@
     <div class="container">
         <div>
             <div class="paragraphMarginTop">
-                <a href="?command=accounts">
-                    <button type="button" class="btn btn-info btn-block">Alle accounts</button>
+                <a href="?command=manageAccounts">
+                    <button type="button" class="btn btn-info btn-block">Accounts beheren</button>
             </div>
             <div class="paragraphMarginSmallTop">
-                <a href="?command=classes">
-                    <button type="button" class="btn btn-info btn-block">Alle klassen</button>
+                <a href="?command=manageClasses">
+                    <button type="button" class="btn btn-info btn-block">Klassen beheren</button>
                 </a>
             </div>
             <div class="paragraphMarginSmallTop">
@@ -19,11 +19,6 @@
             <div class="paragraphMarginSmallTop">
                 <a href="?command=addTeacher">
                     <button type="button" class="btn btn-info btn-block">Docent toevoegen</button>
-                </a>
-            </div>
-            <div class="paragraphMarginSmallTop">
-                <a href="?command=addClass">
-                    <button type="button" class="btn btn-info btn-block">Klas toevoegen</button>
                 </a>
             </div>
         </div>
