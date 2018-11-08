@@ -13,7 +13,7 @@ $allClasses = $connection->query("SELECT id, class FROM class ORDER BY class ASC
         if (isset($_POST["deleteClass"])) {
             ?>
             <div class="alert alert-success" role="alert">
-                De klas is verwijdert.
+                De klas is verwijderd.
             </div>
             <?php
         }
@@ -26,8 +26,11 @@ $allClasses = $connection->query("SELECT id, class FROM class ORDER BY class ASC
             $selectStudentCount->free_result();
             ?>
             <div class="row justify-content-center pointsDiv">
-                <form method="post">
-                    <a href="?points_class=<?php echo $row["class"];?>"><span class="col-9"><b><?php echo $row["class"]." (".$studentCount." studenten)"; ?></b></i></span></a>
+            <div class="col-5">
+                <form method="post" style="margin-bottom:0;">
+                    <a href="?points_class=<?php echo $row["class"];?>"><span><b><?php echo $row["class"]." </br></b><i>(".$studentCount." studenten)"; ?></i></span></a>
+                    <button class="btn btn-info col-5">KLAS</button>
+                    </div>
                     <input type="hidden" name="deleteClass" value="<?php echo $row["id"] ?>">
                     <button type="submit" class="btn btn-outline-danger">Verwijderen</button>
                 </form>
