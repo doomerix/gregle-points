@@ -18,33 +18,34 @@
                     //  failsafe check (and in case something goes wrong, display message)
                     if ($_POST["passwd1"] == $_POST["passwd2"])
                     {
-                        $PwdFlaws = "";
+                        $PwdFlaws = "Vereisten:";
+
                         //Controleer password lengte
                         //in this strlen if-statement we do a server side check if the password passes the requierment
                         if (strlen($_POST["passwd1"]) <= 8)
                         {
-                            $PwdFlaws = "Minstens 8 karakters te bevaten.";
+                            $PwdFlaws = $PwdFlaws . "<br> - Minimaal acht karakters";
                         }
 
                         //in these 4 preg_match if-statements below we do a server side check if the password passes the 4 requierments
                         if (preg_match("([!,%,&,@,#,$,^,*,?,_,~])", $_POST["passwd1"]) === 0)
                         {
-                            $PwdFlaws = $PwdFlaws . "<br>" . "Uw invoer dient minimaal 1 speciaal teken te bevaten.";
+                            $PwdFlaws = $PwdFlaws . "<br>" . "- één speciaal teken";
                         }
 
                         if (preg_match("([a-z])", $_POST["passwd1"]) === 0)
                         {
-                            $PwdFlaws = $PwdFlaws . "<br>" . "Uw invoer dient minimaal 1 kleine letter te bevaten.";
+                            $PwdFlaws = $PwdFlaws . "<br>" . "- één kleine letter";
                         }
 
                         if (preg_match("([A-Z])", $_POST["passwd1"]) === 0)
                         {
-                            $PwdFlaws = $PwdFlaws . "<br>" . "Uw invoer dient minimaal 1 hoofdletter te bevaten.";
+                            $PwdFlaws = $PwdFlaws . "<br>" . "- één hoofd letter";
                         }
 
                         if (preg_match("([0-9])", $_POST["passwd1"]) === 0)
                         {
-                            $PwdFlaws = $PwdFlaws . "<br>" . "Uw invoer dient minimaal 1 getal te bevaten.";
+                            $PwdFlaws = $PwdFlaws . "<br>" . "- één nummer";
                         }
 
 
@@ -81,7 +82,7 @@
                         }
                         else
                         {
-                            print '<!-- De wachtwoorden komen niet overeen. -->';
+                            //  wachtwoorden komen niet overeen
                             print '<div class="alert alert-danger" role="alert">' . $PwdFlaws . '</div>';
                         }
                     }

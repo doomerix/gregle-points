@@ -143,26 +143,26 @@ function enforceAdminOnly(Role $role) {
     $('#passwd1').PassRequirements({
         rules: {
         minlength: {
-            text: "be at least minLength characters long",
+            text: "Minimaal minLength karakters lang",
             minLength: 8,
         },
         containSpecialChars: {
-            text: "Your input should contain at least minLength special character",
+            text: "Minimaal minLength speciaal karakter.",
             minLength: 1,
             regex: new RegExp('([^!,%,&,@,#,$,^,*,?,_,~])', 'g')
         },
         containLowercase: {
-            text: "Your input should contain at least minLength lower case character",
+            text: "Minimaal minLength kleine letter.",
             minLength: 1,
             regex: new RegExp('[^a-z]', 'g')
         },
         containUppercase: {
-            text: "Your input should contain at least minLength upper case character",
+            text: "Minimaal minLength hoofd letter.",
             minLength: 1,
             regex: new RegExp('[^A-Z]', 'g')
         },
         containNumbers: {
-            text: "Your input should contain at least minLength number",
+            text: "Minimaal minLength nummer.",
             minLength: 1,
             regex: new RegExp('[^0-9]', 'g')
         }

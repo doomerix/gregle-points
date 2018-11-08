@@ -74,11 +74,11 @@ if (typeof jQuery === 'undefined') {
             })
             try {
                 $(this).popover({
-                    title: 'Password Requirements',
+                    title: 'Wachtwoord vereisten:',
                     trigger: options.trigger ? options.trigger : 'focus',
                     html: true,
                     placement: options.popoverPlacement ? options.popoverPlacement : 'bottom',
-                    content: 'Your password should:<ul>' + requirementList + '</ul>'
+                    content: '<ul>' + requirementList + '</ul>'
                     //                        '<p>The confirm field is actived only if all criteria are met</p>'
                 });
             } catch (e) {

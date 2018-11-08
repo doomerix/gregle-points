@@ -93,8 +93,9 @@ class Student implements CRUD
 
     public function delete(mysqli $sql)
     {
-        $deleteFromStudents = $sql->prepare("DELETE FROM student WHERE studentnumber = ? ;");
+        $deleteFromStudents = $sql->prepare("DELETE FROM user WHERE user_id = ? ;");
         $deleteFromStudents->bind_param("s", $this->studentId);
+
         return $deleteFromStudents->execute();
     }
 }

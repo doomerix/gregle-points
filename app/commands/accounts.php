@@ -28,7 +28,7 @@ if (isset($_POST["deleteStudent"])) {
         //  everything went well, yaaay!
         ?>
         <div class="alert alert-success" role="alert">
-            Gebruiker <?php echo $response->getStudentId() . " is verwijdert." ?>
+            Gebruiker <?php echo $response->getStudentId() . " is verwijderd." ?>
         </div>
         <?php
     } else {
@@ -69,7 +69,7 @@ if (isset($_POST["deleteTeacher"])) {
         //  everything went well, yaaay!
         ?>
         <div class="alert alert-success" role="alert">
-            Gebruiker <?php echo $response->getTeacherId() . " is verwijdert." ?>
+            Gebruiker <?php echo $response->getTeacherId() . " is verwijderd." ?>
         </div>
         <?php
     } else {
