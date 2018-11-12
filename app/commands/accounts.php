@@ -171,12 +171,14 @@ if (isset($_POST["editStudent"]) || isset($_POST["editTeacher"])) {
     $allUsers = $connection->query("SELECT studentnumber AS userid, firstname, surname_prefix, surname, '1' AS is_student FROM student UNION SELECT docentnumber AS userid, firstname, surname_prefix, surname, '0' AS is_student FROM docent ORDER BY surname ASC ;");
     ?>
     <div class="bodyWrap">
-        <div class="container"><?php
+        <div class="container">
+            <hr>
+            <?php
             while ($row = $allUsers->fetch_assoc()) {
                 $isStudent = $row["is_student"] == "1";
                 ?>
                 <div class="row justify-content-center pointsDiv">
-                    <span class="col-9"><b><?php echo $row["surname"] . ", " . $row["firstname"] . " " . $row["surname_prefix"]; ?></b><br><i><?php echo $row["userid"]; ?></i></span>
+                    <span class="col-9"><b><?php echo $row["surname"] . ", " . $row["firstname"] . " " . $row["surname_prefix"]; ?></b><br><i><?php echo ($row["userid"] . " " . ($isStudent ? "(student)" : "(docent)")); ?></i></span>
                     <form method="post">
                         <input type="hidden" name="<?php echo $isStudent ? "editStudent" : "editTeacher" ?>"
                                value="<?php echo $row["userid"] ?>">
@@ -186,6 +188,7 @@ if (isset($_POST["editStudent"]) || isset($_POST["editTeacher"])) {
                         </button>
                     </form>
                 </div>
+                <hr>
                 <?php
             }
             ?>

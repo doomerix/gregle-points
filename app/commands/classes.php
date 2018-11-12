@@ -58,6 +58,7 @@ $allClasses = $connection->query("SELECT id, class FROM class ORDER BY class ASC
                     <button type="submit" class="btn btn-light">Klas toevoegen</button>
                 </form>
             </div>
+            <hr>
             <div>
                 <?php
                 while ($row = $allClasses->fetch_assoc()) {
@@ -77,6 +78,7 @@ $allClasses = $connection->query("SELECT id, class FROM class ORDER BY class ASC
                         <button type="submit" class="btn btn-outline-danger">Verwijderen</button>
                         </form>
                     </div>
+                    <hr>
                     <?php
                 }
                 ?>

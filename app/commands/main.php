@@ -48,7 +48,7 @@
         while ($row = $docentResult->fetch_assoc()) {
             if (!is_null($row["point_timestamp"])) {
                 $timestamp = strtotime($row["point_timestamp"]);
-                if ($timestamp > strtotime("-1 week")) {
+                if ($timestamp > strtotime(date("Y-m-d H:i:s"))) {
                     ?>
                     <form method="get">
                         <div class="row justify-content-center pointsDiv">

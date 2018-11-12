@@ -51,7 +51,7 @@
         $timestamp = strtotime($rawTimestamp);
 
         //  get if the user can add a point
-        $canAddPoint = is_null($timestamp) || $timestamp < strtotime("-1 week");
+        $canAddPoint = is_null($timestamp) || $timestamp < strtotime(date("Y-m-d H:i:s"));
 
         //  if a point can be added and the POST has been set, run the code
         if($canAddPoint && isset($_POST["givepoint"])) {
@@ -60,8 +60,10 @@
             $updatePoints->bind_param("s", $studentnumber);
             $updatePoints->execute();
 
-            $updatePointTime = $connection->prepare("INSERT INTO docent_classes (docentnumber, class_id) VALUES(?, ?) ON DUPLICATE KEY UPDATE point_timestamp = NOW();");
-            $updatePointTime->bind_param("si", $docentnumber, $classId);
+            $nextThursday = date("Y-m-d H:i:s", strtotime("next week thursday"));
+
+            $updatePointTime = $connection->prepare("INSERT INTO docent_classes (docentnumber, class_id) VALUES(?, ?) ON DUPLICATE KEY UPDATE point_timestamp = ? ;");
+            $updatePointTime->bind_param("sis", $docentnumber, $classId, $nextThursday);
             $updatePointTime->execute();
             header("Location: ../app/?points_class=".$className);
         }
@@ -75,7 +77,9 @@
             
             header("Location: ../app/?points_class=".$className);
         }
-        
+        ?>
+        <hr>
+        <?php
         while($row = $dataStudentResult->fetch_assoc()) {
             ?> 
             <div class="row justify-content-center pointsDiv">
@@ -109,9 +113,10 @@
                     <?php
                 }
                 ?>
-                <span class="col-9"><b><?php echo $row["surname"]." ".$row["firstname"]." ".$row["surname_prefix"]?></b><br><i><?php echo $row["studentnumber"]?></i><br><?php echo $row["points"]." ".($row["points"] == 1 ? "punt":"punten");?></span>
+                <span class="col-9"><b><?php echo $row["surname"].", ".$row["firstname"]." ".$row["surname_prefix"]?></b><br><i><?php echo $row["studentnumber"]?></i><br><?php echo $row["points"]." ".($row["points"] == 1 ? "punt":"punten");?></span>
                 <button class="btn btn-outline-success" data-toggle="modal" data-target="#<?php echo "modal".$row["studentnumber"];?>" <?php echo ($canAddPoint ? "":"disabled");?>>+</button>
             </div>
+            <hr>
             <!--Modals-->
             <div class="modal fade" id="<?php echo "modal".$row["studentnumber"];?>" tabindex="-1" role="dialog" aria-labelledby="<?php echo "modal".$row["studentnumber"];?>" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
