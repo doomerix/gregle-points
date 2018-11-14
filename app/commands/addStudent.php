@@ -1,7 +1,7 @@
 <?php enforceAdminOnly($role);
 $createdAccount = isset($_POST["firstName"], $_POST["prefixName"], $_POST["surname"], $_POST["studentID"], $_POST["studentClass"]);
 if ($createdAccount) {
-$response = new Student($_POST["firstName"], $_POST["prefixName"], $_POST["surname"], $_POST["studentID"], $_POST["studentClass"]);
+    $response = new Student($_POST["firstName"], $_POST["prefixName"], $_POST["surname"], $_POST["studentID"], $_POST["studentClass"]);
 }
 ?>
 <div class="bodyWrap">
@@ -39,15 +39,19 @@ $response = new Student($_POST["firstName"], $_POST["prefixName"], $_POST["surna
                 }
                 ?>
                 <div class="form-group">
+                    <label for="voornaam">Voornaam</label>
                     <input formmethod="post" class="form-control" name="firstName" placeholder="Voornaam" required>
                 </div>
                 <div class="form-group">
+                    <label for="prefix">Tussenvoegsel</label>
                     <input formmethod="post" class="form-control" name="prefixName" placeholder="Tussenvoegsel">
                 </div>
                 <div class="form-group">
+                    <label for="achternaam">Achternaam</label>
                     <input formmethod="post" class="form-control" name="surname" placeholder="Achternaam" required>
                 </div>
                 <div class="form-group">
+                    <label for="stamnummer">Stamnummer</label>
                     <input formmethod="post" class="form-control" name="studentID" placeholder="Stamnummer" required>
                 </div>
                 <div class="form-group">
@@ -55,9 +59,9 @@ $response = new Student($_POST["firstName"], $_POST["prefixName"], $_POST["surna
                     <select class="form-control" name="studentClass" required>
                         <?php
                         $classes = $connection->query("SELECT class FROM class ;");
-                        while($row = $classes->fetch_assoc()) {
+                        while ($row = $classes->fetch_assoc()) {
                             ?>
-                            <option><?php echo $row["class"];?></option>
+                            <option><?php echo $row["class"]; ?></option>
                             <?php
                         }
                         $classes->close();
