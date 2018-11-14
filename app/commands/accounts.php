@@ -174,7 +174,19 @@ if (isset($_POST["editStudent"]) || isset($_POST["editTeacher"])) {
             <?php
             $docentRole = Role::fromUserId($connection, $id);
             ?>
-            <label for="admin">Administrator</label>
+            
+            <?php
+        }
+        //  save changes accordingly
+        ?>
+        <input hidden name="<?php echo $isStudent ? "student" : "teacher"; ?>ID" value="<?php echo $id; ?>">
+        <button type="submit" class="btn btn-light">Wijziging voltooien</button>
+    </form>
+    <?php
+    //  if the id of the user is the same as yours, don't display the delete button.
+    if ($id != $_SESSION["user_id"]) {
+        ?>
+        <label for="admin">Administrator</label>
             <div class="form-row justify-content-center" style="margin-bottom:10px;">
                 <div class="form-check form-check-inline">
                     <input formmethod="post" name="adminCheck" class="form-check-input" type="radio" value="admin"
@@ -191,17 +203,6 @@ if (isset($_POST["editStudent"]) || isset($_POST["editTeacher"])) {
                     </label>
                 </div>
             </div>
-            <?php
-        }
-        //  save changes accordingly
-        ?>
-        <input hidden name="<?php echo $isStudent ? "student" : "teacher"; ?>ID" value="<?php echo $id; ?>">
-        <button type="submit" class="btn btn-light">Wijziging voltooien</button>
-    </form>
-    <?php
-    //  if the id of the user is the same as yours, don't display the delete button.
-    if ($id != $_SESSION["user_id"]) {
-        ?>
         <form method="post">
             <input type="hidden" name="delete<?php echo $isStudent ? "Student" : "Teacher"; ?>"
                    value="<?php echo $id; ?>">
