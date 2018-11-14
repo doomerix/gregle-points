@@ -1,5 +1,5 @@
 <div class="bodyWrap">
-    <div class="container">
+    <div class="container col-sm-7">
         <div>
             <img class="logoLogin" src="../img/mvtlogo.svg">
             <form method="post">

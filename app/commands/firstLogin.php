@@ -1,5 +1,5 @@
 <div class="bodyWrap">
-    <div class="container">
+    <div class="container col-sm-7">
         <div>
             <p class="paragraphMarginSmall"><b>Voor de accountveiligheid is het nodig om uw wachtwoord te veranderen bij
                     de eerste login.</b></p>

@@ -1,5 +1,5 @@
 <div class="bodyWrap">
-    <div class="container">
+    <div class="container col-sm-7">
         <div>
             <p class="paragraphMarginSmall">Wachtwoord wijzigen</p>
             <form method="post">

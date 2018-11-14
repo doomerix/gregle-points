@@ -6,7 +6,7 @@ if ($createdAccount) {
 }
 ?>
 <div class="bodyWrap">
-    <div class="container">
+    <div class="container col-sm-7">
         <div>
             <h2 class="paragraphMarginSmall">Docent Toevoegen</h2>
             <form method="post">

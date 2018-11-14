@@ -95,7 +95,7 @@ if (isset($_POST["editStudent"]) || isset($_POST["editTeacher"])) {
 
     ?>
     <div class="bodyWrap">
-    <div class="container">
+    <div class="container col-sm-7">
     <div>
     <h2 class="paragraphMarginSmall"><?php echo $user["firstname"] . " " . $user["surname_prefix"] . " " . $user["surname"]; ?>
         wijzigen</h2>
@@ -214,7 +214,7 @@ if (isset($_POST["editStudent"]) || isset($_POST["editTeacher"])) {
     $allUsers = $connection->query("SELECT studentnumber AS userid, firstname, surname_prefix, surname, '1' AS is_student FROM student UNION SELECT docentnumber AS userid, firstname, surname_prefix, surname, '0' AS is_student FROM docent ORDER BY surname ASC ;");
     ?>
     <div class="bodyWrap">
-        <div class="container">
+        <div class="container col-sm-7">
             <hr>
             <?php
             while ($row = $allUsers->fetch_assoc()) {

@@ -34,7 +34,7 @@
             <p class="paragraphMarginSmall"><?php echo $user_id; ?></p>
         </header>
 
-        <div class="container pointsDivMain">
+        <div class="container pointsDivMain col-sm-7">
         <?php
         $selectFromDocentClasses = $connection->prepare("SELECT class, point_timestamp FROM docent_classes LEFT JOIN class ON (class_id =  class.id) WHERE docentnumber = ? ;");
         $selectFromDocentClasses->bind_param("s", $user_id);

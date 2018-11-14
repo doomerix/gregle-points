@@ -1,6 +1,6 @@
 <?php enforceAdminOnly($role); ?>
 <div class="bodyWrap">
-    <div class="container">
+    <div class="container col-sm-7">
         <div>
             <div class="paragraphMarginTop">
                 <a href="?command=manageAccounts">

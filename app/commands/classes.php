@@ -47,7 +47,7 @@ if (isset($_POST["addClass"])) {
 $allClasses = $connection->query("SELECT id, class FROM class ORDER BY class ASC ;");
 ?>
     <div class="bodyWrap">
-        <div class="container">
+        <div class="container col-sm-7">
             <div>
                 <h2 class="paragraphMarginSmall">Klas toevoegen</h2>
                 <form method="post">
