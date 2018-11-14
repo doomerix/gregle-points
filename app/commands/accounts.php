@@ -119,17 +119,10 @@ if (isset($_POST["editStudent"]) || isset($_POST["editTeacher"])) {
                             <label for="Selecteer klassen">Selecteer Klas</label>
                             <select class="form-control" name="studentClass" required>
                                 <?php
-                                $selectClassFromStudent = $connection->prepare("SELECT class FROM student LEFT JOIN class ON class_id = class.id WHERE studentnumber = ? ;");
-                                $selectClassFromStudent->bind_param("s", $id);
-                                $selectClassFromStudent->execute();
-                                $selectClassFromStudent->bind_result($className);
-                                $selectClassFromStudent->fetch();
-                                $selectClassFromStudent->free_result();
-
                                 $classes = $connection->query("SELECT class FROM class ;");
                                 while ($row = $classes->fetch_assoc()) {
                                     ?>
-                                    <option <?php echo ($row["class"] == $className ? "selected" : "");?>><?php echo $row["class"]; ?></option>
+                                    <option><?php echo $row["class"]; ?></option>
                                     <?php
                                 }
                                 $classes->close();
@@ -138,30 +131,15 @@ if (isset($_POST["editStudent"]) || isset($_POST["editTeacher"])) {
                         </div>
                         <?php
                     } else {
-                        //  handle docent/admin options
                         ?>
                         <div class="form-group">
                             <label for="Selecteer klassen">Selecteer Klassen</label>
                             <select name="teacherClasses[]" class="form-control" id="teacherClasses" multiple required>
                                 <?php
-                                //  display classes (and already selected classes)
-                                $docentClasses = array();
-                                $selectClassesFromDocent = $connection->prepare("SELECT class FROM docent_classes LEFT JOIN class ON class_id = class.id WHERE docentnumber = ? ;");
-                                $selectClassesFromDocent->bind_param("s", $id);
-                                $selectClassesFromDocent->execute();
-                                $classesResult = $selectClassesFromDocent->get_result();
-
-                                //  push docent their classes
-                                while ($row = $classesResult->fetch_assoc()) {
-                                    array_push($docentClasses, $row["class"]);
-                                }
-                                $classesResult->free_result();
-
-                                //  query all the classes that can be chosen, mark the ones already assigned to the docent as "selected"
                                 $classes = $connection->query("SELECT class FROM class ;");
                                 while ($row = $classes->fetch_assoc()) {
                                     ?>
-                                    <option <?php echo in_array($row["class"], $docentClasses) ? "selected" : "";?>><?php echo $row["class"]; ?></option>
+                                    <option><?php echo $row["class"]; ?></option>
                                     <?php
                                 }
                                 $classes->close();
@@ -169,32 +147,22 @@ if (isset($_POST["editStudent"]) || isset($_POST["editTeacher"])) {
                             </select>
                         </div>
                         <div class="form-check">
-                            <input formmethod="post" name="adminCheck" class="form-check-input" type="checkbox" value="admin" id="adminCheck" checked>
-                            <?php
-                            $docentRole = Role::fromUserId($connection, $id);
-                            ?>
-                            <label class="form-check-label" for="adminCheck" <?php echo ($docentRole->isAdmin() ? "checked" : "");?>>Administrator</label>
+                            <input formmethod="post" name="adminCheck" class="form-check-input" type="checkbox" value="admin"
+                                   id="adminCheck">
+                            <label class="form-check-label" for="adminCheck">Administrator</label>
                         </div>
                         <?php
                     }
-                    //  save changes accordingly
                     ?>
                     <input hidden name="<?php echo $isStudent ? "student" : "teacher"; ?>ID" value="<?php echo $id; ?>">
                     <button type="submit" class="btn btn-light">Wijziging voltooien</button>
                 </form>
-                <?php
-                //  if the id of the user is the same as yours, don't display the delete button.
-                if ($id != $_SESSION["user_id"]) {
-                    ?>
-                    <form method="post">
-                        <input type="hidden" name="delete<?php echo $isStudent ? "Student" : "Teacher"; ?>"
-                               value="<?php echo $id; ?>">
-                        <button type="submit" class="btn btn-danger">
-                            Verwijder <?php echo $isStudent ? "student" : "docent"; ?></button>
-                    </form>
-                    <?php
-                }
-                ?>
+                <form method="post">
+                    <input type="hidden" name="delete<?php echo $isStudent ? "Student" : "Teacher"; ?>"
+                           value="<?php echo $id; ?>">
+                    <button type="submit" class="btn btn-danger">
+                        Verwijder <?php echo $isStudent ? "student" : "docent"; ?></button>
+                </form>
             </div>
         </div>
     </div>
@@ -207,19 +175,10 @@ if (isset($_POST["editStudent"]) || isset($_POST["editTeacher"])) {
             <hr>
             <?php
             while ($row = $allUsers->fetch_assoc()) {
-                $isStudent = $row["is_student"] == "1";        
-
-                //  get user their role (and name)
-                $selectRoleByUser = $connection->prepare("SELECT role FROM user LEFT JOIN role ON role_id = role.id WHERE user_id = ? ;");
-                $selectRoleByUser->bind_param("s", $row["userid"]);
-                $selectRoleByUser->execute();
-                $selectRoleByUser->bind_result($userRole);
-                $selectRoleByUser->fetch();
-                $selectRoleByUser->free_result();
-                
+                $isStudent = $row["is_student"] == "1";
                 ?>
                 <div class="row justify-content-center pointsDiv">
-                    <span class="col-9"><b><?php echo $row["surname"] . ", " . $row["firstname"] . " " . $row["surname_prefix"]; ?></b><br><i><?php echo ($row["userid"] . " " . "(".$userRole.")"); ?></i></span>
+                    <span class="col-9"><b><?php echo $row["surname"] . ", " . $row["firstname"] . " " . $row["surname_prefix"]; ?></b><br><i><?php echo ($row["userid"] . " " . ($isStudent ? "(student)" : "(docent)")); ?></i></span>
                     <form method="post">
                         <input type="hidden" name="<?php echo $isStudent ? "editStudent" : "editTeacher" ?>"
                                value="<?php echo $row["userid"] ?>">

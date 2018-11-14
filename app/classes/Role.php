@@ -5,20 +5,9 @@ class Role
 
     private $name;
 
-    public function __construct(string $roleName)
+    public function __construct(string $name)
     {
-        $this->name = $roleName;
-    }
-
-    //  methods
-    public static function fromUserId(mysqli $sql, string $userId) {
-        $selectClass = $sql->prepare("SELECT role FROM user LEFT JOIN role ON role_id = role.id WHERE user_id = ? ;");
-        $selectClass->bind_param("s", $userId);
-        $selectClass->execute();
-        $selectClass->bind_result($roleName);
-        $selectClass->fetch();
-        $selectClass->free_result();
-        return new Role($roleName);
+        $this->name = $name;
     }
 
     //  getters

@@ -27,6 +27,7 @@
         }
 
         //  everything is all fine and well! Code will run
+
         $selectIdFromClass = $connection->prepare("SELECT id FROM class WHERE class = ? ;");
         $selectIdFromClass->bind_param("s", $className);
         $selectIdFromClass->execute();
@@ -59,7 +60,7 @@
             $updatePoints->bind_param("s", $studentnumber);
             $updatePoints->execute();
 
-            $nextThursday = (!$role->isAdmin() ? date("Y-m-d H:i:s", strtotime("next week thursday")) : null);
+            $nextThursday = date("Y-m-d H:i:s", strtotime("next week thursday"));
 
             $updatePointTime = $connection->prepare("INSERT INTO docent_classes (docentnumber, class_id) VALUES(?, ?) ON DUPLICATE KEY UPDATE point_timestamp = ? ;");
             $updatePointTime->bind_param("sis", $docentnumber, $classId, $nextThursday);
