@@ -46,16 +46,20 @@ $response = new Teacher($_POST["firstName"], $_POST["prefixName"], $_POST["surna
                 }
                 ?>
                 <div class="form-group">
+                <label for="voornaam">Voornaam</label>
                     <input formmethod="post" name="firstName" class="form-control" id="firstName" placeholder="Voornaam" required>
                 </div>
                 <div class="form-group">
+                <label for="prefix">Tussenvoegsel</label>
                     <input formmethod="post" name="prefixName" class="form-control" id="prefixName" placeholder="Tussenvoegsel">
                 </div>
                 <div class="form-group">
+                <label for="achternaam">Achternaam</label>
                     <input formmethod="post"  name="surname" class="form-control" id="surname" placeholder="Achternaam" required>
                 </div>
                 <div class="form-group">
-                    <input formmethod="post" name="teacherID" class="form-control" id="teacherID" placeholder="Stamnummer" required>
+                <label for="ID">Docentnummer</label>
+                    <input formmethod="post" name="teacherID" class="form-control" id="teacherID" placeholder="Docentnummer" required>
                 </div>
                 <div class="form-group">
                     <label for="Selecteer klassen">Selecteer Klassen</label>
@@ -72,9 +76,21 @@ $response = new Teacher($_POST["firstName"], $_POST["prefixName"], $_POST["surna
                     </select>
                 </div>
                 <div class="form-check">
-                    <input formmethod="post" name="adminCheck" class="form-check-input" type="checkbox" value="admin" id="adminCheck">
-                    <label class="form-check-label" for="adminCheck">Administrator</label>
-                </div>
+                <label for="admin">Administrator</label>
+                        <div class="form-row justify-content-center" style="margin-bottom:10px;">
+                            <div class="form-check form-check-inline">
+                                <input formmethod="post" name="adminCheck" class="form-check-input" type="radio" value="admin" id="adminCheckY">
+                                <label class="form-check-label" for="adminRadio1">
+                                    Ja
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input formmethod="post" name="adminCheck" class="form-check-input" type="radio" value="admin" id="adminCheckN">
+                                <label class="form-check-label" for="adminRadio2">
+                                    Nee
+                                </label>
+                            </div>
+                        </div>
                 <button type="submit" class="btn btn-light">Docent Toevoegen</button>
             </form>
         </div>

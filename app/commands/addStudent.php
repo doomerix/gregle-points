@@ -39,15 +39,19 @@ $response = new Student($_POST["firstName"], $_POST["prefixName"], $_POST["surna
                 }
                 ?>
                 <div class="form-group">
+                <label for="voornaam">Voornaam</label>
                     <input formmethod="post" class="form-control" name="firstName" placeholder="Voornaam" required>
                 </div>
                 <div class="form-group">
+                <label for="prefix">Tussenvoegsel</label>
                     <input formmethod="post" class="form-control" name="prefixName" placeholder="Tussenvoegsel">
                 </div>
                 <div class="form-group">
+                <label for="achternaam">Achternaam</label>
                     <input formmethod="post" class="form-control" name="surname" placeholder="Achternaam" required>
                 </div>
                 <div class="form-group">
+                <label for="stamnummer">Stamnummer</label>
                     <input formmethod="post" class="form-control" name="studentID" placeholder="Stamnummer" required>
                 </div>
                 <div class="form-group">
