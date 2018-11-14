@@ -101,14 +101,17 @@ if (isset($_POST["editStudent"]) || isset($_POST["editTeacher"])) {
                     wijzigen</h2>
                 <form method="post">
                     <div class="form-group">
+                        <label for="voornaam">Voornaam</label>
                         <input formmethod="post" class="form-control" name="firstName" placeholder="Voornaam"
                                value="<?php echo $user["firstname"]; ?>" required>
                     </div>
                     <div class="form-group">
+                        <label for="tussenvoegsel">Tussenvoegsel</label>
                         <input formmethod="post" class="form-control" name="prefixName" placeholder="Tussenvoegsel"
                                value="<?php echo $user["surname_prefix"]; ?>">
                     </div>
                     <div class="form-group">
+                        <label for="achternaam">Achternaam</label>
                         <input formmethod="post" class="form-control" name="surname" placeholder="Achternaam"
                                value="<?php echo $user["surname"]; ?>" required>
                     </div>
@@ -146,17 +149,28 @@ if (isset($_POST["editStudent"]) || isset($_POST["editTeacher"])) {
                                 ?>
                             </select>
                         </div>
-                        <div class="form-check">
-                            <input formmethod="post" name="adminCheck" class="form-check-input" type="checkbox" value="admin"
-                                   id="adminCheck">
-                            <label class="form-check-label" for="adminCheck">Administrator</label>
+                        <label for="admin">Administrator</label>
+                        <div class="form-row justify-content-center" style="margin-bottom:10px;">
+                            <div class="form-check form-check-inline">
+                                <input formmethod="post" name="adminCheck" class="form-check-input" type="radio" value="admin" id="adminCheckY">
+                                <label class="form-check-label" for="adminRadio1">
+                                    Ja
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input formmethod="post" name="adminCheck" class="form-check-input" type="radio" value="admin" id="adminCheckN">
+                                <label class="form-check-label" for="adminRadio2">
+                                    Nee
+                                </label>
+                            </div>
                         </div>
                         <?php
-                    }
-                    ?>
+                        }
+                        ?>
                     <input hidden name="<?php echo $isStudent ? "student" : "teacher"; ?>ID" value="<?php echo $id; ?>">
                     <button type="submit" class="btn btn-light">Wijziging voltooien</button>
                 </form>
+
                 <form method="post">
                     <input type="hidden" name="delete<?php echo $isStudent ? "Student" : "Teacher"; ?>"
                            value="<?php echo $id; ?>">
@@ -177,7 +191,7 @@ if (isset($_POST["editStudent"]) || isset($_POST["editTeacher"])) {
             while ($row = $allUsers->fetch_assoc()) {
                 $isStudent = $row["is_student"] == "1";
                 ?>
-                <div class="row justify-content-center pointsDiv">
+                <div class="row justify-content-center">
                     <span class="col-9"><b><?php echo $row["surname"] . ", " . $row["firstname"] . " " . $row["surname_prefix"]; ?></b><br><i><?php echo ($row["userid"] . " " . ($isStudent ? "(student)" : "(docent)")); ?></i></span>
                     <form method="post">
                         <input type="hidden" name="<?php echo $isStudent ? "editStudent" : "editTeacher" ?>"
