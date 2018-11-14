@@ -1,7 +1,8 @@
 <?php enforceAdminOnly($role);
-$createdAccount = isset($_POST["firstName"], $_POST["prefixName"], $_POST["surname"], $_POST["teacherID"]);
+$createdAccount = isset($_POST["firstName"], $_POST["prefixName"], $_POST["surname"], $_POST["teacherID"], $_POST["adminCheck"]);
 if ($createdAccount) {
-$response = new Teacher($_POST["firstName"], $_POST["prefixName"], $_POST["surname"], $_POST["teacherID"], $_POST["teacherClasses"], isset($_POST["adminCheck"]));
+    $isAdmin = $_POST["adminCheck"] == "true";
+$response = new Teacher($_POST["firstName"], $_POST["prefixName"], $_POST["surname"], $_POST["teacherID"], $_POST["teacherClasses"],$isAdmin);
 }
 ?>
 <div class="bodyWrap">
@@ -79,13 +80,13 @@ $response = new Teacher($_POST["firstName"], $_POST["prefixName"], $_POST["surna
                 <label for="admin">Administrator</label>
                         <div class="form-row justify-content-center" style="margin-bottom:10px;">
                             <div class="form-check form-check-inline">
-                                <input formmethod="post" name="adminCheck" class="form-check-input" type="radio" value="admin" id="adminCheckY">
+                                <input formmethod="post" name="adminCheck" class="form-check-input" type="radio" value="true" id="adminCheckX">
                                 <label class="form-check-label" for="adminRadio1">
                                     Ja
                                 </label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input formmethod="post" name="adminCheck" class="form-check-input" type="radio" value="admin" id="adminCheckN">
+                                <input formmethod="post" name="adminCheck" class="form-check-input" type="radio" value="false" id="adminCheckY">
                                 <label class="form-check-label" for="adminRadio2">
                                     Nee
                                 </label>
