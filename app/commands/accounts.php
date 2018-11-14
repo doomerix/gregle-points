@@ -212,3 +212,5 @@ if (isset($_POST["editStudent"]) || isset($_POST["editTeacher"])) {
     $allUsers->close();
 }
 ?>
+
+<!-- Poi -->
