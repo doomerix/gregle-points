@@ -12,6 +12,17 @@
                     <input formmethod="post" name="passwd2" type="password" class="form-control" id="changePassSecond"
                            placeholder="Herhaal wachtwoord">
                 </div>
+                <div class="alert alert-info" role="alert">Vereisten:
+                    <br>
+                    - één speciaal teken
+                    <br>
+                    - één kleine letter
+                    <br>
+                    - één hoofd letter
+                    <br>
+                    - één nummer
+                    <br>
+                </div>
                 <?php
                 //  if passwd1 and passwd2 are set, the password of the user has been changed.
                 if (isset($_POST["passwd1"], $_POST["passwd2"])) {
