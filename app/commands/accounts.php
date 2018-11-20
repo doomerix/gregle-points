@@ -90,30 +90,31 @@ if (isset($_POST["editStudent"]) || isset($_POST["editTeacher"])) {
     $statement = $connection->prepare("SELECT firstname, surname_prefix, surname FROM " . ($isStudent ? "student" : "docent") . " WHERE " . ($isStudent ? "student" : "docent") . "number = ? ;");
     $statement->bind_param("s", $id);
     $statement->execute();
-    $result = $statement->get_result();
-    $user = $result->fetch_assoc();
+    $statement->bind_result($firstname, $surname_prefix, $surname);
+    $statement->fetch();
+    $statement->free_result();
 
     ?>
     <div class="bodyWrap">
     <div class="container col-sm-7">
     <div>
-    <h2 class="paragraphMarginSmall"><?php echo $user["firstname"] . " " . $user["surname_prefix"] . " " . $user["surname"]; ?>
+    <h2 class="paragraphMarginSmall"><?php echo $firstname . " " . $surname_prefix . " " . $surname; ?>
         wijzigen</h2>
     <form method="post">
         <div class="form-group">
             <label for="voornaam">Voornaam</label>
             <input formmethod="post" class="form-control" name="firstName" placeholder="Voornaam"
-                   value="<?php echo $user["firstname"]; ?>" required>
+                   value="<?php echo $firstname; ?>" required>
         </div>
         <div class="form-group">
             <label for="tussenvoegsel">Tussenvoegsel</label>
             <input formmethod="post" class="form-control" name="prefixName" placeholder="Tussenvoegsel"
-                   value="<?php echo $user["surname_prefix"]; ?>">
+                   value="<?php echo $surname_prefix; ?>">
         </div>
         <div class="form-group">
             <label for="achternaam">Achternaam</label>
             <input formmethod="post" class="form-control" name="surname" placeholder="Achternaam"
-                   value="<?php echo $user["surname"]; ?>" required>
+                   value="<?php echo $surname; ?>" required>
         </div>
         <?php
         if ($isStudent) {
@@ -152,13 +153,13 @@ if (isset($_POST["editStudent"]) || isset($_POST["editTeacher"])) {
                     $selectClassesFromDocent = $connection->prepare("SELECT class FROM docent_classes LEFT JOIN class ON class_id = class.id WHERE docentnumber = ? ;");
                     $selectClassesFromDocent->bind_param("s", $id);
                     $selectClassesFromDocent->execute();
-                    $classesResult = $selectClassesFromDocent->get_result();
+                    $selectClassesFromDocent->bind_result($class);
 
                     //  push docent their classes
-                    while ($row = $classesResult->fetch_assoc()) {
-                        array_push($docentClasses, $row["class"]);
+                    while ($selectClassesFromDocent->fetch()) {
+                        array_push($docentClasses, $class);
                     }
-                    $classesResult->free_result();
+                    $selectClassesFromDocent->free_result();
 
                     //  query all the classes that can be chosen, mark the ones already assigned to the docent as "selected"
                     $classes = $connection->query("SELECT class FROM class ;");

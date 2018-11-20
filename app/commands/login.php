@@ -23,11 +23,11 @@
                         <?php
                     }
 
-                    $result = $stmt->get_result();
-                    $user = $result->fetch_assoc();
+                    $stmt->bind_result($user_id, $passwordhash, $role_id);
+                    $stmt->fetch();
 
                     //when the query has succeeded and a record has been found we will compare the password with the passwordhash from the database
-                    if (password_verify($password, $user['passwordhash']))
+                    if (password_verify($password, $passwordhash))
                     {
                         ?>
                         <div class="alert alert-success" role="alert">
@@ -35,8 +35,8 @@
                         </div>
                         <?php
 
-                        $_SESSION['user_id'] = $user['user_id'];
-                        $_SESSION['role_id'] = $user['role_id'];
+                        $_SESSION['user_id'] = $user_id;
+                        $_SESSION['role_id'] = $role_id;
 
                         $_SESSION['IPaddress'] = $_SERVER['REMOTE_ADDR'];
                         $_SESSION['userAgent'] = $_SERVER['HTTP_USER_AGENT'];
@@ -52,7 +52,7 @@
                         </div>
                         <?php
                     }
-                    $result->free();
+                    $stmt->close();
                     $connection->close();
                 }
                 ?>

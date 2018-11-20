@@ -17,11 +17,12 @@ if (isset($_POST["deleteClass"])) {
     $selectStudentsFromClass = $connection->prepare("SELECT studentnumber FROM student LEFT JOIN class ON class_id = class.id WHERE class = ? ;");
     $selectStudentsFromClass->bind_param("s", $classId);
     $selectStudentsFromClass->execute();
-    $selectStudentsResult = $selectStudentsFromClass->get_result();
+    $selectStudentsFromClass->bind_result($studentnumber);
+    $selectStudentsFromClass->free_result();
 
-    while ($row = $selectStudentsResult->fetch_assoc()) {
+    while ($selectStudentsFromClass->fetch()) {
         $deleteUser = $connection->prepare("DELETE FROM user WHERE user_id = ? ;");
-        $deleteUser->bind_param("s", $row["studentnumber"]);
+        $deleteUser->bind_param("s", $studentnumber);
         $deleteUser->execute();
         $deleteUser->free_result();
     }
