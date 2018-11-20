@@ -9,7 +9,7 @@ class Student implements CRUD
     private $studentId;
     private $studentClass;
 
-    public function __construct(string $firstName, string $prefix, string $surName, string $studentId, string $studentClass)
+    public function __construct($firstName, $prefix, $surName, $studentId, $studentClass)
     {
         $this->firstName = $firstName;
         $this->prefix = $prefix;

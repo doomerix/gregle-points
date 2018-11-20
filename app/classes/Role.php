@@ -5,13 +5,13 @@ class Role
 
     private $name;
 
-    public function __construct(string $roleName)
+    public function __construct($roleName)
     {
         $this->name = $roleName;
     }
 
     //  methods
-    public static function fromUserId(mysqli $sql, string $userId) {
+    public static function fromUserId(mysqli $sql, $userId) {
         $selectClass = $sql->prepare("SELECT role FROM user LEFT JOIN role ON role_id = role.id WHERE user_id = ? ;");
         $selectClass->bind_param("s", $userId);
         $selectClass->execute();
@@ -25,8 +25,7 @@ class Role
     /**
      * @return string
      */
-    public function getName(): string
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -34,21 +33,21 @@ class Role
     /**
      * @return bool
      */
-    public function isAdmin(): bool {
+    public function isAdmin() {
         return $this->name == 'administrator';
     }
 
     /**
      * @return bool
      */
-    public function isTeacher(): bool {
+    public function isTeacher() {
         return $this->name == 'docent';
     }
 
     /**
      * @return bool
      */
-    public function isStudent(): bool {
+    public function isStudent() {
         return $this->name == 'student';
     }
 }

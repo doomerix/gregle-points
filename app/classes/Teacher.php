@@ -10,7 +10,7 @@ class Teacher implements CRUD
     private $classes;
     private $isAdmin;
 
-    public function __construct(string $firstName, string $prefix, string $surName, string $teacherId, $classes, bool $isAdmin)
+    public function __construct($firstName, $prefix, $surName, $teacherId, $classes, $isAdmin)
     {
         $this->firstName = $firstName;
         $this->prefix = $prefix;
