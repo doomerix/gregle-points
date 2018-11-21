@@ -42,11 +42,6 @@
         $selectFromDocentClasses->fetch();
         $selectFromDocentClasses->free_result();
 
-        $selectDataFromStudents = $connection->prepare("SELECT surname, firstname, surname_prefix, studentnumber, points FROM student WHERE class_id = ? ORDER BY surname ASC ;");
-        $selectDataFromStudents->bind_param("i", $classId);
-        $selectDataFromStudents->execute();
-        $selectDataFromStudents->bind_result($surname, $firstname, $surname_prefix, $studentnumber, $points);
-
         //  get the timestamp
         $timestamp = strtotime($rawTimestamp);
 
@@ -74,9 +69,15 @@
             $updatePoints = $connection->prepare("UPDATE student SET points = points - 1 WHERE studentnumber = ? AND points > 0;");
             $updatePoints->bind_param("s", $studentnumber);
             $updatePoints->execute();
-            
+            $updatePoints->close();
+
             header("Location: ../app/?points_class=".$className);
         }
+
+        $selectDataFromStudents = $connection->prepare("SELECT surname, firstname, surname_prefix, studentnumber, points FROM student WHERE class_id = ? ORDER BY surname ASC ;");
+        $selectDataFromStudents->bind_param("i", $classId);
+        $selectDataFromStudents->execute();
+        $selectDataFromStudents->bind_result($surname, $firstname, $surname_prefix, $studentnumber, $points);
         ?>
         <hr>
         <?php

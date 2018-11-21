@@ -43,7 +43,7 @@ if (isset($_POST["deleteStudent"])) {
 
 //  the user is a teacher, handle changes
 if (isset($_POST["teacherClasses"])) {
-    $response = new Teacher($_POST["firstName"], $_POST["prefixName"], $_POST["surname"], $_POST["teacherID"], $_POST["teacherClasses"], isset($_POST["adminCheck"]));
+    $response = new Teacher($_POST["firstName"], $_POST["prefixName"], $_POST["surname"], $_POST["teacherID"], $_POST["teacherClasses"], (isset($_POST["adminCheck"]) ? ($_POST["adminCheck"] == "true") : false));
     if ($response->update($connection)) {
         //  everything went well, yaaay!
         ?>
@@ -178,14 +178,14 @@ if (isset($_POST["editStudent"]) || isset($_POST["editTeacher"])) {
             <label for="admin">Administrator</label>
             <div class="form-row justify-content-center" style="margin-bottom:10px;">
                 <div class="form-check form-check-inline">
-                    <input formmethod="post" name="adminCheck" class="form-check-input" type="radio" value="admin"
+                    <input formmethod="post" name="adminCheck" class="form-check-input" type="radio" value="true"
                            id="adminCheckX" <?php echo($docentRole->isAdmin() ? "checked" : ""); ?>>
                     <label class="form-check-label" for="adminRadio1">
                         Ja
                     </label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input formmethod="post" name="adminCheck" class="form-check-input" type="radio" value="admin"
+                    <input formmethod="post" name="adminCheck" class="form-check-input" type="radio" value="false"
                            id="adminCheckY" <?php echo(!$docentRole->isAdmin() ? "checked" : ""); ?>>
                     <label class="form-check-label" for="adminRadio2">
                         Nee
