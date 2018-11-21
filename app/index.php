@@ -126,9 +126,9 @@ function enforceAdminOnly(Role $role) {
         exit;
     }
 }
-// Mail //
-function mailToSend($name, $ID, $password, $new) {
-    '<!doctype html>
+
+function sendPasswordMail($name, $address, $id, $password, $new) {
+    $mail = '<!doctype html>
     <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -138,7 +138,7 @@ function mailToSend($name, $ID, $password, $new) {
     <body>
         <h4>Beste ' . $name . ',</h4>
         <div style="font-size:12px">
-        <p>' . echo $new ? "Er is een account voor je aangemaakt voor MVT-Points." : "Je wachtwoord voor MVT-Points is gereset." ; .' Als je inlogt, moet je je wachtwoord veranderen in verband met de veiligheid.
+        <p>' . ($new ? "Er is een account voor je aangemaakt voor MVT-Points." : "Je wachtwoord voor MVT-Points is gereset.") .' Als je inlogt, moet je een nieuw wachtwoord instellen in verband met de veiligheid.
         </p>
         <span>Loginnummer: ' . $id . '</span></br>
         <span>Wachtwoord: ' . $password . '</span></br></br>
@@ -146,7 +146,12 @@ function mailToSend($name, $ID, $password, $new) {
         <p>MVT-Points</p>
         </div>
     </body>
-</html>'
+</html>';
+    $headers = "From: MVT Points\r\n";
+    $headers .= "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+
+    mail($address, ($new ? "MVT Account" : "Password reset"), $mail, $headers);
 }
 ?>
 
