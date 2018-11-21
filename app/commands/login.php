@@ -57,8 +57,8 @@
                 }
                 ?>
                 <div class="form-group">
-                    <label for="loginID">Stamnummer</label>
-                    <input formmethod="post" name="user_id" class="form-control" id="loginID" placeholder="Stamnummer" required>
+                    <label for="loginID">Loginnummer</label>
+                    <input formmethod="post" name="user_id" class="form-control" id="loginID" placeholder="Loginnummer" required>
                 </div>
                 <div class="form-group">
                     <label for="loginPass">Wachtwoord</label>

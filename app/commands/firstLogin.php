@@ -14,6 +14,8 @@
                 </div>
                 <div class="alert alert-info" role="alert">Vereisten:
                     <br>
+                    - minimaal acht karakters
+                    <br>
                     - één speciaal teken
                     <br>
                     - één kleine letter
