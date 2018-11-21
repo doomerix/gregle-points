@@ -126,6 +126,28 @@ function enforceAdminOnly(Role $role) {
         exit;
     }
 }
+// Mail //
+function mailToSend($name, $ID, $password, $new) {
+    '<!doctype html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    </head>
+    <body>
+        <h4>Beste ' . $name . ',</h4>
+        <div style="font-size:12px">
+        <p>' . echo $new ? "Er is een account voor je aangemaakt voor MVT-Points." : "Je wachtwoord voor MVT-Points is gereset." ; .' Als je inlogt, moet je je wachtwoord veranderen in verband met de veiligheid.
+        </p>
+        <span>Loginnummer: ' . $id . '</span></br>
+        <span>Wachtwoord: ' . $password . '</span></br></br>
+        <p><a href="http://mvtpoints.beverwijk.ictacademie.net/app/">Klik hier om naar MVT-Points te gaan.</a></p>
+        <p>MVT-Points</p>
+        </div>
+    </body>
+</html>'
+}
 ?>
 
 <!--Required Scripts-->
