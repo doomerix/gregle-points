@@ -205,6 +205,12 @@ if (isset($_POST["editStudent"]) || isset($_POST["editTeacher"])) {
                     <input hidden name="<?php echo $isStudent ? "student" : "teacher"; ?>ID" value="<?php echo $id; ?>">
                     <button type="submit" class="btn btn-light">Wijziging voltooien</button>
                 </form>
+                    <!-- reset password button -->
+        <form method="post">
+            <button type="submit" class="btn btn-info">
+            Reset wachtwoord
+            </button>
+        </form>
                 <?php
                 //  if the id of the user is the same as yours, don't display the delete button.
                 if ($id != $_SESSION["user_id"]) {
