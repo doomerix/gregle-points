@@ -1,6 +1,6 @@
 <?php
 require_once 'security.php';
-require_once "db/connection.php";
+require_once "../db/connection.php";
 require_once "interfaces/CRUD.php";
 require_once "classes/Role.php";
 require_once "classes/Student.php";

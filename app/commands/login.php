@@ -4,12 +4,11 @@
             <img class="logoLogin" src="../img/mvtlogo.svg">
             <form method="post">
                 <?php
-                if (isset($_POST["user_id"]) && isset($_POST["password"])) {
-                    $user_id = $_POST['user_id'];
-                    $password = $_POST['password'];
+                function Login($user_id, $password)
+                {
                     $sql = "SELECT user_id, passwordhash, role_id FROM user WHERE user_id = ?;";
 
-                    $stmt = $connection->prepare($sql);
+                    $stmt = $GLOBALS['connection']->prepare($sql);
                     $stmt->bind_param("s", $user_id);
 
                     //has the $sql query been propery executed or not?
@@ -29,12 +28,13 @@
                     //when the query has succeeded and a record has been found we will compare the password with the passwordhash from the database
                     if (password_verify($password, $passwordhash))
                     {
+                        setcookie("user_id", $user_id, time() + 60 * 60 * 24 * 7);
+                        setcookie("password", openssl_encrypt($password, "AES-256-ECB", '7Cs7+KgS2uETaVJF#K*@z766e-a^XSBS'), time() + 60 * 60 * 24 * 7); //encript password and put THAT in the cookie - also, 32-encription generated online
                         ?>
                         <div class="alert alert-success" role="alert">
-                            Je word doorgestuurd naar de hoofdpagina..
+                            Je wordt doorgestuurd naar de hoofdpagina..
                         </div>
                         <?php
-
                         $_SESSION['user_id'] = $user_id;
                         $_SESSION['role_id'] = $role_id;
 
@@ -53,7 +53,16 @@
                         <?php
                     }
                     $stmt->close();
-                    $connection->close();
+                    $GLOBALS['connection']->close();
+                }
+
+                if (isset($_POST["user_id"]) && isset($_POST["password"]))
+                {
+                    Login($_POST['user_id'], $_POST['password']);
+                }
+                else if (isset($_COOKIE["user_id"]) && isset($_COOKIE["password"]))
+                {
+                    Login($_COOKIE["user_id"], openssl_decrypt($_COOKIE["password"], "AES-256-ECB", '7Cs7+KgS2uETaVJF#K*@z766e-a^XSBS')); //decript password
                 }
                 ?>
                 <div class="form-group">
