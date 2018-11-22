@@ -83,9 +83,6 @@
                             }
                             $updatePasswd->free_result();
                             $updatePasswd->close();
-                        } else {
-                            //  wachtwoorden komen niet overeen
-                            print '<div class="alert alert-danger" role="alert">' . "Vereisten:" . "<br>". $PwdFlaws . '</div>';
                         }
                     } else {
                         ?>

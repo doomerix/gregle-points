@@ -67,14 +67,31 @@ class Student implements CRUD
         return $this->firstName != null && $this->surName != null && $this->studentId != null && $this->studentClass != null;
     }
 
-    //  crud
-    public function create(mysqli $sql, $params)
-    {
-        //  default password for new accounts, password change is being enforced on first login
-        $defaultPassword = $params[0];
+    public function resetPassword(mysqli $sql, $newAccount) {
+        $randomPassword = randomString();
+        $hashedPassword = password_hash($randomPassword, PASSWORD_BCRYPT);
 
+        $updateUsers = $sql->prepare("UPDATE user SET passwordhash = ?, firstlogin = 1 WHERE user_id = ? ;");
+        $updateUsers->bind_param("ss", $hashedPassword, $this->studentId);
+
+        $result = false;
+
+        if ($updateUsers->execute()) {
+            $result = true;
+            sendPasswordMail($this->firstName, ($this->studentId."@novacollege.nl"), $this->studentId, $randomPassword, $newAccount);
+        }
+        return $result;
+    }
+
+    //  crud
+    public function create(mysqli $sql)
+    {
+        //  after create, resetpassword should be called so a mail can be sent to the user
+        $temporaryPassword = password_hash("!@#FAmn135!4".date("y"), PASSWORD_BCRYPT);
+
+        //  default password for new accounts, password change is being enforced on first login
         $insertIntoUsers = $sql->prepare("INSERT INTO user (user_id, passwordhash, role_id) VALUES (?, ?, (SELECT id FROM role WHERE role = 'student')) ;");
-        $insertIntoUsers->bind_param("ss", $this->studentId, $defaultPassword);
+        $insertIntoUsers->bind_param("ss", $this->studentId, $temporaryPassword);
 
         $insertIntoStudents = $sql->prepare("INSERT INTO student (studentnumber, firstname, surname_prefix, surname, class_id) VALUES (?, ?, ?, ?, (SELECT id FROM class WHERE class = ?)) ;");
         $insertIntoStudents->bind_param("sssss", $this->studentId, $this->firstName, $this->prefix, $this->surName, $this->studentClass);

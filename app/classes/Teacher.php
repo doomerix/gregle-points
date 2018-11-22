@@ -77,7 +77,7 @@ class Teacher implements CRUD
     }
 
     //  crud
-    public function create(mysqli $sql, $params)
+    public function create(mysqli $sql)
     {
         //  default password for new accounts, password change is being enforced on first login
         $defaultPassword = password_hash("welkom" . date("Y"), PASSWORD_BCRYPT);
