@@ -19,14 +19,18 @@ if ($createdAccount) {
                         </div>
                         <?php
                     } else {
-                        if ($response->create($connection)) {
+                        $password = password_hash(randomString(), PASSWORD_BCRYPT);
+                        $mail = $response->getStudentId()."@novacollege.nl";
+
+                        if ($response->create($connection, $password)) {
                             ?>
                             <div class="alert alert-success" role="alert">
                                 Gebruiker <?php echo $response->getFirstName() . " " . $response->getPrefix() . " " . $response->getSurName() . " (" . $response->getStudentId() . ") is aangemaakt." ?>
                                 <br>
-                                Het standaard wachtwoord voor dit account is <?php echo "welkom" . date("Y") ?>.
+                                Er is een mail verstuurd naar <?php echo $mail;?> met de accountgegevens.
                             </div>
                             <?php
+                            sendPasswordMail($response->getFirstName(), $mail, $response->getStudentId(), $password, true);
                         } else {
                             ?>
                             <div class="alert alert-danger" role="alert">

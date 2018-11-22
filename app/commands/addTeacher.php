@@ -20,7 +20,7 @@ if ($createdAccount) {
                         </div>
                         <?php
                     } else {
-                        if ($response->create($connection)) {
+                        if ($response->create($connection, "")) {
                             //  this is done afterwards because we need to assign the classes to the teachers
                             foreach ($response->getClasses() as $class) {
                                 $insertIntoTeacherClasses = $connection->prepare("INSERT INTO docent_classes (docentnumber, class_id) VALUES (?, (SELECT id FROM class WHERE class = ?)) ;");

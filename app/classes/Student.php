@@ -68,10 +68,11 @@ class Student implements CRUD
     }
 
     //  crud
-    public function create(mysqli $sql)
+    public function create(mysqli $sql, $params)
     {
         //  default password for new accounts, password change is being enforced on first login
-        $defaultPassword = password_hash("welkom" . date("Y"), PASSWORD_BCRYPT);
+        $defaultPassword = $params[0];
+
         $insertIntoUsers = $sql->prepare("INSERT INTO user (user_id, passwordhash, role_id) VALUES (?, ?, (SELECT id FROM role WHERE role = 'student')) ;");
         $insertIntoUsers->bind_param("ss", $this->studentId, $defaultPassword);
 
