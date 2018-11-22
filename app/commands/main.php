@@ -17,7 +17,9 @@
         <p class="pointAmount paragraphMarginSmall"><?php echo $points; ?></p>
         <p class="paragraphMarginSmall pointPunten">punten</p>
     </div>
-<?php } ?>
+<?php 
+$statement->free_result();
+} ?>
 <?php if ($role->isTeacher() || $role->isAdmin()) { ?>
     <?php
     //  load data for teachers/admins
