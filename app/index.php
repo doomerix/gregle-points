@@ -20,7 +20,6 @@ require_once "classes/Teacher.php";
 <body class="text-center <?php echo !isset($_SESSION["user_id"]) ? "loginBody" : "basicBody"; ?>">
 <?php
 $role = null;
-
 //  if its the "true login" of the user, display this message
 if (isset($_GET["fls"])) {
     ?>
@@ -152,6 +151,26 @@ function sendPasswordMail($name, $address, $id, $password, $new) {
     $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 
     mail($address, ($new ? "MVT Account" : "Password reset"), $mail, $headers);
+}
+
+function randomString($length = 8) {
+    $result = "";
+    for($i = 0; $i < $length; $i++){
+        $symbol = rand(1, 3);
+        switch($symbol){
+            case 1:
+                $symbol = chr(rand(65,90));
+                break;
+            case 2:
+                $symbol = chr(rand(97,122));
+                break;
+            case 3:
+                $symbol = rand(0, 9);
+                break;
+        }
+        $result = $result . $symbol;
+    }
+    return $result;
 }
 ?>
 
