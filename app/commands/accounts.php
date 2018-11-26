@@ -20,6 +20,27 @@ if (isset($_POST["resetStudentPassword"])) {
     }
 }
 
+if (isset($_POST["resetDocentPassword"])) {
+    //  docentClasses is not important during a password reset.. its null
+    //  same story for isAdmin. its not important during the reset, so its just false
+    $response = new Teacher($_POST["firstName"], $_POST["prefixName"], $_POST["surname"], $_POST["email"], $_POST["resetDocentPassword"], null, false);
+    if ($response->resetPassword($connection, false)) {
+        //  everything went well, yaaay!
+        ?>
+        <div class="alert alert-success" role="alert">
+            Gebruiker <?php echo $response->getFirstName() . " " . $response->getPrefix() . " " . $response->getSurName() . " (" . $response->getTeacherId() . ")'s wachtwoord is gereset." ?>
+        </div>
+        <?php
+    } else {
+        //  something went wrong......
+        ?>
+        <div class="alert alert-danger" role="alert">
+            Gebruiker <?php echo $response->getFirstName() . " " . $response->getPrefix() . " " . $response->getSurName() . " (" . $response->getTeacherId() . ")'s wachtwoord kon niet worden gereset." ?>
+        </div>
+        <?php
+    }
+}
+
 //  the user is a student, handle changes
 if (isset($_POST["studentClass"])) {
     //  handle student update
@@ -64,7 +85,7 @@ if (isset($_POST["deleteStudent"])) {
 
 //  the user is a teacher, handle changes
 if (isset($_POST["teacherClasses"])) {
-    $response = new Teacher($_POST["firstName"], $_POST["prefixName"], $_POST["surname"], $_POST["teacherID"], $_POST["teacherClasses"], (isset($_POST["adminCheck"]) ? ($_POST["adminCheck"] == "true") : false));
+    $response = new Teacher($_POST["firstName"], $_POST["prefixName"], $_POST["surname"], $_POST["email"], $_POST["teacherID"], $_POST["teacherClasses"], (isset($_POST["adminCheck"]) ? ($_POST["adminCheck"] == "true") : false));
     if ($response->update($connection)) {
         //  everything went well, yaaay!
         ?>
@@ -85,7 +106,7 @@ if (isset($_POST["teacherClasses"])) {
 //  a docent will be deleted
 if (isset($_POST["deleteTeacher"])) {
     //  handle teacher delete, we only need to give the ID
-    $response = new Teacher("", "", "", $_POST["deleteTeacher"], "", "");
+    $response = new Teacher("", "", "", "", $_POST["deleteTeacher"], "", "");
     if ($response->delete($connection)) {
         //  everything went well, yaaay!
         ?>
@@ -108,10 +129,10 @@ if (isset($_POST["editStudent"]) || isset($_POST["editTeacher"])) {
 $isStudent = isset($_POST["editStudent"]) ? true : false;
 $id = $isStudent ? $_POST["editStudent"] : $_POST["editTeacher"];
 
-$statement = $connection->prepare("SELECT firstname, surname_prefix, surname FROM " . ($isStudent ? "student" : "docent") . " WHERE " . ($isStudent ? "student" : "docent") . "number = ? ;");
+$statement = $connection->prepare("SELECT firstname, surname_prefix, surname, " . ($isStudent ? "'no mail' AS email" : "email"). " FROM " . ($isStudent ? "student" : "docent") . " WHERE " . ($isStudent ? "student" : "docent") . "number = ? ;");
 $statement->bind_param("s", $id);
 $statement->execute();
-$statement->bind_result($firstname, $surname_prefix, $surname);
+$statement->bind_result($firstname, $surname_prefix, $surname, $email);
 $statement->fetch();
 $statement->free_result();
 ?>
@@ -137,6 +158,15 @@ $statement->free_result();
                            value="<?php echo $surname; ?>" required>
                 </div>
                 <?php
+                if (!$isStudent) {
+                    ?>
+                    <div class="form-group">
+                        <label for="email">Email adres</label>
+                        <input formmethod="post" name="email" class="form-control" id="email" placeholder="Email"
+                               value="<?php echo $email; ?>" required>
+                    </div>
+                    <?php
+                }
                 if ($isStudent) {
                     ?>
                     <div class="form-group">
@@ -230,12 +260,12 @@ $statement->free_result();
             </form>
             <!-- reset password button -->
             <form method="post">
-                <?php if ($isStudent) { ?>
-                    <input hidden name="firstName" value="<?php echo $firstname; ?>">
-                    <input hidden name="prefixName" value="<?php echo $surname_prefix; ?>">
-                    <input hidden name="surname" value="<?php echo $surname; ?>">
-                    <input hidden name="resetStudentPassword" value="<?php echo $id; ?>">
-                <?php } ?>
+                <input hidden name="firstName" value="<?php echo $firstname; ?>">
+                <input hidden name="prefixName" value="<?php echo $surname_prefix; ?>">
+                <input hidden name="surname" value="<?php echo $surname; ?>">
+                <input hidden name="email" value="<?php echo $email; ?>">
+                <input hidden name="<?php echo ($isStudent ? "resetStudentPassword" : "resetDocentPassword") ?>" value="<?php echo $id; ?>">
+
                 <button type="submit" class="btn btn-info">Reset wachtwoord</button>
             </form>
             <?php

@@ -56,7 +56,7 @@ $statement->free_result();
                     ?>
                     <form method="get">
                         <div class="row justify-content-center pointsDiv">
-                            <input type=hidden name="points_class" value="<?php echo $point_timestamp; ?>">
+                            <input type=hidden name="points_class" value="<?php echo $class; ?>">
                             <button type="submit" class="btn btn-secondary btn-block col-11">
                                 <span> <?php echo $class; ?><br>0/1 punten beschikbaar</span></button>
                         </div>

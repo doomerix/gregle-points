@@ -2,7 +2,7 @@
 $createdAccount = isset($_POST["firstName"], $_POST["prefixName"], $_POST["surname"], $_POST["teacherID"], $_POST["adminCheck"]);
 if ($createdAccount) {
     $isAdmin = $_POST["adminCheck"] == "true";
-    $response = new Teacher($_POST["firstName"], $_POST["prefixName"], $_POST["surname"], $_POST["teacherID"], $_POST["teacherClasses"], $isAdmin);
+    $response = new Teacher($_POST["firstName"], $_POST["prefixName"], $_POST["surname"], $_POST["email"], $_POST["teacherID"], $_POST["teacherClasses"], $isAdmin);
 }
 ?>
 <div class="bodyWrap">
@@ -59,6 +59,11 @@ if ($createdAccount) {
                 <div class="form-group">
                     <label for="achternaam">Achternaam</label>
                     <input formmethod="post" name="surname" class="form-control" id="surname" placeholder="Achternaam"
+                           required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email adres</label>
+                    <input formmethod="post" name="email" class="form-control" id="email" placeholder="Email"
                            required>
                 </div>
                 <div class="form-group">

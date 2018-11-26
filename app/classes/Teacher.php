@@ -6,15 +6,17 @@ class Teacher implements CRUD
     private $firstName;
     private $prefix;
     private $surName;
+    private $email;
     private $teacherId;
     private $classes;
     private $isAdmin;
 
-    public function __construct($firstName, $prefix, $surName, $teacherId, $classes, $isAdmin)
+    public function __construct($firstName, $prefix, $surName, $email, $teacherId, $classes, $isAdmin)
     {
         $this->firstName = $firstName;
         $this->prefix = $prefix;
         $this->surName = $surName;
+        $this->email = $email;
         $this->teacherId = $teacherId;
         $this->classes = $classes;
         $this->isAdmin = $isAdmin;
@@ -48,6 +50,14 @@ class Teacher implements CRUD
     /**
      * @return string
      */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @return string
+     */
     public function getTeacherId()
     {
         return $this->teacherId;
@@ -73,7 +83,23 @@ class Teacher implements CRUD
      * @return bool
      */
     public function isValid() {
-        return $this->firstName != null && $this->surName != null && $this->teacherId != null;
+        return $this->firstName != null && $this->surName != null && $this->email != null && $this->teacherId != null;
+    }
+
+    public function resetPassword(mysqli $sql, $newAccount) {
+        $randomPassword = randomString();
+        $hashedPassword = password_hash($randomPassword, PASSWORD_BCRYPT);
+
+        $updateUsers = $sql->prepare("UPDATE user SET passwordhash = ?, firstlogin = 1 WHERE user_id = ? ;");
+        $updateUsers->bind_param("ss", $hashedPassword, $this->teacherId);
+
+        $result = false;
+
+        if ($updateUsers->execute()) {
+            $result = true;
+            sendPasswordMail($this->firstName, $this->email, $this->teacherId, $randomPassword, $newAccount);
+        }
+        return $result;
     }
 
     //  crud
@@ -84,8 +110,8 @@ class Teacher implements CRUD
         $insertIntoUsers = $sql->prepare("INSERT INTO user (user_id, passwordhash, role_id) VALUES (?, ?, (SELECT id FROM role WHERE role = ".($this->isAdmin ? "'administrator'" : "'docent'").")) ;");
         $insertIntoUsers->bind_param("ss", $this->teacherId, $defaultPassword);
 
-        $insertIntoTeachers = $sql->prepare("INSERT INTO docent (docentnumber, firstname, surname_prefix, surname) VALUES (?, ?, ?, ?) ;");
-        $insertIntoTeachers->bind_param("ssss", $this->teacherId, $this->firstName, $this->prefix, $this->surName);
+        $insertIntoTeachers = $sql->prepare("INSERT INTO docent (docentnumber, firstname, surname_prefix, surname, email) VALUES (?, ?, ?, ?, ?) ;");
+        $insertIntoTeachers->bind_param("sssss", $this->teacherId, $this->firstName, $this->prefix, $this->surName, $this->email);
 
         return $insertIntoUsers->execute() == true && $insertIntoTeachers->execute() == true;
     }
@@ -110,8 +136,8 @@ class Teacher implements CRUD
         $updateUser->bind_param("s", $this->teacherId);
         $updateUser->execute();
 
-        $updateDocents = $sql->prepare("UPDATE docent SET firstname = ?, surname_prefix = ?, surname = ? WHERE docentnumber = ? ;");
-        $updateDocents->bind_param("ssss", $this->firstName, $this->prefix, $this->surName, $this->teacherId);
+        $updateDocents = $sql->prepare("UPDATE docent SET firstname = ?, surname_prefix = ?, surname = ?, email = ? WHERE docentnumber = ? ;");
+        $updateDocents->bind_param("sssss", $this->firstName, $this->prefix, $this->surName, $this->email, $this->teacherId);
         return $updateDocents->execute() == true;
     }
 
