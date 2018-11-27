@@ -23,7 +23,7 @@
 <?php if ($role->isTeacher() || $role->isAdmin()) { ?>
     <?php
     //  reset points (function checks if it must be done or not)
-    resetPoints($connection, $user_id);
+    resetPoints($connection);
 
     //  load data for teachers/admins
     $statement = $connection->prepare("SELECT firstname, surname_prefix, surname FROM docent WHERE docentnumber = ? ;");
