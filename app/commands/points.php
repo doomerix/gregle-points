@@ -28,17 +28,17 @@
 
         //  everything is all fine and well! Code will run
 
-        $selectIdFromClass = $connection->prepare("SELECT id FROM class WHERE class = ? ;");
+        $selectIdFromClass = $connection->prepare("SELECT id, points FROM class WHERE class = ? ;");
         $selectIdFromClass->bind_param("s", $className);
         $selectIdFromClass->execute();
-        $selectIdFromClass->bind_result($classId);
+        $selectIdFromClass->bind_result($classId, $classPoints);
         $selectIdFromClass->fetch(); 
         $selectIdFromClass->free_result();
 
-        $selectFromDocentClasses = $connection->prepare("SELECT point_timestamp FROM docent_classes LEFT JOIN class ON (class_id =  class.id) WHERE docentnumber = ? AND class_id = ? ;");
+        $selectFromDocentClasses = $connection->prepare("SELECT point_timestamp, docent_classes.points FROM docent_classes LEFT JOIN class ON (class_id =  class.id) WHERE docentnumber = ? AND class_id = ? ;");
         $selectFromDocentClasses->bind_param("si", $docentnumber, $classId);
         $selectFromDocentClasses->execute();
-        $selectFromDocentClasses->bind_result($rawTimestamp);
+        $selectFromDocentClasses->bind_result($rawTimestamp, $giveablePoints);
         $selectFromDocentClasses->fetch();
         $selectFromDocentClasses->free_result();
 
@@ -46,7 +46,7 @@
         $timestamp = strtotime($rawTimestamp);
 
         //  get if the user can add a point
-        $canAddPoint = is_null($timestamp) || $timestamp < strtotime(date("Y-m-d H:i:s"));
+        $canAddPoint = $giveablePoints > 0;
 
         //  if a point can be added and the POST has been set, run the code
         if($canAddPoint && isset($_POST["givepoint"])) {
@@ -55,10 +55,11 @@
             $updatePoints->bind_param("s", $studentnumber);
             $updatePoints->execute();
 
-            $nextThursday = date("Y-m-d H:i:s", strtotime("next week thursday"));
+            $nextPointsTime = date("Y-m-d H:i:s", strtotime("next week thursday"));
+            $remainingPoints = $giveablePoints - 1;
 
-            $updatePointTime = $connection->prepare("INSERT INTO docent_classes (docentnumber, class_id) VALUES(?, ?) ON DUPLICATE KEY UPDATE point_timestamp = ? ;");
-            $updatePointTime->bind_param("sis", $docentnumber, $classId, $nextThursday);
+            $updatePointTime = $connection->prepare("INSERT INTO docent_classes (docentnumber, class_id) VALUES(?, ?) ON DUPLICATE KEY UPDATE point_timestamp = ?, points = ? ;");
+            $updatePointTime->bind_param("sisi", $docentnumber, $classId, $nextPointsTime, $remainingPoints);
             $updatePointTime->execute();
             header("Location: ../app/?points_class=".$className);
         }

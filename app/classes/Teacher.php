@@ -127,7 +127,7 @@ class Teacher implements CRUD
         $deleteFromDocentClasses->execute();
 
         foreach ($this->classes as $class) {
-            $insertIntoTeacherClasses = $sql->prepare("INSERT INTO docent_classes (docentnumber, class_id) VALUES (?, (SELECT id FROM class WHERE class = ?)) ;");
+            $insertIntoTeacherClasses = $sql->prepare("INSERT INTO docent_classes (docentnumber, class_id, point_timestamp) VALUES (?, (SELECT id FROM class WHERE class = ?), NOW()) ;");
             $insertIntoTeacherClasses->bind_param("ss", $this->teacherId,$class);
             $insertIntoTeacherClasses->execute();
         }

@@ -23,7 +23,7 @@ if ($createdAccount) {
                         if ($response->create($connection, "")) {
                             //  this is done afterwards because we need to assign the classes to the teachers
                             foreach ($response->getClasses() as $class) {
-                                $insertIntoTeacherClasses = $connection->prepare("INSERT INTO docent_classes (docentnumber, class_id) VALUES (?, (SELECT id FROM class WHERE class = ?)) ;");
+                                $insertIntoTeacherClasses = $connection->prepare("INSERT INTO docent_classes (docentnumber, class_id, point_timestamp) VALUES (?, (SELECT id FROM class WHERE class = ?), NOW()) ;");
                                 $teacherId = $response->getTeacherId();
                                 $insertIntoTeacherClasses->bind_param("ss", $teacherId, $class);
                                 $insertIntoTeacherClasses->execute();

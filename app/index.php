@@ -172,6 +172,24 @@ function randomString($length = 8) {
     }
     return $result;
 }
+
+function resetPoints(mysqli $sql) {
+    //  update points for teachers/admins if it needs to be done
+    $selectData = $sql->query("SELECT docentnumber, point_timestamp, docent_classes.points, class.id, class.points FROM docent_classes LEFT JOIN class ON (class_id =  class.id) ;");
+
+    while ($row = $selectData->fetch_assoc()) {
+        $timestamp = strtotime($row["point_timestamp"]);
+        if ($timestamp <= strtotime(date("Y-m-d H:i:s"))) {
+            $updateData = $sql->prepare("UPDATE docent_classes SET points = ?, point_timestamp = ? WHERE class_id = ? AND docentnumber = ? ;");
+            $nextPointsTime = date("Y-m-d H:i:s", strtotime("next week thursday"));
+            $updateData->bind_param("isis",$row["points"], $nextPointsTime, $row["id"], $row["docentnumber"]);
+            $updateData->execute();
+            $updateData->free_result();
+
+        }
+    }
+    $selectData->free_result();
+}
 ?>
 
 <!--Required Scripts-->
