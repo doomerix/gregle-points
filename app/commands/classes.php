@@ -66,10 +66,18 @@ $allClasses = $connection->query("SELECT id, class FROM class ORDER BY class ASC
                 <h2 class="paragraphMarginSmall">Klas toevoegen</h2>
                 <form method="post">
                     <div class="form-group">
-                        <input formmethod="post" name="addClass" class="form-control" id="addClass" placeholder="Klas"
-                               required>
+                        <div class="form-row form-group">
+                            <div class="col-9 form-group">
+                                <input formmethod="post" name="addClass" class="form-control" id="addClass" placeholder="Klas" required>
+                            </div>
+                            <div class="col-3 form-group">
+                                <input formmethod="post" name="addClass" class="form-control" id="addClass" placeholder="Punten" required>
+                            <div>
+                        </div>             
                     </div>
+                    <div class="col-12 text-center">
                     <button type="submit" class="btn btn-light">Klas toevoegen</button>
+                    </div>
                 </form>
             </div>
             <hr>
@@ -84,11 +92,11 @@ $allClasses = $connection->query("SELECT id, class FROM class ORDER BY class ASC
                     $selectStudentCount->free_result();
                     ?>
                     <div class="row justify-content-center pointsDiv">
-                        <div class="col-5">
-                            <a href="?points_class=<?php echo $row["class"]; ?>"><span><?php echo "<b>" . $row["class"] . " </br></b><i>(" . $studentCount . " studenten)"; ?></i></span></a>
+                        <div class="col-sm-7 col-10">
+                            <a href="?points_class=<?php echo $row["class"]; ?>"><span><?php echo "<b>" . $row["class"] . " </br></b><i>" . $studentCount . " studenten<br> [x] punten"; ?></i></span></a>
                         </div>
                         <button class="btn btn-outline-danger" data-toggle="modal"
-                                data-target="#<?php echo "modalclassremove" . $row["class"]; ?>">Verwijderen
+                                data-target="#<?php echo "modalclassremove" . $row["class"]; ?>">-
                         </button>
                         <div class="modal fade" id="<?php echo "modalclassremove" . $row["class"]; ?>" tabindex="-1"
                              role="dialog" aria-labelledby="<?php echo "modalclassremove" . $row["studentnumber"]; ?>"
