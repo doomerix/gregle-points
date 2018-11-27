@@ -80,6 +80,7 @@ $allClasses = $connection->query("SELECT id, class FROM class ORDER BY class ASC
                     </div>
                 </form>
             </div>
+            <span style="padding:0";>Om het mogelijk te maken om meer of minder punten per week te geven aan een klas kun je op [+] of [-] klikken.</span>
             <hr>
             <div>
                 <?php
@@ -92,12 +93,32 @@ $allClasses = $connection->query("SELECT id, class FROM class ORDER BY class ASC
                     $selectStudentCount->free_result();
                     ?>
                     <div class="row justify-content-center pointsDiv">
-                        <div class="col-sm-7 col-10">
-                            <a href="?points_class=<?php echo $row["class"]; ?>"><span><?php echo "<b>" . $row["class"] . " </br></b><i>" . $studentCount . " studenten<br> [x] punten"; ?></i></span></a>
+                        <div class="col-12 col-sm-7 justify-content-center">
+                            <div class="row justify-content-center">
+                                <div class="col-12">
+                                    <b>{{Class}}</b>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-12">
+                                    <i>{{X}} studenten</i>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-2 justify-content-center">
+                                    <button type="button" class="btn btn-outline-danger btn-sm">-</button>
+                                </div>
+                                <div class="col-8 justify-content-center">
+                                    <i>{{X}} punten</i>
+                                </div>
+                                <div class="col-2 justify-content-center">
+                                    <button type="button" class="btn btn-outline-success btn-sm">+</button>
+                                </div>  
+                            </div>
                         </div>
-                        <button class="btn btn-outline-danger" data-toggle="modal"
-                                data-target="#<?php echo "modalclassremove" . $row["class"]; ?>">-
-                        </button>
+                        <div class="row justify-content-center">
+                            <button class="btn btn-outline-danger" data-toggle="modal" data-target="#<?php echo "modalclassremove" . $row["class"]; ?>">Klas verwijderen</button>
+                        </div>
                         <div class="modal fade" id="<?php echo "modalclassremove" . $row["class"]; ?>" tabindex="-1"
                              role="dialog" aria-labelledby="<?php echo "modalclassremove" . $row["studentnumber"]; ?>"
                              aria-hidden="true">
