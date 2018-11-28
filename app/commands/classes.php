@@ -147,7 +147,7 @@ $allClasses = $connection->query("SELECT id, class FROM class ORDER BY class ASC
                                     </div>
                                     <div class="modal-footer">
                                         <form method="post">
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                            <button type="button" class="btn btn-success" data-dismiss="modal">
                                                 Annuleren
                                             </button>
                                             <input type="hidden" name="deleteClass" value="<?php echo $row["class"] ?>">

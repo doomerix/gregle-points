@@ -294,7 +294,7 @@ $statement->free_result();
                             </div>
                             <div class="modal-footer">
                                 <form method="post">
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                    <button type="button" class="btn btn-success" data-dismiss="modal">
                                         Annuleren
                                     </button>
                                     <input type="hidden" name="delete<?php echo $isStudent ? "Student" : "Teacher"; ?>"
@@ -323,20 +323,27 @@ $statement->free_result();
                             $isStudent = $row["is_student"] == "1";
                             ?>
                             <div class="row justify-content-center">
-                                <span class="col-9"><b><?php echo $row["surname"] . ", " . $row["firstname"] . " " . $row["surname_prefix"]; ?></b><br><i><?php echo($id . " " . "(" . $userRole->getName() . ")"); ?></i></span>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                    <label class="form-check-label" for="exampleCheck1"></label>
+                                </div>
+                                <span class="col-7"><b><?php echo $row["surname"] . ", " . $row["firstname"] . " " . $row["surname_prefix"]; ?></b><br><i><?php echo($id . " " . "(" . $userRole->getName() . ")"); ?></i></span>
                                 <form method="post">
                                     <input type="hidden" name="<?php echo $isStudent ? "editStudent" : "editTeacher" ?>"
                                            value="<?php echo $id; ?>">
-                                    <button type="submit"
-                                            class="btn btn-outline-success" <?php echo(!$isStudent && !$role->isAdmin() ? "disabled" : ""); ?>>
+                                    <button type="submit" class="btn btn-outline-success" <?php echo(!$isStudent && !$role->isAdmin() ? "disabled" : ""); ?>>
                                         Wijzigen
                                     </button>
                                 </form>
+                                
                             </div>
                             <hr>
                             <?php
                         }
                         ?>
+                         <button type="submit" class="btn btn-danger" <?php echo(!$isStudent && !$role->isAdmin() ? "disabled" : ""); ?>>
+                                        Verwijder geselecteerde
+                                    </button>
                     </div>
                 </div>
                 <?php
