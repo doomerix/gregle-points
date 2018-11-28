@@ -21,11 +21,7 @@ and open the template in the editor.
         require 'app/db/connection.php';
         
         //load spreadsheet functions
-        require 'vendor/autoload.php';
-
-        use PhpOffice\PhpSpreadsheet\Spreadsheet;
-        use PhpOffice\PhpSpreadsheet\Reader\Csv;
-        use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+        require 'libraries/autoload.php';
 
         //Allowed file types
         $file_mimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
