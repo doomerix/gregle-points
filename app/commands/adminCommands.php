@@ -23,7 +23,7 @@
             </div>
         </div>
         <br>
-        <form class="form justify-content-center" method="post" enctype="multipart/form-data" action="import.php">
+        <form class="form justify-content-center" method="post" enctype="multipart/form-data" action="?command=manageAccounts">
             <div class="form-group mx-mb-2 justify-content-center">
                 <label for="exampleInputFile"><b>Studenten Importeren</b></label>
                 <input type="file" name="file" class="form-control-file text-center" id="exampleInputFile">

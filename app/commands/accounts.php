@@ -1,8 +1,92 @@
 <?php
 enforceAdminOnly($role);
+
+//Allowed file types
+$file_mimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+
+if (isset($_FILES['file']['name'])) {
+    if (in_array($_FILES['file']['type'], $file_mimes)) {
+        //load spreadsheet functions
+        require '../libraries/autoload.php';
+
+        $arr_file = explode('.', $_FILES['file']['name']);
+        $extension = end($arr_file);
+
+        if ('csv' == $extension) {
+            $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+        } else {
+            $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        }
+        $spreadsheet = $reader->load($_FILES['file']['tmp_name']);
+        $sheetData = $spreadsheet->getActiveSheet()->toArray();
+
+        $idxStamnr;
+        $idxKlas;
+        $idxRoepnaam;
+        $idxTussenv;
+        $idxAchternaam;
+
+        //  Find column indexes
+        foreach ($sheetData[0] as $key => $value) {
+            switch ($value) {
+                case 'Stamnr':
+                    $idxStamnr = $key;
+                    break;
+                case 'Klas':
+                    $idxKlas = $key;
+                    break;
+                case 'Roepnaam':
+                    $idxRoepnaam = $key;
+                    break;
+                case 'Tussenv':
+                    $idxTussenv = $key;
+                    break;
+                case 'Achternaam':
+                    $idxAchternaam = $key;
+                    break;
+            }
+        }
+
+        //  Loop the data
+        ?>
+        <div class="alert alert-success" role="alert">
+            <?php
+            $count = false;
+            foreach (array_slice($sheetData, 1) as $key => $value) {
+                $stamnr = $value[$idxStamnr];
+                $klas = $value[$idxKlas];
+                $roepnaam = $value[$idxRoepnaam];
+                $tussenv = $value[$idxTussenv];
+                $achternaam = $value[$idxAchternaam];
+
+                $student = new Student($roepnaam, $tussenv, $achternaam, $stamnr, $klas);
+                if ($student->create($connection)) {
+                    $student->resetPassword($connection, true);
+                    echo "Gebruiker " . $roepnaam . " " . $tussenv . " " . $achternaam . " (" . $stamnr . ") is aangemaakt vanuit een CSV bestand. <br>";
+                    $count = true;
+                }
+            }
+            if (!$count) {
+                echo "Alle accounts gevonden in het CSV bestand bestonden al, en zijn niet opnieuw aangemaakt.<br>";
+                echo "<b>Als er wel nieuwe accounts in het CSV staan, kopieer dan de inhoud van het bestand <br>";
+                echo "<b>en plak het in een nieuw CSV bestand. Upload vervolgens dan het nieuwe bestand.";
+            }
+            ?>
+        </div>
+        <?php
+    } else {
+        ?>
+        <div class="alert alert-danger" role="alert">
+            Er is geen geldig bestand geupload. <br>
+            Enkel CSV is toegestaan! :-(
+        </div>
+        <?php
+    }
+}
+
 if (isset($_POST["resetStudentPassword"])) {
     //  studentClass is not important during a password reset.. its null
-    $response = new Student($_POST["firstName"], $_POST["prefixName"], $_POST["surname"], $_POST["resetStudentPassword"],null);
+    $response = new Student($_POST["firstName"], $_POST["prefixName"], $_POST["surname"], $_POST["resetStudentPassword"], null);
     if ($response->resetPassword($connection, false)) {
         //  everything went well, yaaay!
         ?>
@@ -124,12 +208,17 @@ if (isset($_POST["deleteTeacher"])) {
     }
 }
 
+if (isset($_POST["removeMultipleCheck"])) {
+    echo "true!";
+    $removeUserList = $_POST["removeMultipleCheck"];
+}
+
 //  display form
 if (isset($_POST["editStudent"]) || isset($_POST["editTeacher"])) {
 $isStudent = isset($_POST["editStudent"]) ? true : false;
 $id = $isStudent ? $_POST["editStudent"] : $_POST["editTeacher"];
 
-$statement = $connection->prepare("SELECT firstname, surname_prefix, surname, " . ($isStudent ? "'no mail' AS email" : "email"). " FROM " . ($isStudent ? "student" : "docent") . " WHERE " . ($isStudent ? "student" : "docent") . "number = ? ;");
+$statement = $connection->prepare("SELECT firstname, surname_prefix, surname, " . ($isStudent ? "'no mail' AS email" : "email") . " FROM " . ($isStudent ? "student" : "docent") . " WHERE " . ($isStudent ? "student" : "docent") . "number = ? ;");
 $statement->bind_param("s", $id);
 $statement->execute();
 $statement->bind_result($firstname, $surname_prefix, $surname, $email);
@@ -248,7 +337,8 @@ $statement->free_result();
                         <?php
                     } else {
                         ?>
-                        <input formmethod="post" name="adminCheck" class="form-check-input" type="hidden" value="<?php echo ($docentRole->isAdmin() ? "true" : "false"); ?>"
+                        <input formmethod="post" name="adminCheck" class="form-check-input" type="hidden"
+                               value="<?php echo($docentRole->isAdmin() ? "true" : "false"); ?>"
                                id="adminCheckX" <?php echo($docentRole->isAdmin() ? "checked" : ""); ?>>
                         <?php
                     }
@@ -264,7 +354,8 @@ $statement->free_result();
                 <input hidden name="prefixName" value="<?php echo $surname_prefix; ?>">
                 <input hidden name="surname" value="<?php echo $surname; ?>">
                 <input hidden name="email" value="<?php echo $email; ?>">
-                <input hidden name="<?php echo ($isStudent ? "resetStudentPassword" : "resetDocentPassword") ?>" value="<?php echo $id; ?>">
+                <input hidden name="<?php echo($isStudent ? "resetStudentPassword" : "resetDocentPassword") ?>"
+                       value="<?php echo $id; ?>">
 
                 <button type="submit" class="btn btn-info">Reset wachtwoord</button>
             </form>
@@ -323,27 +414,21 @@ $statement->free_result();
                             $isStudent = $row["is_student"] == "1";
                             ?>
                             <div class="row justify-content-center">
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                    <label class="form-check-label" for="exampleCheck1"></label>
-                                </div>
                                 <span class="col-7"><b><?php echo $row["surname"] . ", " . $row["firstname"] . " " . $row["surname_prefix"]; ?></b><br><i><?php echo($id . " " . "(" . $userRole->getName() . ")"); ?></i></span>
                                 <form method="post">
                                     <input type="hidden" name="<?php echo $isStudent ? "editStudent" : "editTeacher" ?>"
                                            value="<?php echo $id; ?>">
-                                    <button type="submit" class="btn btn-outline-success" <?php echo(!$isStudent && !$role->isAdmin() ? "disabled" : ""); ?>>
+                                    <button type="submit"
+                                            class="btn btn-outline-success" <?php echo(!$isStudent && !$role->isAdmin() ? "disabled" : ""); ?>>
                                         Wijzigen
                                     </button>
                                 </form>
-                                
+
                             </div>
                             <hr>
                             <?php
                         }
                         ?>
-                         <button type="submit" class="btn btn-danger" <?php echo(!$isStudent && !$role->isAdmin() ? "disabled" : ""); ?>>
-                                        Verwijder geselecteerde
-                                    </button>
                     </div>
                 </div>
                 <?php

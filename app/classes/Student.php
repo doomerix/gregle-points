@@ -87,7 +87,7 @@ class Student implements CRUD
     public function create(mysqli $sql)
     {
         //  after create, resetpassword should be called so a mail can be sent to the user
-        $temporaryPassword = password_hash("!@#FAmn135!4".date("y"), PASSWORD_BCRYPT);
+        $temporaryPassword = password_hash(randomString(28), PASSWORD_BCRYPT);
 
         //  default password for new accounts, password change is being enforced on first login
         $insertIntoUsers = $sql->prepare("INSERT INTO user (user_id, passwordhash, role_id) VALUES (?, ?, (SELECT id FROM role WHERE role = 'student')) ;");
