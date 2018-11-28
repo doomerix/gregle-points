@@ -248,7 +248,7 @@ $statement->free_result();
                         <?php
                     } else {
                         ?>
-                        <input formmethod="post" name="adminCheck" class="form-check-input" type="hidden" value="admin"
+                        <input formmethod="post" name="adminCheck" class="form-check-input" type="hidden" value="<?php echo ($docentRole->isAdmin() ? "true" : "false"); ?>"
                                id="adminCheckX" <?php echo($docentRole->isAdmin() ? "checked" : ""); ?>>
                         <?php
                     }

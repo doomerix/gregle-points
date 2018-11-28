@@ -3,13 +3,32 @@
 $addClassState = false;
 $deleteState = false;
 
-if (isset($_POST["addClass"])) {
+if (isset($_POST["addClass"]) && isset($_POST["addClassPoints"])) {
     $className = $_POST["addClass"];
+    $classPoints = $_POST["addClassPoints"];
 
-    $insertClass = $connection->prepare("INSERT INTO class (class) VALUES (?) ;");
-    $insertClass->bind_param("s", $className);
+    $insertClass = $connection->prepare("INSERT INTO class (class, points) VALUES (?, ?) ;");
+    $insertClass->bind_param("si", $className, $classPoints);
     $addClassState = $insertClass->execute();
     $insertClass->free_result();
+}
+
+if (isset($_POST["editClassId"]) && isset($_POST["editClassPoints"])) {
+    $operation = $_POST["editClassPoints"];
+    $classId = $_POST["editClassId"];
+    $updateClassPoints = null;
+
+    if ($operation == "+") {
+        $updateClassPoints = $connection->prepare("UPDATE class SET points = points+1 WHERE id = ? ;");
+    } else if ($operation == "-") {
+        $updateClassPoints = $connection->prepare("UPDATE class SET points = points-1 WHERE id = ? ;");
+    }
+
+    if (!is_null($updateClassPoints)) {
+        $updateClassPoints->bind_param("s", $classId);
+        $updateClassPoints->execute();
+        $updateClassPoints->free_result();
+    }
 }
 
 if (isset($_POST["deleteClass"])) {
@@ -40,7 +59,7 @@ if ($deleteState) {
     <?php
 }
 
-if (isset($_POST["addClass"])) {
+if (isset($_POST["addClass"]) && isset($_POST["addClassPoints"])) {
     if ($addClassState) {
         ?>
         <div class="alert alert-success" role="alert">
@@ -58,7 +77,7 @@ if (isset($_POST["addClass"])) {
     }
 }
 
-$allClasses = $connection->query("SELECT id, class FROM class ORDER BY class ASC ;");
+$allClasses = $connection->query("SELECT id, class, points FROM class ORDER BY class ASC ;");
 ?>
     <div class="bodyWrap">
         <div class="container">
@@ -71,7 +90,7 @@ $allClasses = $connection->query("SELECT id, class FROM class ORDER BY class ASC
                                 <input formmethod="post" name="addClass" class="form-control" id="addClass" placeholder="Klas" required>
                             </div>
                             <div class="col-3 form-group">
-                                <input formmethod="post" name="addClass" class="form-control" id="addClass" placeholder="Punten" required>
+                                <input formmethod="post" name="addClassPoints" class="form-control" id="addClass" placeholder="Punten" required>
                             <div>
                         </div>             
                     </div>
@@ -96,28 +115,36 @@ $allClasses = $connection->query("SELECT id, class FROM class ORDER BY class ASC
                         <div class="col-12 col-sm-7 justify-content-center">
                             <div class="row justify-content-center">
                                 <div class="col-12">
-                                    <b>{{Class}}</b>
+                                    <b><?php echo $row["class"];?></b>
                                 </div>
                             </div>
                             <div class="row justify-content-center">
                                 <div class="col-12">
-                                    <i>{{X}} studenten</i>
+                                    <i><?php echo $studentCount;?> studenten</i>
                                 </div>
                             </div>
                             <div class="row justify-content-center">
                                 <div class="col-2 justify-content-center">
-                                    <button type="button" class="btn btn-outline-danger btn-sm">-</button>
+                                    <form method="post">
+                                        <input type="hidden" name="editClassPoints" value="-">
+                                        <input type="hidden" name="editClassId" value="<?php echo $row["id"];?>">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm">-</button>
+                                    </form>
                                 </div>
                                 <div class="col-8 justify-content-center">
-                                    <i>{{X}} punten</i>
+                                    <i><?php echo $row["points"];?> punten</i>
                                 </div>
                                 <div class="col-2 justify-content-center">
-                                    <button type="button" class="btn btn-outline-success btn-sm">+</button>
+                                    <form method="post">
+                                        <input type="hidden" name="editClassPoints" value="+">
+                                        <input type="hidden" name="editClassId" value="<?php echo $row["id"];?>">
+                                        <button type="submit" class="btn btn-outline-success btn-sm">+</button>
+                                    </form>
                                 </div>  
                             </div>
                         </div>
                         <div class="row justify-content-center">
-                            <button class="btn btn-outline-danger" data-toggle="modal" data-target="#<?php echo "modalclassremove" . $row["class"]; ?>">Klas verwijderen</button>
+                            <button class="btn btn-danger" data-toggle="modal" data-target="#<?php echo "modalclassremove" . $row["class"]; ?>">Klas verwijderen</button>
                         </div>
                         <div class="modal fade" id="<?php echo "modalclassremove" . $row["class"]; ?>" tabindex="-1"
                              role="dialog" aria-labelledby="<?php echo "modalclassremove" . $row["studentnumber"]; ?>"
