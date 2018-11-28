@@ -66,12 +66,21 @@ $allClasses = $connection->query("SELECT id, class FROM class ORDER BY class ASC
                 <h2 class="paragraphMarginSmall">Klas toevoegen</h2>
                 <form method="post">
                     <div class="form-group">
-                        <input formmethod="post" name="addClass" class="form-control" id="addClass" placeholder="Klas"
-                               required>
+                        <div class="form-row form-group">
+                            <div class="col-9 form-group">
+                                <input formmethod="post" name="addClass" class="form-control" id="addClass" placeholder="Klas" required>
+                            </div>
+                            <div class="col-3 form-group">
+                                <input formmethod="post" name="addClass" class="form-control" id="addClass" placeholder="Punten" required>
+                            <div>
+                        </div>             
                     </div>
+                    <div class="col-12 text-center">
                     <button type="submit" class="btn btn-light">Klas toevoegen</button>
+                    </div>
                 </form>
             </div>
+            <span style="padding:0";>Om het mogelijk te maken om meer of minder punten per week te geven aan een klas kun je op [+] of [-] klikken.</span>
             <hr>
             <div>
                 <?php
@@ -84,12 +93,32 @@ $allClasses = $connection->query("SELECT id, class FROM class ORDER BY class ASC
                     $selectStudentCount->free_result();
                     ?>
                     <div class="row justify-content-center pointsDiv">
-                        <div class="col-5">
-                            <a href="?points_class=<?php echo $row["class"]; ?>"><span><?php echo "<b>" . $row["class"] . " </br></b><i>(" . $studentCount . " studenten)"; ?></i></span></a>
+                        <div class="col-12 col-sm-7 justify-content-center">
+                            <div class="row justify-content-center">
+                                <div class="col-12">
+                                    <b>{{Class}}</b>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-12">
+                                    <i>{{X}} studenten</i>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-2 justify-content-center">
+                                    <button type="button" class="btn btn-outline-danger btn-sm">-</button>
+                                </div>
+                                <div class="col-8 justify-content-center">
+                                    <i>{{X}} punten</i>
+                                </div>
+                                <div class="col-2 justify-content-center">
+                                    <button type="button" class="btn btn-outline-success btn-sm">+</button>
+                                </div>  
+                            </div>
                         </div>
-                        <button class="btn btn-outline-danger" data-toggle="modal"
-                                data-target="#<?php echo "modalclassremove" . $row["class"]; ?>">Verwijderen
-                        </button>
+                        <div class="row justify-content-center">
+                            <button class="btn btn-outline-danger" data-toggle="modal" data-target="#<?php echo "modalclassremove" . $row["class"]; ?>">Klas verwijderen</button>
+                        </div>
                         <div class="modal fade" id="<?php echo "modalclassremove" . $row["class"]; ?>" tabindex="-1"
                              role="dialog" aria-labelledby="<?php echo "modalclassremove" . $row["studentnumber"]; ?>"
                              aria-hidden="true">
@@ -118,7 +147,7 @@ $allClasses = $connection->query("SELECT id, class FROM class ORDER BY class ASC
                                     </div>
                                     <div class="modal-footer">
                                         <form method="post">
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                            <button type="button" class="btn btn-success" data-dismiss="modal">
                                                 Annuleren
                                             </button>
                                             <input type="hidden" name="deleteClass" value="<?php echo $row["class"] ?>">

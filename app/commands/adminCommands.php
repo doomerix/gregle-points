@@ -22,5 +22,17 @@
                 </a>
             </div>
         </div>
+        <br>
+        <form class="form justify-content-center" method="post" enctype="multipart/form-data" action="import.php">
+            <div class="form-group mx-mb-2 justify-content-center">
+                <label for="exampleInputFile"><b>Studenten Importeren</b></label>
+                <input type="file" name="file" class="form-control-file text-center" id="exampleInputFile">
+            </div>
+            
+            <button type="submit" class="btn btn-info mb-2">Importeren</button>
+        </form>
+        <span>Lever alleen .csv bestanden aan.</span>
     </div>
+
+    
 </div>
