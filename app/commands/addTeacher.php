@@ -20,7 +20,7 @@ if ($createdAccount) {
                         </div>
                         <?php
                     } else {
-                        if ($response->create($connection, "")) {
+                        if ($response->create($connection)) {
                             //  this is done afterwards because we need to assign the classes to the teachers
                             foreach ($response->getClasses() as $class) {
                                 $insertIntoTeacherClasses = $connection->prepare("INSERT INTO docent_classes (docentnumber, class_id, point_timestamp) VALUES (?, (SELECT id FROM class WHERE class = ?), NOW()) ;");
@@ -67,13 +67,13 @@ if ($createdAccount) {
                            required>
                 </div>
                 <div class="form-group">
-                    <label for="ID">Docentnummer</label>
+                    <label for="ID">Loginnummer</label>
                     <input formmethod="post" name="teacherID" class="form-control" id="teacherID"
-                           placeholder="Docentnummer" required>
+                           placeholder="Loginnummer" required>
                 </div>
                 <div class="form-group">
                     <label for="Selecteer klassen">Selecteer Klassen</label>
-                    <select name="teacherClasses[]" class="form-control" id="teacherClasses" multiple required>
+                    <select name="teacherClasses[]" class="form-control" id="teacherClasses" multiple>
                         <?php
                         $classes = $connection->query("SELECT class FROM class ;");
                         while ($row = $classes->fetch_assoc()) {
@@ -97,7 +97,7 @@ if ($createdAccount) {
                         </div>
                         <div class="form-check form-check-inline">
                             <input formmethod="post" name="adminCheck" class="form-check-input" type="radio"
-                                   value="false" id="adminCheckY">
+                                   value="false" id="adminCheckY" checked>
                             <label class="form-check-label" for="adminRadio2">
                                 Nee
                             </label>

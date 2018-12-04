@@ -26,7 +26,7 @@
 
                         //Controleer password lengte
                         //in this strlen if-statement we do a server side check if the password passes the requierment
-                        if (strlen($_POST["passwd1"]) <= 8) {
+                        if (strlen($_POST["passwd1"]) < 8) {
                             $PwdFlaws = $PwdFlaws . " - Minimaal acht karakters";
                         }
 
@@ -76,7 +76,21 @@
                             $updatePasswd->close();
                         } else {
                             //  wachtwoorden komen niet overeen
-                            print '<div class="alert alert-danger" role="alert">' . "Vereisten:" . "<br>". $PwdFlaws . '</div>';
+                            ?>
+                            <div class="alert alert-info" role="alert">Vereisten:
+                                <br>
+                                - minimaal acht karakters
+                                <br>
+                                - één speciaal teken
+                                <br>
+                                - één kleine letter
+                                <br>
+                                - één hoofd letter
+                                <br>
+                                - één nummer
+                                <br>
+                            </div>
+                            <?php
                         }
                     } else {
                         ?>

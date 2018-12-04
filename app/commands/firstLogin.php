@@ -39,7 +39,7 @@
 
                         //Controleer password lengte
                         //in this strlen if-statement we do a server side check if the password passes the requierment
-                        if (strlen($_POST["passwd1"]) <= 8) {
+                        if (strlen($_POST["passwd1"]) < 8) {
                             $PwdFlaws = $PwdFlaws . " - Minimaal acht karakters";
                         }
 

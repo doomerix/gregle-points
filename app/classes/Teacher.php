@@ -23,6 +23,7 @@ class Teacher implements CRUD
     }
 
     //  getters
+
     /**
      * @return string
      */
@@ -66,7 +67,8 @@ class Teacher implements CRUD
     /**
      * @return array
      */
-    public function getClasses() {
+    public function getClasses()
+    {
         return $this->classes;
     }
 
@@ -79,14 +81,17 @@ class Teacher implements CRUD
     }
 
     //  functions
+
     /**
      * @return bool
      */
-    public function isValid() {
+    public function isValid()
+    {
         return $this->firstName != null && $this->surName != null && $this->email != null && $this->teacherId != null;
     }
 
-    public function resetPassword(mysqli $sql, $newAccount) {
+    public function resetPassword(mysqli $sql, $newAccount)
+    {
         $randomPassword = randomString();
         $hashedPassword = password_hash($randomPassword, PASSWORD_BCRYPT);
 
@@ -107,7 +112,7 @@ class Teacher implements CRUD
     {
         //  default password for new accounts, password change is being enforced on first login
         $defaultPassword = password_hash("welkom" . date("Y"), PASSWORD_BCRYPT);
-        $insertIntoUsers = $sql->prepare("INSERT INTO user (user_id, passwordhash, role_id) VALUES (?, ?, (SELECT id FROM role WHERE role = ".($this->isAdmin ? "'administrator'" : "'docent'").")) ;");
+        $insertIntoUsers = $sql->prepare("INSERT INTO user (user_id, passwordhash, role_id) VALUES (?, ?, (SELECT id FROM role WHERE role = " . ($this->isAdmin ? "'administrator'" : "'docent'") . ")) ;");
         $insertIntoUsers->bind_param("ss", $this->teacherId, $defaultPassword);
 
         $insertIntoTeachers = $sql->prepare("INSERT INTO docent (docentnumber, firstname, surname_prefix, surname, email) VALUES (?, ?, ?, ?, ?) ;");
@@ -123,16 +128,26 @@ class Teacher implements CRUD
     public function update(mysqli $sql)
     {
         $deleteFromDocentClasses = $sql->prepare("DELETE FROM docent_classes WHERE docentnumber = ?");
-        $deleteFromDocentClasses->bind_param("s",$this->teacherId);
+        $deleteFromDocentClasses->bind_param("s", $this->teacherId);
         $deleteFromDocentClasses->execute();
+        $deleteFromDocentClasses->free_result();
 
-        foreach ($this->classes as $class) {
-            $insertIntoTeacherClasses = $sql->prepare("INSERT INTO docent_classes (docentnumber, class_id, point_timestamp) VALUES (?, (SELECT id FROM class WHERE class = ?), NOW()) ;");
-            $insertIntoTeacherClasses->bind_param("ss", $this->teacherId,$class);
-            $insertIntoTeacherClasses->execute();
+        if (!is_null($this->classes)) {
+            foreach ($this->classes as $class) {
+                $properties = explode("#/", $class);
+                //  0 = class
+                //  1 = points
+                //  2 = timestamp
+
+                $insertIntoTeacherClasses = $sql->prepare("INSERT INTO docent_classes (docentnumber, class_id, points, point_timestamp) VALUES (?, (SELECT id FROM class WHERE class = ?), ?, ?) ;");
+                $insertIntoTeacherClasses->bind_param("ssis", $this->teacherId, $properties[0], $properties[1], $properties[2]);
+                $insertIntoTeacherClasses->execute();
+
+                $insertIntoTeacherClasses->free_result();
+            }
         }
 
-        $updateUser = $sql->prepare("UPDATE user SET role_id = (SELECT id FROM role WHERE role = ".($this->isAdmin ? "'administrator'" : "'docent'").") WHERE user_id = ? ;");
+        $updateUser = $sql->prepare("UPDATE user SET role_id = (SELECT id FROM role WHERE role = " . ($this->isAdmin ? "'administrator'" : "'docent'") . ") WHERE user_id = ? ;");
         $updateUser->bind_param("s", $this->teacherId);
         $updateUser->execute();
 

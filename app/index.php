@@ -1,5 +1,5 @@
 <?php
-require_once 'security.php';
+require_once "security.php";
 require_once "db/connection.php";
 require_once "interfaces/CRUD.php";
 require_once "classes/Role.php";
@@ -16,7 +16,7 @@ date_default_timezone_set("Europe/Amsterdam");
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/custom.css">
 
-    <title>Gregle Points</title>
+    <title>MVT-Points</title>
 </head>
 
 <body class="text-center <?php echo !isset($_SESSION["user_id"]) ? "loginBody" : "basicBody"; ?>">
@@ -32,6 +32,7 @@ if (isset($_GET["fls"])) {
     </div>
     <?php
 }
+updateSession($connection);
 
 if (!isset($_SESSION["user_id"])) {
     //  include login.php code
@@ -189,6 +190,35 @@ function resetPoints(mysqli $sql) {
         }
     }
     $selectData->free_result();
+}
+
+function updateSession(mysqli $sql) {
+    //  if account with user_id no longer exists in the database, we will unset the user_id from their SESSION
+    if (isset($_SESSION["user_id"])) {
+        $id = $_SESSION["user_id"];
+        //  yes. this prepared statement absolutely makes sense.
+        $selectData = $sql->prepare("SELECT user_id FROM user WHERE user_id = ? ;");
+        $selectData->bind_param("s", $id);
+        $selectData->execute();
+        $selectData->store_result();
+
+        if ($selectData->num_rows == 0) {
+            unset($_SESSION["user_id"]);
+            unset($_SESSION["role_id"]);
+        }
+        $selectData->free_result();
+
+        if (isset($_SESSION["role_id"])) {
+            $selectRole = $sql->prepare("SELECT role_id FROM user WHERE user_id = ? ;");
+            $selectRole->bind_param("s", $id);
+            $selectRole->execute();
+            $selectRole->bind_result($roleId);
+            $selectRole->fetch();
+
+            $_SESSION["role_id"] = $roleId;
+            $selectRole->free_result();
+        }
+    }
 }
 ?>
 

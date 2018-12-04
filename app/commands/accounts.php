@@ -168,7 +168,7 @@ if (isset($_POST["deleteStudent"])) {
 }
 
 //  the user is a teacher, handle changes
-if (isset($_POST["teacherClasses"])) {
+if (isset($_POST["teacherID"])) {
     $response = new Teacher($_POST["firstName"], $_POST["prefixName"], $_POST["surname"], $_POST["email"], $_POST["teacherID"], $_POST["teacherClasses"], (isset($_POST["adminCheck"]) ? ($_POST["adminCheck"] == "true") : false));
     if ($response->update($connection)) {
         //  everything went well, yaaay!
@@ -282,30 +282,43 @@ $statement->free_result();
                     <?php
                 } else {
                     //  handle docent/admin options
+                    //  display classes (and already selected classes)
+                    $docentClasses = array();
+                    $selectClassesFromDocent = $connection->prepare("SELECT class, docent_classes.points AS local_points, point_timestamp FROM docent_classes LEFT JOIN class ON class_id = class.id WHERE docentnumber = ? ;");
+                    $selectClassesFromDocent->bind_param("s", $id);
+                    $selectClassesFromDocent->execute();
+                    $selectClassesFromDocent->bind_result($class, $points, $point_timestamp);
+                    $selectClassesFromDocent->store_result();
+
+                    //  push docent their classes
+                    while ($selectClassesFromDocent->fetch()) {
+                        //  the string we push, is what we will decode when Teacher#update is called
+                        $docentClasses[$class] = $class."#/".$points."#/".$point_timestamp;
+                    }
+
+                    $selectClassesFromDocent->free_result();
                     ?>
                     <div class="form-group">
                         <label for="Selecteer klassen">Selecteer Klassen</label>
-                        <select name="teacherClasses[]" class="form-control" id="teacherClasses" multiple required>
+                        <select name="teacherClasses[]" class="form-control" id="teacherClasses" multiple>
                             <?php
-                            //  display classes (and already selected classes)
-                            $docentClasses = array();
-                            $selectClassesFromDocent = $connection->prepare("SELECT class FROM docent_classes LEFT JOIN class ON class_id = class.id WHERE docentnumber = ? ;");
-                            $selectClassesFromDocent->bind_param("s", $id);
-                            $selectClassesFromDocent->execute();
-                            $selectClassesFromDocent->bind_result($class);
-
-                            //  push docent their classes
-                            while ($selectClassesFromDocent->fetch()) {
-                                array_push($docentClasses, $class);
-                            }
-                            $selectClassesFromDocent->free_result();
-
                             //  query all the classes that can be chosen, mark the ones already assigned to the docent as "selected"
-                            $classes = $connection->query("SELECT class FROM class ;");
+                            $classes = $connection->query("SELECT class, points FROM class ;");
                             while ($row = $classes->fetch_assoc()) {
-                                ?>
-                                <option <?php echo in_array($row["class"], $docentClasses) ? "selected" : ""; ?>><?php echo $row["class"]; ?></option>
-                                <?php
+                                if (sizeof($docentClasses) == 0) {
+                                    //  the user we are editting has no classes assigned.
+                                    ?>
+                                    <option value="<?php echo $row["class"]."#/".$row["points"]."#/".date("Y-m-d H:i:s");?>"><?php echo $row["class"]; ?></option>
+                                    <?php
+                                } else {
+
+                                    //  if the key does not exist, we will create a string that will be decoded
+                                    //  when Teacher#update is called.
+                                    ?>
+                                    <option <?php echo (array_key_exists($row["class"], $docentClasses) ? "selected" : ""); ?> value="<?php echo (array_key_exists($row["class"], $docentClasses) ? $docentClasses[$row["class"]] : $row["class"]."#/".$row["points"]."#/".date("Y-m-d H:i:s"));?>">
+                                        <?php echo $row["class"]; ?></option>
+                                    <?php
+                                }
                             }
                             $classes->close();
                             ?>

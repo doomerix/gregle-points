@@ -6,6 +6,7 @@ $deleteState = false;
 if (isset($_POST["addClass"]) && isset($_POST["addClassPoints"])) {
     $className = $_POST["addClass"];
     $classPoints = $_POST["addClassPoints"];
+    if ($classPoints < 1) $classPoints = 1;
 
     $insertClass = $connection->prepare("INSERT INTO class (class, points) VALUES (?, ?) ;");
     $insertClass->bind_param("si", $className, $classPoints);
@@ -21,7 +22,7 @@ if (isset($_POST["editClassId"]) && isset($_POST["editClassPoints"])) {
     if ($operation == "+") {
         $updateClassPoints = $connection->prepare("UPDATE class SET points = points+1 WHERE id = ? ;");
     } else if ($operation == "-") {
-        $updateClassPoints = $connection->prepare("UPDATE class SET points = points-1 WHERE id = ? ;");
+        $updateClassPoints = $connection->prepare("UPDATE class SET points = points-1 WHERE id = ? AND points <> 1 ;");
     }
 
     if (!is_null($updateClassPoints)) {
