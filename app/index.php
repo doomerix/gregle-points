@@ -5,6 +5,8 @@ require_once "interfaces/CRUD.php";
 require_once "classes/Role.php";
 require_once "classes/Student.php";
 require_once "classes/Teacher.php";
+
+date_default_timezone_set("Europe/Amsterdam");
 ?>
 <head>
     <meta charset="utf-8">
@@ -176,7 +178,6 @@ function randomString($length = 8) {
 function resetPoints(mysqli $sql) {
     //  update points for teachers/admins if it needs to be done
     $selectData = $sql->query("SELECT docentnumber, point_timestamp, docent_classes.points, class.id, class.points FROM docent_classes LEFT JOIN class ON (class_id =  class.id) ;");
-
     while ($row = $selectData->fetch_assoc()) {
         $timestamp = strtotime($row["point_timestamp"]);
         if ($timestamp <= strtotime(date("Y-m-d H:i:s"))) {
@@ -185,7 +186,6 @@ function resetPoints(mysqli $sql) {
             $updateData->bind_param("isis",$row["points"], $nextPointsTime, $row["id"], $row["docentnumber"]);
             $updateData->execute();
             $updateData->free_result();
-
         }
     }
     $selectData->free_result();

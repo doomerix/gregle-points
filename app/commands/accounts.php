@@ -67,9 +67,9 @@ if (isset($_FILES['file']['name'])) {
                 }
             }
             if (!$count) {
-                echo "Alle accounts gevonden in het CSV bestand bestonden al, en zijn niet opnieuw aangemaakt.<br>";
-                echo "<b>Als er wel nieuwe accounts in het CSV staan, kopieer dan de inhoud van het bestand <br>";
-                echo "<b>en plak het in een nieuw CSV bestand. Upload vervolgens dan het nieuwe bestand.";
+                echo "Alle accounts gevonden in het CSV bestand waren al aangemaakt.<br>";
+                echo "<b>Als er wel nieuwe accounts in het CSV staan, kopieer dan de inhoud van het bestand</b> <br>";
+                echo "<b>en plak het in een nieuw CSV bestand. Upload vervolgens dan het nieuwe bestand.</b>";
             }
             ?>
         </div>

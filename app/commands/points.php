@@ -55,7 +55,7 @@
             $updatePoints->bind_param("s", $studentnumber);
             $updatePoints->execute();
 
-            $nextPointsTime = date("Y-m-d H:i:s", strtotime("next week thursday"));
+            $nextPointsTime = date("Y-m-d H:i:s", strtotime("next week wednesday"));
             $remainingPoints = $giveablePoints - 1;
 
             $updatePointTime = $connection->prepare("INSERT INTO docent_classes (docentnumber, class_id) VALUES(?, ?) ON DUPLICATE KEY UPDATE point_timestamp = ?, points = ? ;");

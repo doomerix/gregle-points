@@ -53,8 +53,8 @@ if ($createdAccount) {
                     <input formmethod="post" class="form-control" name="surname" placeholder="Achternaam" required>
                 </div>
                 <div class="form-group">
-                    <label for="stamnummer">Stamnummer</label>
-                    <input formmethod="post" class="form-control" name="studentID" placeholder="Stamnummer" required>
+                    <label for="loginnummer">Loginnummer</label>
+                    <input formmethod="post" class="form-control" name="studentID" placeholder="Loginnummer" required>
                 </div>
                 <div class="form-group">
                     <label for="Selecteer klassen">Selecteer Klas</label>
