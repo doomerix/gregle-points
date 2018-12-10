@@ -119,6 +119,7 @@ if (!isset($_SESSION["user_id"])) {
         <nav class="nav justify-content-center footerBar">
             <a href="?command=main" class="nav-link footerIcon"><img src="../img/person.svg"></a>
             <a href="?command=settings" class="nav-link footerIcon"><img src="../img/cog.svg"></a>
+            <a href="?command=adminCommands" class="nav-link footerIcon"><img src="../img/exit-door.svg"></a>
         </nav>
     </footer>
     <?php
