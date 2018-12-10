@@ -7,6 +7,8 @@ require_once "classes/Student.php";
 require_once "classes/Teacher.php";
 
 date_default_timezone_set("Europe/Amsterdam");
+mb_internal_encoding("UTF-8");
+
 ?>
 <head>
     <meta charset="utf-8">

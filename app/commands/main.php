@@ -1,7 +1,7 @@
 <?php if ($role->isStudent()) { ?>
     <?php
     //  load data for students
-    $statement = $connection->prepare("SELECT firstname, surname_prefix, surname, points, class FROM student LEFT JOIN class ON (class_id = class.id) WHERE studentnumber = ? ;");
+    $statement = $connection->prepare("SELECT firstname, surname_prefix, surname, student.points, class FROM student LEFT JOIN class ON (class_id = class.id) WHERE studentnumber = ? ;");
     $statement->bind_param("s", $user_id);
     $statement->execute();
     $statement->bind_result($firstname, $surname_prefix, $surname, $points, $class);

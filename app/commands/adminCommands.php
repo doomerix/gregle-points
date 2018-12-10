@@ -31,7 +31,7 @@
             
             <button type="submit" class="btn btn-info mb-2">Importeren</button>
         </form>
-        <span>Lever alleen .csv bestanden aan.</span>
+        <span>Lever alleen Excel bestanden aan.</span>
     </div>
 
     

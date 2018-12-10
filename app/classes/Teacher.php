@@ -87,7 +87,7 @@ class Teacher implements CRUD
      */
     public function isValid()
     {
-        return $this->firstName != null && $this->surName != null && $this->email != null && $this->teacherId != null;
+        return $this->firstName != null && $this->surName != null && $this->email != null && $this->teacherId != null && $this->email != null;
     }
 
     public function resetPassword(mysqli $sql, $newAccount)
@@ -99,6 +99,8 @@ class Teacher implements CRUD
         $updateUsers->bind_param("ss", $hashedPassword, $this->teacherId);
 
         $result = false;
+
+        if ($this->email == "") return false;
 
         if ($updateUsers->execute()) {
             $result = true;

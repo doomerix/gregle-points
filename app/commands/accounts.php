@@ -62,14 +62,14 @@ if (isset($_FILES['file']['name'])) {
                 $student = new Student($roepnaam, $tussenv, $achternaam, $stamnr, $klas);
                 if ($student->create($connection)) {
                     $student->resetPassword($connection, true);
-                    echo "Gebruiker " . $roepnaam . " " . $tussenv . " " . $achternaam . " (" . $stamnr . ") is aangemaakt vanuit een CSV bestand. <br>";
+                    echo "Gebruiker " . $roepnaam . " " . $tussenv . " " . $achternaam . " (" . $stamnr . ") is aangemaakt vanuit een Excel bestand. <br>";
                     $count = true;
                 }
             }
             if (!$count) {
-                echo "Alle accounts gevonden in het CSV bestand waren al aangemaakt.<br>";
-                echo "<b>Als er wel nieuwe accounts in het CSV staan, kopieer dan de inhoud van het bestand</b> <br>";
-                echo "<b>en plak het in een nieuw CSV bestand. Upload vervolgens dan het nieuwe bestand.</b>";
+                echo "Alle accounts gevonden in het Excel bestand waren al aangemaakt.<br>";
+                echo "<b>Als er wel nieuwe accounts in het Excel staan, kopieer dan de inhoud van het bestand</b> <br>";
+                echo "<b>en plak het in een nieuw Excel bestand. Upload vervolgens dan het nieuwe bestand.</b>";
             }
             ?>
         </div>
@@ -78,7 +78,7 @@ if (isset($_FILES['file']['name'])) {
         ?>
         <div class="alert alert-danger" role="alert">
             Er is geen geldig bestand geupload. <br>
-            Enkel CSV is toegestaan! :-(
+            Enkel Excel is toegestaan! :-(
         </div>
         <?php
     }
