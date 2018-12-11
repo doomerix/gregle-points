@@ -116,7 +116,7 @@ $allClasses = $connection->query("SELECT id, class, points FROM class ORDER BY c
                         <div class="col-12 col-sm-7 justify-content-center">
                             <div class="row justify-content-center">
                                 <div class="col-12">
-                                    <b><?php echo $row["class"];?></b>
+                                <a href="?points_class=<?php echo $row["class"];?>"><b><?php echo $row["class"];?></b></a>
                                 </div>
                             </div>
                             <div class="row justify-content-center">
