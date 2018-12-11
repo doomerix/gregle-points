@@ -1,6 +1,6 @@
 <?php
 enforceAdminOnly($role);
-
+$backButton = "adminCommands";
 //Allowed file types
 $file_mimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 
@@ -215,6 +215,8 @@ if (isset($_POST["removeMultipleCheck"])) {
 
 //  display form
 if (isset($_POST["editStudent"]) || isset($_POST["editTeacher"])) {
+$backButton = "manageAccounts";
+
 $isStudent = isset($_POST["editStudent"]) ? true : false;
 $id = $isStudent ? $_POST["editStudent"] : $_POST["editTeacher"];
 

@@ -24,6 +24,8 @@ mb_internal_encoding("UTF-8");
 <body class="text-center <?php echo !isset($_SESSION["user_id"]) ? "loginBody" : "basicBody"; ?>">
 <?php
 $role = null;
+$backButton = null;
+
 //  if its the "true login" of the user, display this message
 if (isset($_GET["fls"])) {
     ?>
@@ -119,20 +121,24 @@ if (!isset($_SESSION["user_id"])) {
         <nav class="nav justify-content-center footerBar">
             <a href="?command=main" class="nav-link footerIcon"><img src="../img/person.svg"></a>
             <a href="?command=settings" class="nav-link footerIcon"><img src="../img/cog.svg"></a>
-            <a href="?command=adminCommands" class="nav-link footerIcon"><img src="../img/exit-door.svg"></a>
+            <?php if (!is_null($backButton)) { ?>
+                <a href="?command=<?php echo $backButton; ?>" class="nav-link footerIcon"><img src="../img/exit-door.svg"></a>
+            <?php } ?>
         </nav>
     </footer>
     <?php
 }
 
-function enforceAdminOnly(Role $role) {
+function enforceAdminOnly(Role $role)
+{
     if (is_null($role) || !$role->isAdmin()) {
         header("Location: ../app/");
         exit;
     }
 }
 
-function sendPasswordMail($name, $address, $id, $password, $new) {
+function sendPasswordMail($name, $address, $id, $password, $new)
+{
     $mail = '<!doctype html>
     <html lang="en">
     <head>
@@ -143,7 +149,7 @@ function sendPasswordMail($name, $address, $id, $password, $new) {
     <body>
         <h4>Beste ' . $name . ',</h4>
         <div style="font-size:12px">
-        <p>' . ($new ? "Er is een account voor je aangemaakt voor MVT-Points." : "Je wachtwoord voor MVT-Points is gereset.") .' Als je inlogt, moet je een nieuw wachtwoord instellen in verband met de veiligheid.
+        <p>' . ($new ? "Er is een account voor je aangemaakt voor MVT-Points." : "Je wachtwoord voor MVT-Points is gereset.") . ' Als je inlogt, moet je een nieuw wachtwoord instellen in verband met de veiligheid.
         </p>
         <span>Loginnummer: ' . $id . '</span></br>
         <span>Wachtwoord: ' . $password . '</span></br></br>
@@ -159,16 +165,17 @@ function sendPasswordMail($name, $address, $id, $password, $new) {
     mail($address, ($new ? "MVT Account" : "Password reset"), $mail, $headers);
 }
 
-function randomString($length = 8) {
+function randomString($length = 8)
+{
     $result = "";
-    for($i = 0; $i < $length; $i++){
+    for ($i = 0; $i < $length; $i++) {
         $symbol = rand(1, 3);
-        switch($symbol){
+        switch ($symbol) {
             case 1:
-                $symbol = chr(rand(65,90));
+                $symbol = chr(rand(65, 90));
                 break;
             case 2:
-                $symbol = chr(rand(97,122));
+                $symbol = chr(rand(97, 122));
                 break;
             case 3:
                 $symbol = rand(0, 9);
@@ -179,7 +186,8 @@ function randomString($length = 8) {
     return $result;
 }
 
-function resetPoints(mysqli $sql) {
+function resetPoints(mysqli $sql)
+{
     //  update points for teachers/admins if it needs to be done
     $selectData = $sql->query("SELECT docentnumber, point_timestamp, docent_classes.points, class.id, class.points FROM docent_classes LEFT JOIN class ON (class_id =  class.id) ;");
     while ($row = $selectData->fetch_assoc()) {
@@ -187,7 +195,7 @@ function resetPoints(mysqli $sql) {
         if ($timestamp <= strtotime(date("Y-m-d H:i:s"))) {
             $updateData = $sql->prepare("UPDATE docent_classes SET points = ?, point_timestamp = ? WHERE class_id = ? AND docentnumber = ? ;");
             $nextPointsTime = date("Y-m-d H:i:s", strtotime("next week thursday"));
-            $updateData->bind_param("isis",$row["points"], $nextPointsTime, $row["id"], $row["docentnumber"]);
+            $updateData->bind_param("isis", $row["points"], $nextPointsTime, $row["id"], $row["docentnumber"]);
             $updateData->execute();
             $updateData->free_result();
         }
@@ -195,7 +203,8 @@ function resetPoints(mysqli $sql) {
     $selectData->free_result();
 }
 
-function updateSession(mysqli $sql) {
+function updateSession(mysqli $sql)
+{
     //  if account with user_id no longer exists in the database, we will unset the user_id from their SESSION
     if (isset($_SESSION["user_id"])) {
         $id = $_SESSION["user_id"];
@@ -223,6 +232,7 @@ function updateSession(mysqli $sql) {
         }
     }
 }
+
 ?>
 
 <!--Required Scripts-->
@@ -239,30 +249,31 @@ function updateSession(mysqli $sql) {
 <script>
     $('#passwd1').PassRequirements({
         rules: {
-        minlength: {
-            text: "Minimaal minLength karakters lang",
-            minLength: 8,
-        },
-        containSpecialChars: {
-            text: "Minimaal minLength speciaal karakter.",
-            minLength: 1,
-            regex: new RegExp('([^!,%,&,@,#,$,^,*,?,_,~])', 'g')
-        },
-        containLowercase: {
-            text: "Minimaal minLength kleine letter.",
-            minLength: 1,
-            regex: new RegExp('[^a-z]', 'g')
-        },
-        containUppercase: {
-            text: "Minimaal minLength hoofd letter.",
-            minLength: 1,
-            regex: new RegExp('[^A-Z]', 'g')
-        },
-        containNumbers: {
-            text: "Minimaal minLength nummer.",
-            minLength: 1,
-            regex: new RegExp('[^0-9]', 'g')
+            minlength: {
+                text: "Minimaal minLength karakters lang",
+                minLength: 8,
+            },
+            containSpecialChars: {
+                text: "Minimaal minLength speciaal karakter.",
+                minLength: 1,
+                regex: new RegExp('([^!,%,&,@,#,$,^,*,?,_,~])', 'g')
+            },
+            containLowercase: {
+                text: "Minimaal minLength kleine letter.",
+                minLength: 1,
+                regex: new RegExp('[^a-z]', 'g')
+            },
+            containUppercase: {
+                text: "Minimaal minLength hoofd letter.",
+                minLength: 1,
+                regex: new RegExp('[^A-Z]', 'g')
+            },
+            containNumbers: {
+                text: "Minimaal minLength nummer.",
+                minLength: 1,
+                regex: new RegExp('[^0-9]', 'g')
+            }
         }
-    }});
+    });
 </script>
 </body>

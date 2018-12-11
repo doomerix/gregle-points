@@ -1,4 +1,4 @@
-<?php enforceAdminOnly($role);
+<?php enforceAdminOnly($role); $backButton = "adminCommands";
 
 $addClassState = false;
 $deleteState = false;

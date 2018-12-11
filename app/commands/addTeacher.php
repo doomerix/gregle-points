@@ -1,4 +1,4 @@
-<?php enforceAdminOnly($role);
+<?php enforceAdminOnly($role); $backButton = "adminCommands";
 $createdAccount = isset($_POST["firstName"], $_POST["prefixName"], $_POST["surname"], $_POST["teacherID"], $_POST["adminCheck"]);
 if ($createdAccount) {
     $isAdmin = $_POST["adminCheck"] == "true";
