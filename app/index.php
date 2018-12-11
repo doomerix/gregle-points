@@ -17,6 +17,7 @@ mb_internal_encoding("UTF-8");
     <!--Bootstrap CSS-->
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/custom.css">
+    <link rel="shortcut icon" type="image/png" href="../img/favicon.png"/>
 
     <title>MVT-Points</title>
 </head>
