@@ -1,0 +1,101 @@
+/* LOGIN PAGE */
+
+.loginBody{
+    background-color: #008f91;
+    color:white;
+}
+
+.logoLogin{
+    margin-top:50px;
+    margin-bottom:20px;
+    max-height:120px;
+}
+
+.loginFooterBar{
+    background-color:#e6e6e6;
+    width:100%;
+    bottom:0px;
+    left:0px;
+    position: fixed;
+    color:black;
+}
+
+.loginFooterBar > p{
+    margin-top:6px;
+}
+
+.loginFooterBar > p > a
+{
+    color:#008f91;
+}
+
+/* MAIN PAGES */
+
+.basicBody{
+    background-color:#e6e6e6;
+}
+
+.paragraphMarginSmall{
+    margin-bottom:3px;
+}
+
+.paragraphMarginSmallTop{
+    margin-top:3px;
+}
+
+.paragraphMarginTop{
+    margin-top:10%;
+}
+
+.pointAmount{
+    margin-top:5%;
+    font-size:9em;
+}
+
+.pointPunten{
+    position: relative;
+    top:-40px;
+}
+
+.footerBar{
+    background-color:#008f91;
+    width:100%;
+    bottom:0px;
+    left:0px;
+    position: fixed;
+}
+
+.footerIcon{
+    width:4.5rem;
+}
+
+/* POINTS PAGE */
+.pointsDiv{
+    margin-top:5px;
+}
+
+.pointsDivMain{
+    margin-top:5%;
+}
+
+/* GLOBAL */
+
+.bodyWrap {
+    min-height: 100%;
+    position: relative;
+    padding-bottom:6rem;
+}
+
+.boxShadowFooter{
+    -webkit-box-shadow: 0px -1px 5px 5px rgba(0,0,0,0.35);
+    -moz-box-shadow: 0px -1px 5px 5px rgba(0,0,0,0.35);
+    box-shadow: 0px -1px 5px 5px rgba(0,0,0,0.35);
+}
+
+html,body {
+    height:100%;
+}
+
+.btn-info {
+    background-color:#008f91 !important;
+}

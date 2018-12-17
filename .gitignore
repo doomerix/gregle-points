@@ -1,8 +1,9 @@
 ### Project ###
 connection.php
+tests/
 
 ### NetBeans ###
-nbproject/private/
+nbproject/
 build/
 nbbuild/
 dist/
