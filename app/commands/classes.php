@@ -34,15 +34,21 @@ if (isset($_POST["editClassId"]) && isset($_POST["editClassPoints"])) {
 
 if (isset($_POST["deleteClass"])) {
     $classId = $_POST["deleteClass"];
+    $students = array();
     $selectStudentsFromClass = $connection->prepare("SELECT studentnumber FROM student LEFT JOIN class ON class_id = class.id WHERE class = ? ;");
     $selectStudentsFromClass->bind_param("s", $classId);
     $selectStudentsFromClass->execute();
     $selectStudentsFromClass->bind_result($studentnumber);
-    $selectStudentsFromClass->free_result();
 
     while ($selectStudentsFromClass->fetch()) {
+        array_push($students, $studentnumber);
+    }
+
+    $selectStudentsFromClass->free_result();
+
+    foreach ($students as $student) {
         $deleteUser = $connection->prepare("DELETE FROM user WHERE user_id = ? ;");
-        $deleteUser->bind_param("s", $studentnumber);
+        $deleteUser->bind_param("s", $student);
         $deleteUser->execute();
         $deleteUser->free_result();
     }
@@ -50,6 +56,7 @@ if (isset($_POST["deleteClass"])) {
     $deleteFromClass = $connection->prepare("DELETE FROM class WHERE class = ? ;");
     $deleteFromClass->bind_param("s", $classId);
     $deleteState = $deleteFromClass->execute();
+    $deleteFromClass->free_result();
 }
 
 if ($deleteState) {
@@ -116,7 +123,7 @@ $allClasses = $connection->query("SELECT id, class, points FROM class ORDER BY c
                         <div class="col-12 col-sm-7 justify-content-center">
                             <div class="row justify-content-center">
                                 <div class="col-12">
-                                    <b><?php echo $row["class"];?></b>
+                                <a href="?points_class=<?php echo $row["class"];?>"><b><?php echo $row["class"];?></b></a>
                                 </div>
                             </div>
                             <div class="row justify-content-center">
